@@ -37,7 +37,7 @@ export default function WhatsAppQRPage(props: { params: Promise<{ subdomain: str
     setIsLoading(true);
     try {
       const data = await getWhatsAppStatus(params.subdomain);
-      setConnection(prev => ({ ...prev, ...data, qr_code: undefined }));
+      setConnection(prev => ({ ...prev, ...data, qr_code: undefined } as any));
     } catch (err: any) {
       setConnection({ status: 'failed', last_error: err.message });
     }
@@ -48,7 +48,7 @@ export default function WhatsAppQRPage(props: { params: Promise<{ subdomain: str
     setIsGenerating(true);
     try {
       const data = await generateWhatsAppQR(params.subdomain);
-      setConnection(prev => ({ ...prev, ...data }));
+      setConnection(prev => ({ ...prev, ...data } as any));
     } catch (err: any) {
       alert("Erro ao gerar QR Code: " + err.message);
     }
