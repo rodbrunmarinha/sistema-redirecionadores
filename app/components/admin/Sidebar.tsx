@@ -224,7 +224,7 @@ export default function Sidebar({
     }));
   };
 
-  const toggleMenu = (name: string, menuActive: boolean) => {
+  const toggleMenu = (name: string, menuActive?: boolean) => {
     setOpenMenus(prev => ({ 
       ...prev, 
       [name]: prev[name] === undefined ? !menuActive : !prev[name] 
