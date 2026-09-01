@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Cndck Hub | Plataforma SaaS",
-  description: "Plataforma completa para Redirecionadores e Personal Shoppers",
+  title: "Dock Drop | O seu endereço no mundo",
+  description: "Suas compras no Brasil. A melhor experiência em redirecionamento de encomendas.",
 };
 
 import { Toaster } from 'react-hot-toast';
