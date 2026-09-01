@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Dock Drop | O seu endereço no mundo",
-  description: "Suas compras no Brasil. A melhor experiência em redirecionamento de encomendas.",
+  title: 'Dock Drop - O seu endereco no mundo',
+  description: 'Suas compras no Brasil. A melhor experiencia em redirecionamento de encomendas.',
 };
 
 import { Toaster } from 'react-hot-toast';
