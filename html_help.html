@@ -1,0 +1,1197 @@
+<USER_REQUEST>
+<div id="bx-conteudo" tabindex="-1">
+            <div class="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-slate-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" x-data="{
+            activeTab: 'faq',
+            faqSearch: '',
+            faqCategory: 'all',
+            openArticle: null,
+            faqLookup: JSON.parse('{\u002217\u0022:{\u0022id\u0022:\u002217\u0022,\u0022category\u0022:\u0022primeiros-passos\u0022,\u0022searchable\u0022:\u0022vis\\u00e3o geral: como a boxsuite funciona a boxsuite organiza a opera\\u00e7\\u00e3o de redirecionamento e vendas em um fluxo simples: 1. **cliente se cadastra** e recebe uma **su\\u00edte** (n\\u00famero \\u00fanico que identifica os pacotes dele no seu armaz\\u00e9m). 2. as compras do cliente chegam ao armaz\\u00e9m e voc\\u00ea registra como **caixas recebidas** \\u2014 de prefer\\u00eancia a partir de um **pr\\u00e9-alerta** criado pelo pr\\u00f3prio cliente. 3. os itens ficam dispon\\u00edveis em **produtos**, onde o cliente pode pedir fotos, consolida\\u00e7\\u00e3o e outros servi\\u00e7os. 4. o cliente solicita o **envio**; voc\\u00ea gera a etiqueta, despacha e o rastreio fica dispon\\u00edvel no painel e no aplicativo. al\\u00e9m do fluxo log\\u00edstico, voc\\u00ea pode vender mais com **grupos de compras**, **compras assistidas**, **loja online**, **live shopping**, **cupons** e **programas vip** \\u2014 cada um com sua pr\\u00f3pria \\u00e1rea no menu lateral. **dica:** o menu lateral \\u00e9 organizado por se\\u00e7\\u00f5es (armaz\\u00e9m, vendas, gest\\u00e3o). itens com selo de cadeado indicam recursos de planos superiores.\u0022},\u002218\u0022:{\u0022id\u0022:\u002218\u0022,\u0022category\u0022:\u0022primeiros-passos\u0022,\u0022searchable\u0022:\u0022checklist de configura\\u00e7\\u00e3o inicial da sua empresa antes de receber seus primeiros clientes, revise este checklist: 1. **dados da empresa** \\u2014 nome, logotipo e cores em *configura\\u00e7\\u00f5es*. eles aparecem no painel do cliente, nos e-mails e no aplicativo. 2. **endere\\u00e7o do armaz\\u00e9m** \\u2014 confira o endere\\u00e7o que os clientes usar\\u00e3o nas compras (aparece junto ao n\\u00famero da su\\u00edte). 3. **tipos de envio e tarifas** \\u2014 cadastre os m\\u00e9todos de envio e as faixas de peso\\\/pre\\u00e7o que voc\\u00ea pratica. 4. **formas de pagamento** \\u2014 ative os gateways ou m\\u00e9todos manuais (pix, transfer\\u00eancia) que aceitar\\u00e1. 5. **notifica\\u00e7\\u00f5es** \\u2014 ative os canais (e-mail, push, whatsapp) para que o cliente acompanhe cada status sem precisar te chamar. 6. **termos e pol\\u00edticas** \\u2014 publique os termos de uso do servi\\u00e7o para aceite dos clientes. com isso pronto, cadastre um **cliente de teste**, crie um pr\\u00e9-alerta, registre uma caixa e simule um envio de ponta a ponta. \\u00e9 a melhor forma de conhecer o fluxo antes de operar de verdade.\u0022},\u002219\u0022:{\u0022id\u0022:\u002219\u0022,\u0022category\u0022:\u0022armazem\u0022,\u0022searchable\u0022:\u0022pr\\u00e9-alertas e registro de caixas recebidas o **pr\\u00e9-alerta** \\u00e9 o aviso que o cliente cria dizendo \\u0022comprei algo, vai chegar a\\u00ed\\u0022. ele agiliza o recebimento porque voc\\u00ea j\\u00e1 sabe de quem \\u00e9 o pacote. **registrando uma caixa a partir de um pr\\u00e9-alerta:** 1. acesse **pr\\u00e9-alertas** no menu e localize o aviso pendente. 2. clique em registrar a caixa \\u2014 o sistema preenche o cliente\\\/su\\u00edte automaticamente. 3. tire ou anexe a **foto da caixa**, confira peso e dimens\\u00f5es e salve. **caixa sem pr\\u00e9-alerta:** use **caixas recebidas \\u2192 registrar** e informe a su\\u00edte manualmente. se a etiqueta do pacote n\\u00e3o tiver su\\u00edte leg\\u00edvel, busque o cliente pelo nome ou e-mail. ao registrar, o cliente \\u00e9 **notificado automaticamente** e a caixa aparece no painel dele \\u2014 isso elimina a cl\\u00e1ssica pergunta \\u0022minha encomenda chegou?\\u0022 no whatsapp.\u0022},\u002220\u0022:{\u0022id\u0022:\u002220\u0022,\u0022category\u0022:\u0022armazem\u0022,\u0022searchable\u0022:\u0022localiza\\u00e7\\u00f5es, mapa do armaz\\u00e9m e rota de coleta para opera\\u00e7\\u00f5es com prateleiras, o m\\u00f3dulo **warehouse** (enterprise) organiza fisicamente o estoque: - **gerador de grade** \\u2014 crie de uma vez as localiza\\u00e7\\u00f5es do armaz\\u00e9m (corredor\\\/estante\\\/prateleira, ex.: a-01-03). - **put-away guiado** \\u2014 ao guardar uma caixa, o sistema sugere a melhor localiza\\u00e7\\u00e3o dispon\\u00edvel e alerta quando a prateleira est\\u00e1 cheia. - **mapa visual** \\u2014 planta baixa e vis\\u00e3o isom\\u00e9trica com **heatmap de ocupa\\u00e7\\u00e3o**: veja de longe onde est\\u00e1 apertado. - **rota de coleta otimizada** \\u2014 ao separar itens para envio, o sistema ordena a coleta pelo caminho mais curto e gera uma **lista imprim\\u00edvel**. **dica:** mantenha a disciplina de escanear\\\/atualizar a localiza\\u00e7\\u00e3o sempre que mover uma caixa. o mapa e a rota s\\u00f3 ajudam se o endere\\u00e7o estiver correto.\u0022},\u002221\u0022:{\u0022id\u0022:\u002221\u0022,\u0022category\u0022:\u0022logistica\u0022,\u0022searchable\u0022:\u0022criando envios e acompanhando status quando o cliente solicita o envio dos produtos: 1. acesse **envios** e abra a solicita\\u00e7\\u00e3o pendente. 2. confira os itens, peso final e o endere\\u00e7o de destino. 3. gere a **etiqueta** pela integra\\u00e7\\u00e3o dispon\\u00edvel ou anexe a etiqueta manual. 4. atualize o status conforme o pacote avan\\u00e7a (postado \\u2192 em tr\\u00e2nsito \\u2192 entregue). cada mudan\\u00e7a de status **notifica o cliente automaticamente** (painel, e-mail e push do aplicativo). o rastreio fica vis\\u00edvel para ele, o que reduz drasticamente perguntas de acompanhamento. **boas pr\\u00e1ticas:** - anexe a foto do pacote fechado antes de postar \\u2014 evita disputas. - use os **status por produto** (m\\u00f3dulo transportadora) quando um envio consolida v\\u00e1rios pacotes: cada item pode ter seu pr\\u00f3prio rastreio.\u0022},\u002222\u0022:{\u0022id\u0022:\u002222\u0022,\u0022category\u0022:\u0022logistica\u0022,\u0022searchable\u0022:\u0022rastreamento por produto (m\\u00f3dulo transportadora) no m\\u00f3dulo de transportadora, cada **produto\\\/pacote tem um status de rastreio pr\\u00f3prio** \\u2014 n\\u00e3o apenas o envio como um todo. - os status dispon\\u00edveis s\\u00e3o configur\\u00e1veis em **status de frete**. - a visibilidade de cada status no painel do cliente \\u00e9 controlada por configura\\u00e7\\u00e3o \\u2014 voc\\u00ea decide o que ele v\\u00ea. - no recebimento e confer\\u00eancia, escaneie o c\\u00f3digo **p{id}** do produto para atualizar o status individualmente. - sacas e manifestos agrupam os pacotes por viagem, mantendo o v\\u00ednculo com cada produto. isso permite responder com precis\\u00e3o \\u0022onde est\\u00e1 o item x?\\u0022 mesmo quando um envio agrupa dezenas de pacotes de clientes diferentes.\u0022},\u002223\u0022:{\u0022id\u0022:\u002223\u0022,\u0022category\u0022:\u0022vendas\u0022,\u0022searchable\u0022:\u0022grupos de compras: fluxo completo o **grupo de compras** permite vender produtos em lote para v\\u00e1rios clientes (estilo \\u0022pedido coletivo\\u0022): 1. **crie o grupo** com nome, datas de abertura\\\/fechamento e taxa de servi\\u00e7o. 2. **cadastre os produtos** (com varia\\u00e7\\u00f5es, fotos e pre\\u00e7os) ou importe em massa. 3. **divulgue** \\u2014 o grupo tem p\\u00e1gina pr\\u00f3pria; voc\\u00ea tamb\\u00e9m pode disparar produtos via whatsapp e telegram conectados. 4. os clientes montam seus pedidos; voc\\u00ea acompanha tudo em **pedidos do grupo**. 5. no fechamento, confirme os pedidos, efetue as compras e siga o fluxo normal de recebimento\\\/envio. **recursos \\u00fateis:** - **categorias** organizam os produtos dentro do grupo. - **faixas de taxa** permitem cobrar percentuais diferentes por volume. - **acesso antecipado vip** (se voc\\u00ea tiver um programa vip ativo) deixa assinantes entrarem antes da abertura oficial.\u0022},\u002224\u0022:{\u0022id\u0022:\u002224\u0022,\u0022category\u0022:\u0022vendas\u0022,\u0022searchable\u0022:\u0022carrinhos assistidos: monte o pedido pelo cliente nem todo cliente se vira sozinho no grupo de compras. com os **carrinhos assistidos** voc\\u00ea monta o pedido em nome dele: 1. acesse **grupos de compras \\u2192 carrinhos** e crie um carrinho para o cliente (busque por nome ou su\\u00edte). 2. adicione os produtos e varia\\u00e7\\u00f5es que ele pediu (por whatsapp, telefone etc.). 3. o cliente recebe o link, revisa e **confirma itens** pelo painel dele. 4. quando tudo estiver confirmado, finalize o pedido. cada carrinho mostra o **id do grupo e a su\\u00edte do cliente**, com atalho para o perfil. o hist\\u00f3rico de recupera\\u00e7\\u00e3o registra os lembretes enviados. **por que usar:** transforma atendimento manual do whatsapp em pedido rastre\\u00e1vel dentro do sistema \\u2014 com registro, confirma\\u00e7\\u00e3o formal do cliente e cobran\\u00e7a correta de taxas.\u0022},\u002225\u0022:{\u0022id\u0022:\u002225\u0022,\u0022category\u0022:\u0022vendas\u0022,\u0022searchable\u0022:\u0022automa\\u00e7\\u00f5es do grupo: recupera\\u00e7\\u00e3o de carrinho e avisos (enterprise) em **grupos de compras \\u2192 automa\\u00e7\\u00e3o** (plano enterprise) voc\\u00ea liga rotinas que trabalham sozinhas: - **recupera\\u00e7\\u00e3o de carrinho** \\u2014 sequ\\u00eancias de mensagens (whatsapp e\\\/ou e-mail) para clientes que montaram carrinho e n\\u00e3o finalizaram. configure at\\u00e9 5 etapas com intervalo e texto pr\\u00f3prios. - **notifica\\u00e7\\u00e3o de pedido** \\u2014 aviso autom\\u00e1tico ao cliente quando o pedido \\u00e9 registrado, no canal que voc\\u00ea escolher. - **fechamento autom\\u00e1tico de pedidos** \\u2014 escolha se pedidos fecham todos juntos, apenas os confirmados, ou manualmente. **dica de mensagem:** nas sequ\\u00eancias de recupera\\u00e7\\u00e3o, a primeira mensagem funciona melhor entre 1h e 3h ap\\u00f3s o abandono; a \\u00faltima pode oferecer ajuda (\\u0022quer que eu finalize por voc\\u00ea?\\u0022) \\u2014 que conecta com os carrinhos assistidos.\u0022},\u002226\u0022:{\u0022id\u0022:\u002226\u0022,\u0022category\u0022:\u0022vendas\u0022,\u0022searchable\u0022:\u0022loja online: produtos, pedidos e avalia\\u00e7\\u00f5es (enterprise) a **loja online** (plano enterprise) \\u00e9 sua vitrine de venda direta: 1. **categorias** \\u2014 organize o cat\\u00e1logo (suporta subcategorias). 2. **produtos** \\u2014 cadastre com fotos, varia\\u00e7\\u00f5es, estoque e pre\\u00e7o; ou **importe via csv**. 3. **pedidos** \\u2014 acompanhe pagamento, separa\\u00e7\\u00e3o e entrega em um painel pr\\u00f3prio. 4. **avalia\\u00e7\\u00f5es** \\u2014 modere os reviews dos clientes (aprovar\\\/rejeitar) para exibir prova social na vitrine. **recursos que aumentam convers\\u00e3o:** - **alertas de estoque** \\u2014 cliente pede aviso quando o produto voltar. - **lista de desejos** \\u2014 o cliente salva produtos para depois. - **cupons** \\u2014 desconto percentual ou fixo, com validade e limite de uso. - **desconto vip** \\u2014 se houver programa vip com benef\\u00edcio de loja, o desconto aplica automaticamente no checkout.\u0022},\u002227\u0022:{\u0022id\u0022:\u002227\u0022,\u0022category\u0022:\u0022vendas\u0022,\u0022searchable\u0022:\u0022live shopping: guia da primeira transmiss\\u00e3o (enterprise) o **live shopping** (enterprise) transforma uma transmiss\\u00e3o ao vivo em vendas diretas: **antes da live:** 1. crie a sess\\u00e3o em **live shopping \\u2192 nova live** com t\\u00edtulo e produtos vinculados. 2. na tela do transmissor, confira c\\u00e2mera e microfone no **modo de prepara\\u00e7\\u00e3o**. **durante a live:** - **fixe produtos** enquanto fala deles \\u2014 o espectador compra em 2 toques sem sair da live. - acompanhe **espectadores, rea\\u00e7\\u00f5es e vendas em tempo real** no painel do transmissor. - o chat aparece em sobreposi\\u00e7\\u00e3o discreta (no app, as mensagens n\\u00e3o bloqueiam o v\\u00eddeo). **depois:** - revise o resumo de vendas e pico de audi\\u00eancia na p\\u00e1gina da sess\\u00e3o. **dicas de resultado:** lives curtas (20\\u201340 min) com poucos produtos bem apresentados vendem mais que maratonas; anuncie a live com anteced\\u00eancia por comunicado e whatsapp; fixe o produto certo na hora certa \\u2014 \\u00e9 o que mais converte.\u0022},\u002228\u0022:{\u0022id\u0022:\u002228\u0022,\u0022category\u0022:\u0022vendas\u0022,\u0022searchable\u0022:\u0022cupons de desconto: escopos e regras os **cupons** s\\u00e3o transversais: um mesmo cupom pode valer para diferentes servi\\u00e7os (loja online, envio etc.), conforme os m\\u00f3dulos marcados no cadastro. **ao criar um cupom, defina:** - **c\\u00f3digo** \\u2014 o que o cliente digita (ex.: bemvindo10). - **tipo e valor** \\u2014 percentual ou valor fixo. - **m\\u00f3dulos** \\u2014 onde o cupom \\u00e9 aceito. - **validade e limites** \\u2014 data de expira\\u00e7\\u00e3o, limite total de usos e por cliente. - **pedido m\\u00ednimo** \\u2014 valor m\\u00ednimo para o cupom valer. **intera\\u00e7\\u00e3o com vip:** se voc\\u00ea tem programa vip com desconto, o comportamento cupom + vip \\u00e9 configur\\u00e1vel no programa (melhor pre\\u00e7o, sem ac\\u00famulo ou acumular os dois). **dica:** cupons de primeiro uso (limite 1 por cliente) s\\u00e3o \\u00f3timos para converter cadastros parados em primeiro pedido.\u0022},\u002229\u0022:{\u0022id\u0022:\u002229\u0022,\u0022category\u0022:\u0022vendas\u0022,\u0022searchable\u0022:\u0022programas vip: crie seu clube de assinatura (pro+) o **programa vip** (planos pro e enterprise) cria receita recorrente: o cliente paga uma mensalidade\\\/anuidade e ganha benef\\u00edcios. **criando (3 passos):** 1. **identidade** \\u2014 nome do plano e template (b\\u00e1sico, n\\u00edveis ou plus). 2. **pre\\u00e7o \\u0026 regras** \\u2014 ciclo (mensal\\\/anual), pre\\u00e7o, trial, car\\u00eancia p\\u00f3s-vencimento e comportamento cupom+vip. 3. **publicar** \\u2014 revise e crie; depois configure os **benef\\u00edcios**. **benef\\u00edcios dispon\\u00edveis:** desconto em loja, cashback (geral e por servi\\u00e7o), descontos em taxas (envio, grupos, compra assistida, servi\\u00e7os), frete gr\\u00e1tis, prioridade de atendimento, acesso antecipado a grupos, dias extras de armazenamento e at\\u00e9 permiss\\u00e3o de saldo negativo. **modelo de cobran\\u00e7a:** pagamento \\u00fanico com renova\\u00e7\\u00e3o manual \\u2014 o cliente renova quando vence (a car\\u00eancia evita corte imediato). **dica:** comece com um plano simples (desconto + prioridade) e evolua conforme a ades\\u00e3o. acompanhe assinantes ativos e receita recorrente no topo da tela.\u0022},\u002230\u0022:{\u0022id\u0022:\u002230\u0022,\u0022category\u0022:\u0022gestao\u0022,\u0022searchable\u0022:\u0022carteira digital: cr\\u00e9ditos, d\\u00e9bitos e cashback cada cliente tem uma **carteira digital** dentro do seu painel: - **cr\\u00e9ditos** \\u2014 adicione saldo manualmente (ex.: reembolso, b\\u00f4nus) com motivo registrado. - **d\\u00e9bitos** \\u2014 servi\\u00e7os e envios podem ser pagos com saldo da carteira. - **cashback** \\u2014 se voc\\u00ea usa programa vip com cashback, o valor cai automaticamente na carteira ap\\u00f3s a confirma\\u00e7\\u00e3o do pagamento. - **extrato completo** \\u2014 toda movimenta\\u00e7\\u00e3o fica registrada e vis\\u00edvel para o cliente. **saldo negativo:** por padr\\u00e3o n\\u00e3o \\u00e9 permitido. existe um benef\\u00edcio vip espec\\u00edfico que autoriza o cliente a concluir pagamentos mesmo sem saldo (a su\\u00edte fica negativa) nos contextos que voc\\u00ea marcar \\u2014 use com crit\\u00e9rio, apenas para clientes de confian\\u00e7a.\u0022},\u002231\u0022:{\u0022id\u0022:\u002231\u0022,\u0022category\u0022:\u0022gestao\u0022,\u0022searchable\u0022:\u0022comunicados: avisos em destaque no painel do cliente os **comunicados** exibem avisos em modal no painel dos seus clientes \\u2014 perfeitos para recesso, mudan\\u00e7as de prazo, promo\\u00e7\\u00f5es ou novidades. **criando um comunicado:** 1. acesse **comunicados \\u2192 novo**. 2. escreva t\\u00edtulo e corpo (editor com formata\\u00e7\\u00e3o) e anexe uma imagem se quiser. 3. configure **onde aparece** (todas as p\\u00e1ginas ou uma espec\\u00edfica), se mostra **apenas uma vez** por cliente, e o **per\\u00edodo** (in\\u00edcio\\\/fim). 4. adicione um **bot\\u00e3o de a\\u00e7\\u00e3o (cta)** com link, se fizer sentido. 5. ative \\u2014 o painel mostra quantas **visualiza\\u00e7\\u00f5es** cada comunicado teve. **dica:** avisos operacionais (ex.: \\u0022sem expedi\\u00e7\\u00e3o dia 25\\u0022) reduzem muito o volume de perguntas repetidas no whatsapp. prefira \\u0022mostrar apenas uma vez\\u0022 para n\\u00e3o irritar quem j\\u00e1 viu.\u0022},\u002232\u0022:{\u0022id\u0022:\u002232\u0022,\u0022category\u0022:\u0022gestao\u0022,\u0022searchable\u0022:\u0022suporte ao cliente: tickets, sla e faq centralize o atendimento em **suporte ao cliente** em vez do whatsapp: - **fila com sla** \\u2014 cada ticket tem prazo conforme a prioridade; o painel destaca os estourados. - **atribui\\u00e7\\u00e3o** \\u2014 distribua tickets entre os atendentes da equipe. - **notas internas** \\u2014 comente no ticket sem o cliente ver. - **avalia\\u00e7\\u00e3o (csat)** \\u2014 o cliente avalia o atendimento ao resolver. - **faq pr\\u00f3pria** \\u2014 publique artigos para seus clientes; eles aparecem antes da abertura do chamado, reduzindo tickets repetidos. **abrir chamado em nome do cliente:** quando o cliente pede algo por telefone\\\/whatsapp, use o bot\\u00e3o **novo chamado** na tela de tickets, selecione o cliente e registre a solicita\\u00e7\\u00e3o \\u2014 ela entra na fila normal e o cliente acompanha e responde pelo painel dele. uma nota de sistema registra quem abriu.\u0022},\u002233\u0022:{\u0022id\u0022:\u002233\u0022,\u0022category\u0022:\u0022configuracoes\u0022,\u0022searchable\u0022:\u0022notifica\\u00e7\\u00f5es: e-mail, push e whatsapp a boxsuite avisa seus clientes automaticamente em cada etapa (caixa recebida, envio postado, ticket respondido...). voc\\u00ea controla os canais: - **e-mail** \\u2014 habilitado por padr\\u00e3o; personalize remetente nas configura\\u00e7\\u00f5es (smtp pr\\u00f3prio dispon\\u00edvel em planos pro+). - **push (aplicativo)** \\u2014 clientes com o app instalado recebem notifica\\u00e7\\u00f5es instant\\u00e2neas. - **whatsapp** \\u2014 com a conex\\u00e3o de whatsapp ativa, automa\\u00e7\\u00f5es e avisos podem sair direto no n\\u00famero da sua empresa. - **telegram** \\u2014 o bot de grupos de compras divulga produtos e responde clientes autorizados. **notifica\\u00e7\\u00f5es personalizadas:** em **comunica\\u00e7\\u00e3o \\u2192 notifica\\u00e7\\u00f5es personalizadas** voc\\u00ea dispara mensagens em massa ou segmentadas (por exemplo, para todos os clientes com caixa parada h\\u00e1 x dias). **dica:** quanto mais autom\\u00e1tico o aviso, menos \\u0022e a\\u00ed, alguma novidade?\\u0022 no seu whatsapp pessoal.\u0022},\u002234\u0022:{\u0022id\u0022:\u002234\u0022,\u0022category\u0022:\u0022painel-cliente\u0022,\u0022searchable\u0022:\u0022o que o seu cliente v\\u00ea: painel web e aplicativo seu cliente tem duas portas de entrada, ambas com a sua marca: **painel web** \\u2014 cadastro, endere\\u00e7o da su\\u00edte, pr\\u00e9-alertas, caixas recebidas (com fotos), solicita\\u00e7\\u00e3o de envios com rastreio, carteira digital, grupos de compras, loja, lives, tickets de suporte e faq. **aplicativo (ios\\\/android)** \\u2014 mesmas fun\\u00e7\\u00f5es principais com notifica\\u00e7\\u00f5es push; inclui a experi\\u00eancia otimizada de live shopping (compra sem sair da live, rea\\u00e7\\u00f5es, chat). **como orientar o cliente novo:** 1. confirmar o cadastro e anotar o n\\u00famero da su\\u00edte. 2. usar o endere\\u00e7o do armaz\\u00e9m + su\\u00edte em todas as compras. 3. criar **pr\\u00e9-alerta** a cada compra (agiliza o recebimento). 4. acompanhar tudo pelo painel\\\/app \\u2014 as notifica\\u00e7\\u00f5es avisam cada movimento. **dica:** inclua um comunicado de boas-vindas com esse passo a passo; economiza dezenas de mensagens de orienta\\u00e7\\u00e3o.\u0022},\u002235\u0022:{\u0022id\u0022:\u002235\u0022,\u0022category\u0022:\u0022assinatura\u0022,\u0022searchable\u0022:\u0022planos starter, pro e enterprise: o que cada um libera sua assinatura boxsuite define os m\\u00f3dulos dispon\\u00edveis: **starter** \\u2014 opera\\u00e7\\u00e3o essencial: redirecionamento, carteira, tickets, notifica\\u00e7\\u00f5es, grupos de compras, bot telegram, vitrine shop, gateways de pagamento, pagamentos manuais, analytics b\\u00e1sico e landing builder. **pro** \\u2014 tudo do starter, mais: **programas vip**, chatbot com ia, smtp pr\\u00f3prio, impersona\\u00e7\\u00e3o de cliente e api p\\u00fablica. **enterprise** \\u2014 tudo do pro, mais: **loja online**, **live shopping**, **warehouse** (mapa\\\/localiza\\u00e7\\u00f5es), **automa\\u00e7\\u00f5es do grupo de compras**, dom\\u00ednio pr\\u00f3prio, analytics avan\\u00e7ado, m\\u00f3dulo financeiro e galeria de produtos. no menu lateral, recursos fora do seu plano aparecem com **selo de cadeado** (pro ou enterprise). clicar mostra a tela de upgrade. para mudar de plano, acesse **minha assinatura** e escolha o upgrade \\u2014 a libera\\u00e7\\u00e3o \\u00e9 imediata ap\\u00f3s a confirma\\u00e7\\u00e3o.\u0022},\u002236\u0022:{\u0022id\u0022:\u002236\u0022,\u0022category\u0022:\u0022dicas\u0022,\u0022searchable\u0022:\u0022boas pr\\u00e1ticas para reduzir atendimento no whatsapp o objetivo do sistema \\u00e9 que o cliente **se sirva sozinho**. pr\\u00e1ticas que mais reduzem mensagens: 1. **fotos sempre** \\u2014 registre caixa com foto. \\u0022chegou minha encomenda?\\u0022 morre quando a foto aparece no painel. 2. **notifica\\u00e7\\u00f5es ativas em todos os canais** \\u2014 cada status enviado automaticamente \\u00e9 uma pergunta que n\\u00e3o chega. 3. **faq para clientes** \\u2014 publique artigos com as 10 perguntas mais comuns do seu atendimento; eles aparecem antes da abertura de ticket. 4. **comunicados para avisos gerais** \\u2014 recesso, atrasos de transportadora, mudan\\u00e7as de pre\\u00e7o: um modal no painel evita responder um por um. 5. **tickets em vez de whatsapp** \\u2014 orientar o cliente a abrir chamado cria fila organizada com sla. se o pedido chegar pelo whatsapp mesmo assim, **abra o ticket em nome dele** para n\\u00e3o perder o registro. 6. **status de rastreio detalhado** \\u2014 no m\\u00f3dulo transportadora, status por produto respondem \\u0022onde est\\u00e1 o item x?\\u0022 sem voc\\u00ea digitar nada. me\\u00e7a o resultado: o painel de tickets mostra volume por dia e csat \\u2014 se as perguntas repetidas continuam, vire-as em artigo de faq.\u0022}}'),
+            matchesEntry(entry) {
+                if (!entry) return false;
+                const categoryOk = this.faqCategory === 'all' || entry.category === this.faqCategory;
+                if (!categoryOk) return false;
+
+                const terms = this.faqSearch
+                    .toLowerCase()
+                    .split(/\s+/)
+                    .map(term =&gt; term.trim())
+                    .filter(Boolean);
+
+                if (!terms.length) return true;
+
+                return terms.every(term =&gt; entry.searchable.includes(term));
+            },
+            matchesFaq(id) {
+                return this.matchesEntry(this.faqLookup[id]);
+            },
+            categoryHasResults(category) {
+                return Object.values(this.faqLookup).some(entry =&gt; entry.category === category &amp;&amp; this.matchesEntry(entry));
+            },
+            hasFaqResults() {
+                return Object.values(this.faqLookup).some(entry =&gt; this.matchesEntry(entry));
+            },
+            clearFaqFilters() {
+                this.faqSearch = '';
+                this.faqCategory = 'all';
+                this.openArticle = null;
+            }
+         }">
+
+        
+        <div class="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-blue-600 to-blue-700 shadow-lg shadow-indigo-500/20">
+            <div class="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-white/10 pointer-events-none"></div>
+            <div class="absolute -bottom-16 -left-8 w-64 h-64 rounded-full bg-white/5 pointer-events-none"></div>
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <nav class="flex items-center gap-2 text-sm mb-3" aria-label="Breadcrumb">
+                        <a href="https://geekstorm.boxsuite.com.br/admin/dashboard" class="text-white/70 hover:text-white transition-colors truncate max-w-[45vw] sm:max-w-[220px]">Dashboard</a>
+                            <svg class="w-3.5 h-3.5 text-white/50 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                <span class="text-white font-medium truncate max-w-[45vw] sm:max-w-[220px]">Central de Ajuda</span>
+                    </nav>
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center gap-4 min-w-0">
+                        <div class="p-3 bg-white/20 rounded-2xl shadow-lg shrink-0">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="min-w-0">
+                            <h1 class="text-2xl sm:text-3xl font-bold text-white truncate">Central de Ajuda</h1>
+                            <p class="text-blue-100 text-sm mt-0.5">Encontre respostas sobre cada área do sistema antes de abrir um chamado</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 shrink-0">
+                        <button type="button" @click="activeTab = 'tickets'" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white/15 hover:bg-white/25 border border-white/25 text-white font-semibold rounded-xl transition text-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                            Meus chamados
+                                                    </button>
+                        <a href="https://geekstorm.boxsuite.com.br/admin/master-support/new" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-blue-700 hover:bg-blue-50 font-bold rounded-xl transition shadow-lg text-sm">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+                            Abrir chamado
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+            
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                <div class="rounded-2xl p-4 text-white bg-gradient-to-br from-indigo-500 to-blue-600 shadow-sm">
+                    <p class="text-xs font-medium text-white/80">Artigos</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold mt-1">20</p>
+                </div>
+                <div class="rounded-2xl p-4 text-white bg-gradient-to-br from-teal-500 to-cyan-600 shadow-sm">
+                    <p class="text-xs font-medium text-white/80">Áreas</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold mt-1">9</p>
+                </div>
+                <div class="rounded-2xl p-4 text-white bg-gradient-to-br from-emerald-500 to-green-600 shadow-sm">
+                    <p class="text-xs font-medium text-white/80">Abertos</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold mt-1">0</p>
+                </div>
+                <div class="rounded-2xl p-4 text-white bg-gradient-to-br from-slate-600 to-slate-800 shadow-sm">
+                    <p class="text-xs font-medium text-white/80">Meus chamados</p>
+                    <p class="text-2xl sm:text-3xl font-extrabold mt-1">0</p>
+                </div>
+            </div>
+
+            <div class="flex gap-1 mb-6 bg-gray-100 dark:bg-gray-800 p-1 rounded-xl w-fit">
+                <button @click="activeTab = 'faq'" :class="activeTab === 'faq' ? 'bg-white dark:bg-gray-700 shadow-sm text-indigo-600' : 'text-gray-500'" class="px-5 py-2 text-sm font-medium rounded-lg transition bg-white dark:bg-gray-700 shadow-sm text-indigo-600">FAQ BoxSuite</button>
+                <button @click="activeTab = 'tickets'" :class="activeTab === 'tickets' ? 'bg-white dark:bg-gray-700 shadow-sm text-indigo-600' : 'text-gray-500'" class="px-5 py-2 text-sm font-medium rounded-lg transition text-gray-500">Meus Chamados</button>
+            </div>
+
+            <div x-show="activeTab === 'tickets'" x-transition="" style="display: none;">
+                <form method="GET" class="mb-4 flex flex-wrap items-center gap-3">
+                    <select name="status" onchange="this.form.submit()" class="rounded-xl border-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 text-sm">
+                        <option value="all">Todos</option>
+                                                    <option value="open">Aberto</option>
+                                                    <option value="in_progress">Em Andamento</option>
+                                                    <option value="waiting_customer">Aguardando resposta do solicitante</option>
+                                                    <option value="waiting_admin">Aguardando atendimento</option>
+                                                    <option value="resolved">Resolvido</option>
+                                                    <option value="closed">Fechado</option>
+                                            </select>
+                    <button type="button" @click="activeTab = 'faq'" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700 transition">
+                        <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-4 4v-4z"></path></svg>
+                        Buscar resposta na base
+                    </button>
+                </form>
+
+                                    <div class="bg-white dark:bg-gray-800 rounded-2xl p-12 text-center shadow-sm border border-gray-100 dark:border-gray-700">
+                        <div class="w-16 h-16 mx-auto mb-4 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center">
+                            <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-1">Nenhum chamado</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-5">Consulte a base de conhecimento antes de abrir seu primeiro chamado. Em muitos casos a solução já está documentada.</p>
+                        <div class="flex flex-wrap items-center justify-center gap-3">
+                            <button type="button" @click="activeTab = 'faq'" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 text-sm font-medium rounded-xl border border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700 transition">
+                                <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                Ver artigos primeiro
+                            </button>
+                            <a href="https://geekstorm.boxsuite.com.br/admin/master-support/new" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-xl hover:bg-indigo-700 transition">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                                Abrir Chamado
+                            </a>
+                        </div>
+                    </div>
+                            </div>
+
+            <div x-show="activeTab === 'faq'" x-transition="">
+                                    <div class="mb-6 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700 p-5">
+                        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                            <div>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Busque a resposta antes de abrir um chamado</h3>
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Filtre por palavra-chave ou tema. A ideia desta área é resolver sua dúvida sem depender de atendimento individual.</p>
+                            </div>
+                            <button type="button" x-show="faqSearch || faqCategory !== 'all'" @click="clearFaqFilters()" class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700 transition" style="display: none;">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                Limpar filtros
+                            </button>
+                        </div>
+
+                        <div class="mt-4 relative">
+                            <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            <input type="text" x-model="faqSearch" placeholder="Buscar na base de conhecimento..." class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                        </div>
+
+                        <div class="mt-4 flex flex-wrap gap-2">
+                            <button type="button" @click="faqCategory = 'all'" :class="faqCategory === 'all' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700'" class="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide transition bg-indigo-600 text-white border-indigo-600">
+                                Tudo
+                                <span class="rounded-full bg-black/10 px-2 py-0.5 text-[10px]" x-show="faqCategory === 'all'">20</span>
+                            </button>
+                                                            <button type="button" @click="faqCategory = 'primeiros-passos'" :class="faqCategory === 'primeiros-passos' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700'" class="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide transition bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700">
+                                    Primeiros passos
+                                    <span class="rounded-full bg-black/10 px-2 py-0.5 text-[10px]">2</span>
+                                </button>
+                                                            <button type="button" @click="faqCategory = 'armazem'" :class="faqCategory === 'armazem' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700'" class="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide transition bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700">
+                                    Armazém
+                                    <span class="rounded-full bg-black/10 px-2 py-0.5 text-[10px]">2</span>
+                                </button>
+                                                            <button type="button" @click="faqCategory = 'logistica'" :class="faqCategory === 'logistica' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700'" class="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide transition bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700">
+                                    Logística e Envios
+                                    <span class="rounded-full bg-black/10 px-2 py-0.5 text-[10px]">2</span>
+                                </button>
+                                                            <button type="button" @click="faqCategory = 'vendas'" :class="faqCategory === 'vendas' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700'" class="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide transition bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700">
+                                    Vendas
+                                    <span class="rounded-full bg-black/10 px-2 py-0.5 text-[10px]">7</span>
+                                </button>
+                                                            <button type="button" @click="faqCategory = 'gestao'" :class="faqCategory === 'gestao' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700'" class="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide transition bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700">
+                                    Gestão
+                                    <span class="rounded-full bg-black/10 px-2 py-0.5 text-[10px]">3</span>
+                                </button>
+                                                            <button type="button" @click="faqCategory = 'configuracoes'" :class="faqCategory === 'configuracoes' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700'" class="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide transition bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700">
+                                    Configurações
+                                    <span class="rounded-full bg-black/10 px-2 py-0.5 text-[10px]">1</span>
+                                </button>
+                                                            <button type="button" @click="faqCategory = 'painel-cliente'" :class="faqCategory === 'painel-cliente' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700'" class="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide transition bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700">
+                                    Painel do Cliente
+                                    <span class="rounded-full bg-black/10 px-2 py-0.5 text-[10px]">1</span>
+                                </button>
+                                                            <button type="button" @click="faqCategory = 'assinatura'" :class="faqCategory === 'assinatura' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700'" class="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide transition bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700">
+                                    Assinatura
+                                    <span class="rounded-full bg-black/10 px-2 py-0.5 text-[10px]">1</span>
+                                </button>
+                                                            <button type="button" @click="faqCategory = 'dicas'" :class="faqCategory === 'dicas' ? 'bg-indigo-600 text-white border-indigo-600' : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700'" class="inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold uppercase tracking-wide transition bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-300 border-gray-200 dark:border-gray-700">
+                                    Boas práticas
+                                    <span class="rounded-full bg-black/10 px-2 py-0.5 text-[10px]">1</span>
+                                </button>
+                                                    </div>
+                    </div>
+
+                                            <div x-show="faqSearch === '' &amp;&amp; faqCategory === 'all'" class="grid gap-4 md:grid-cols-3 mb-6">
+                                                            <button type="button" @click="openArticle = 17" class="text-left rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-5 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition">
+                                    <div class="flex items-center gap-3">
+                                        <span class="inline-flex items-center rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-indigo-700 dark:text-indigo-300">Mais consultado</span>
+                                    </div>
+                                    <h4 class="mt-4 text-sm font-semibold text-gray-900 dark:text-white leading-6">Visão geral: como a BoxSuite funciona</h4>
+                                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-6">A BoxSuite organiza a operação de redirecionamento e vendas em um fluxo simples:
+
+1. **Cliente se cadastra** e recebe um...</p>
+                                </button>
+                                                            <button type="button" @click="openArticle = 18" class="text-left rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-5 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition">
+                                    <div class="flex items-center gap-3">
+                                        <span class="inline-flex items-center rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-indigo-700 dark:text-indigo-300">Mais consultado</span>
+                                    </div>
+                                    <h4 class="mt-4 text-sm font-semibold text-gray-900 dark:text-white leading-6">Checklist de configuração inicial da sua empresa</h4>
+                                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-6">Antes de receber seus primeiros clientes, revise este checklist:
+
+1. **Dados da empresa** — nome, logotipo e cores em *C...</p>
+                                </button>
+                                                            <button type="button" @click="openArticle = 19" class="text-left rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-5 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition">
+                                    <div class="flex items-center gap-3">
+                                        <span class="inline-flex items-center rounded-full bg-indigo-50 dark:bg-indigo-900/30 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-indigo-700 dark:text-indigo-300">Mais consultado</span>
+                                    </div>
+                                    <h4 class="mt-4 text-sm font-semibold text-gray-900 dark:text-white leading-6">Pré-alertas e registro de caixas recebidas</h4>
+                                    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 leading-6">O **pré-alerta** é o aviso que o cliente cria dizendo "comprei algo, vai chegar aí". Ele agiliza o recebimento porque vo...</p>
+                                </button>
+                                                    </div>
+                    
+                    <div x-show="!hasFaqResults()" class="mb-6 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 p-8 text-center" style="display: none;">
+                        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700">
+                            <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 9.172a4 4 0 115.656 5.656M15 15l4.553 4.553m-9.9-1.725A7 7 0 1113.9 4.1a7 7 0 01-4.247 13.728z"></path></svg>
+                        </div>
+                        <h4 class="text-base font-semibold text-gray-900 dark:text-white">Nenhum artigo encontrado com esse filtro.</h4>
+                        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 max-w-xl mx-auto">Tente outro termo, remova o filtro de categoria ou abra um chamado somente se realmente não houver uma instrução aplicável na base.</p>
+                        <div class="mt-5 flex flex-wrap items-center justify-center gap-3">
+                            <button type="button" @click="clearFaqFilters()" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-900 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-xl border border-gray-200 dark:border-gray-700 hover:border-indigo-300 dark:hover:border-indigo-700 transition">Limpar busca</button>
+                            <a href="https://geekstorm.boxsuite.com.br/admin/master-support/new" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-xl hover:bg-indigo-700 transition">Abrir chamado</a>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6" x-show="hasFaqResults()">
+                                                    <div x-data="{ catOpen: true }" x-show="categoryHasResults('primeiros-passos')">
+                                <button @click="catOpen = !catOpen" class="w-full flex items-center justify-between gap-3 mb-3 group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-1.5 h-8 rounded-full bg-gradient-to-b from-violet-500 to-purple-600"></div>
+                                        <h3 class="text-base font-bold text-gray-800 dark:text-white">Primeiros passos</h3>
+                                        <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">2</span>
+                                    </div>
+                                    <svg :class="catOpen ? 'rotate-180' : ''" class="w-5 h-5 text-gray-400 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+
+                                <div x-show="catOpen" x-collapse="" class="space-y-3 ml-5">
+                                                                                                                    <div x-show="matchesFaq(17)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 17 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 17 ? null : 17" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Visão geral: como a BoxSuite funciona</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 17 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 17" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>A BoxSuite organiza a operação de redirecionamento e vendas em um fluxo simples:</p>
+<ol>
+<li><strong>Cliente se cadastra</strong> e recebe uma <strong>suíte</strong> (número único que identifica os pacotes dele no seu armazém).</li>
+<li>As compras do cliente chegam ao armazém e você registra como <strong>Caixas Recebidas</strong> — de preferência a partir de um <strong>Pré-Alerta</strong> criado pelo próprio cliente.</li>
+<li>Os itens ficam disponíveis em <strong>Produtos</strong>, onde o cliente pode pedir fotos, consolidação e outros serviços.</li>
+<li>O cliente solicita o <strong>Envio</strong>; você gera a etiqueta, despacha e o rastreio fica disponível no painel e no aplicativo.</li>
+</ol>
+<p>Além do fluxo logístico, você pode vender mais com <strong>Grupos de Compras</strong>, <strong>Compras Assistidas</strong>, <strong>Loja Online</strong>, <strong>Live Shopping</strong>, <strong>Cupons</strong> e <strong>Programas VIP</strong> — cada um com sua própria área no menu lateral.</p>
+<p><strong>Dica:</strong> o menu lateral é organizado por seções (Armazém, Vendas, Gestão). Itens com selo de cadeado indicam recursos de planos superiores.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(18)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 18 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 18 ? null : 18" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Checklist de configuração inicial da sua empresa</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 18 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 18" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Antes de receber seus primeiros clientes, revise este checklist:</p>
+<ol>
+<li><strong>Dados da empresa</strong> — nome, logotipo e cores em <em>Configurações</em>. Eles aparecem no painel do cliente, nos e-mails e no aplicativo.</li>
+<li><strong>Endereço do armazém</strong> — confira o endereço que os clientes usarão nas compras (aparece junto ao número da suíte).</li>
+<li><strong>Tipos de envio e tarifas</strong> — cadastre os métodos de envio e as faixas de peso/preço que você pratica.</li>
+<li><strong>Formas de pagamento</strong> — ative os gateways ou métodos manuais (PIX, transferência) que aceitará.</li>
+<li><strong>Notificações</strong> — ative os canais (e-mail, push, WhatsApp) para que o cliente acompanhe cada status sem precisar te chamar.</li>
+<li><strong>Termos e políticas</strong> — publique os termos de uso do serviço para aceite dos clientes.</li>
+</ol>
+<p>Com isso pronto, cadastre um <strong>cliente de teste</strong>, crie um pré-alerta, registre uma caixa e simule um envio de ponta a ponta. É a melhor forma de conhecer o fluxo antes de operar de verdade.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                    </div>
+                            </div>
+                                                    <div x-data="{ catOpen: true }" x-show="categoryHasResults('armazem')">
+                                <button @click="catOpen = !catOpen" class="w-full flex items-center justify-between gap-3 mb-3 group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-1.5 h-8 rounded-full bg-gradient-to-b from-blue-500 to-cyan-600"></div>
+                                        <h3 class="text-base font-bold text-gray-800 dark:text-white">Armazém</h3>
+                                        <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">2</span>
+                                    </div>
+                                    <svg :class="catOpen ? 'rotate-180' : ''" class="w-5 h-5 text-gray-400 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+
+                                <div x-show="catOpen" x-collapse="" class="space-y-3 ml-5">
+                                                                                                                    <div x-show="matchesFaq(19)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 19 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 19 ? null : 19" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Pré-alertas e registro de caixas recebidas</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 19 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 19" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>O <strong>pré-alerta</strong> é o aviso que o cliente cria dizendo "comprei algo, vai chegar aí". Ele agiliza o recebimento porque você já sabe de quem é o pacote.</p>
+<p><strong>Registrando uma caixa a partir de um pré-alerta:</strong></p>
+<ol>
+<li>Acesse <strong>Pré-Alertas</strong> no menu e localize o aviso pendente.</li>
+<li>Clique em registrar a caixa — o sistema preenche o cliente/suíte automaticamente.</li>
+<li>Tire ou anexe a <strong>foto da caixa</strong>, confira peso e dimensões e salve.</li>
+</ol>
+<p><strong>Caixa sem pré-alerta:</strong> use <strong>Caixas Recebidas → Registrar</strong> e informe a suíte manualmente. Se a etiqueta do pacote não tiver suíte legível, busque o cliente pelo nome ou e-mail.</p>
+<p>Ao registrar, o cliente é <strong>notificado automaticamente</strong> e a caixa aparece no painel dele — isso elimina a clássica pergunta "minha encomenda chegou?" no WhatsApp.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(20)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 20 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 20 ? null : 20" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Localizações, mapa do armazém e rota de coleta</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 20 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 20" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Para operações com prateleiras, o módulo <strong>Warehouse</strong> (Enterprise) organiza fisicamente o estoque:</p>
+<ul>
+<li><strong>Gerador de grade</strong> — crie de uma vez as localizações do armazém (corredor/estante/prateleira, ex.: A-01-03).</li>
+<li><strong>Put-away guiado</strong> — ao guardar uma caixa, o sistema sugere a melhor localização disponível e alerta quando a prateleira está cheia.</li>
+<li><strong>Mapa visual</strong> — planta baixa e visão isométrica com <strong>heatmap de ocupação</strong>: veja de longe onde está apertado.</li>
+<li><strong>Rota de coleta otimizada</strong> — ao separar itens para envio, o sistema ordena a coleta pelo caminho mais curto e gera uma <strong>lista imprimível</strong>.</li>
+</ul>
+<p><strong>Dica:</strong> mantenha a disciplina de escanear/atualizar a localização sempre que mover uma caixa. O mapa e a rota só ajudam se o endereço estiver correto.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                    </div>
+                            </div>
+                                                    <div x-data="{ catOpen: true }" x-show="categoryHasResults('logistica')">
+                                <button @click="catOpen = !catOpen" class="w-full flex items-center justify-between gap-3 mb-3 group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-1.5 h-8 rounded-full bg-gradient-to-b from-emerald-500 to-green-600"></div>
+                                        <h3 class="text-base font-bold text-gray-800 dark:text-white">Logística e Envios</h3>
+                                        <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">2</span>
+                                    </div>
+                                    <svg :class="catOpen ? 'rotate-180' : ''" class="w-5 h-5 text-gray-400 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+
+                                <div x-show="catOpen" x-collapse="" class="space-y-3 ml-5">
+                                                                                                                    <div x-show="matchesFaq(21)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 21 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 21 ? null : 21" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Criando envios e acompanhando status</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 21 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 21" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Quando o cliente solicita o envio dos produtos:</p>
+<ol>
+<li>Acesse <strong>Envios</strong> e abra a solicitação pendente.</li>
+<li>Confira os itens, peso final e o endereço de destino.</li>
+<li>Gere a <strong>etiqueta</strong> pela integração disponível ou anexe a etiqueta manual.</li>
+<li>Atualize o status conforme o pacote avança (postado → em trânsito → entregue).</li>
+</ol>
+<p>Cada mudança de status <strong>notifica o cliente automaticamente</strong> (painel, e-mail e push do aplicativo). O rastreio fica visível para ele, o que reduz drasticamente perguntas de acompanhamento.</p>
+<p><strong>Boas práticas:</strong></p>
+<ul>
+<li>Anexe a foto do pacote fechado antes de postar — evita disputas.</li>
+<li>Use os <strong>status por produto</strong> (módulo transportadora) quando um envio consolida vários pacotes: cada item pode ter seu próprio rastreio.</li>
+</ul>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(22)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 22 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 22 ? null : 22" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Rastreamento por produto (módulo transportadora)</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 22 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 22" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>No módulo de transportadora, cada <strong>produto/pacote tem um status de rastreio próprio</strong> — não apenas o envio como um todo.</p>
+<ul>
+<li>Os status disponíveis são configuráveis em <strong>Status de Frete</strong>.</li>
+<li>A visibilidade de cada status no painel do cliente é controlada por configuração — você decide o que ele vê.</li>
+<li>No recebimento e conferência, escaneie o código <strong>P{id}</strong> do produto para atualizar o status individualmente.</li>
+<li>Sacas e manifestos agrupam os pacotes por viagem, mantendo o vínculo com cada produto.</li>
+</ul>
+<p>Isso permite responder com precisão "onde está o item X?" mesmo quando um envio agrupa dezenas de pacotes de clientes diferentes.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                    </div>
+                            </div>
+                                                    <div x-data="{ catOpen: true }" x-show="categoryHasResults('vendas')">
+                                <button @click="catOpen = !catOpen" class="w-full flex items-center justify-between gap-3 mb-3 group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-1.5 h-8 rounded-full bg-gradient-to-b from-orange-500 to-amber-600"></div>
+                                        <h3 class="text-base font-bold text-gray-800 dark:text-white">Vendas</h3>
+                                        <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">7</span>
+                                    </div>
+                                    <svg :class="catOpen ? 'rotate-180' : ''" class="w-5 h-5 text-gray-400 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+
+                                <div x-show="catOpen" x-collapse="" class="space-y-3 ml-5">
+                                                                                                                    <div x-show="matchesFaq(23)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 23 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 23 ? null : 23" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Grupos de compras: fluxo completo</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 23 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 23" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>O <strong>Grupo de Compras</strong> permite vender produtos em lote para vários clientes (estilo "pedido coletivo"):</p>
+<ol>
+<li><strong>Crie o grupo</strong> com nome, datas de abertura/fechamento e taxa de serviço.</li>
+<li><strong>Cadastre os produtos</strong> (com variações, fotos e preços) ou importe em massa.</li>
+<li><strong>Divulgue</strong> — o grupo tem página própria; você também pode disparar produtos via WhatsApp e Telegram conectados.</li>
+<li>Os clientes montam seus pedidos; você acompanha tudo em <strong>Pedidos do Grupo</strong>.</li>
+<li>No fechamento, confirme os pedidos, efetue as compras e siga o fluxo normal de recebimento/envio.</li>
+</ol>
+<p><strong>Recursos úteis:</strong></p>
+<ul>
+<li><strong>Categorias</strong> organizam os produtos dentro do grupo.</li>
+<li><strong>Faixas de taxa</strong> permitem cobrar percentuais diferentes por volume.</li>
+<li><strong>Acesso antecipado VIP</strong> (se você tiver um Programa VIP ativo) deixa assinantes entrarem antes da abertura oficial.</li>
+</ul>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(24)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 24 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 24 ? null : 24" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Carrinhos assistidos: monte o pedido pelo cliente</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 24 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 24" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Nem todo cliente se vira sozinho no grupo de compras. Com os <strong>carrinhos assistidos</strong> você monta o pedido em nome dele:</p>
+<ol>
+<li>Acesse <strong>Grupos de Compras → Carrinhos</strong> e crie um carrinho para o cliente (busque por nome ou suíte).</li>
+<li>Adicione os produtos e variações que ele pediu (por WhatsApp, telefone etc.).</li>
+<li>O cliente recebe o link, revisa e <strong>confirma itens</strong> pelo painel dele.</li>
+<li>Quando tudo estiver confirmado, finalize o pedido.</li>
+</ol>
+<p>Cada carrinho mostra o <strong>ID do grupo e a suíte do cliente</strong>, com atalho para o perfil. O histórico de recuperação registra os lembretes enviados.</p>
+<p><strong>Por que usar:</strong> transforma atendimento manual do WhatsApp em pedido rastreável dentro do sistema — com registro, confirmação formal do cliente e cobrança correta de taxas.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(25)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 25 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 25 ? null : 25" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Automações do grupo: recuperação de carrinho e avisos (Enterprise)</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 25 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 25" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Em <strong>Grupos de Compras → Automação</strong> (plano Enterprise) você liga rotinas que trabalham sozinhas:</p>
+<ul>
+<li><strong>Recuperação de carrinho</strong> — sequências de mensagens (WhatsApp e/ou e-mail) para clientes que montaram carrinho e não finalizaram. Configure até 5 etapas com intervalo e texto próprios.</li>
+<li><strong>Notificação de pedido</strong> — aviso automático ao cliente quando o pedido é registrado, no canal que você escolher.</li>
+<li><strong>Fechamento automático de pedidos</strong> — escolha se pedidos fecham todos juntos, apenas os confirmados, ou manualmente.</li>
+</ul>
+<p><strong>Dica de mensagem:</strong> nas sequências de recuperação, a primeira mensagem funciona melhor entre 1h e 3h após o abandono; a última pode oferecer ajuda ("quer que eu finalize por você?") — que conecta com os carrinhos assistidos.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(26)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 26 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 26 ? null : 26" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Loja online: produtos, pedidos e avaliações (Enterprise)</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 26 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 26" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>A <strong>Loja Online</strong> (plano Enterprise) é sua vitrine de venda direta:</p>
+<ol>
+<li><strong>Categorias</strong> — organize o catálogo (suporta subcategorias).</li>
+<li><strong>Produtos</strong> — cadastre com fotos, variações, estoque e preço; ou <strong>importe via CSV</strong>.</li>
+<li><strong>Pedidos</strong> — acompanhe pagamento, separação e entrega em um painel próprio.</li>
+<li><strong>Avaliações</strong> — modere os reviews dos clientes (aprovar/rejeitar) para exibir prova social na vitrine.</li>
+</ol>
+<p><strong>Recursos que aumentam conversão:</strong></p>
+<ul>
+<li><strong>Alertas de estoque</strong> — cliente pede aviso quando o produto voltar.</li>
+<li><strong>Lista de desejos</strong> — o cliente salva produtos para depois.</li>
+<li><strong>Cupons</strong> — desconto percentual ou fixo, com validade e limite de uso.</li>
+<li><strong>Desconto VIP</strong> — se houver Programa VIP com benefício de loja, o desconto aplica automaticamente no checkout.</li>
+</ul>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(27)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 27 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 27 ? null : 27" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Live Shopping: guia da primeira transmissão (Enterprise)</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 27 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 27" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>O <strong>Live Shopping</strong> (Enterprise) transforma uma transmissão ao vivo em vendas diretas:</p>
+<p><strong>Antes da live:</strong></p>
+<ol>
+<li>Crie a sessão em <strong>Live Shopping → Nova live</strong> com título e produtos vinculados.</li>
+<li>Na tela do transmissor, confira câmera e microfone no <strong>modo de preparação</strong>.</li>
+</ol>
+<p><strong>Durante a live:</strong></p>
+<ul>
+<li><strong>Fixe produtos</strong> enquanto fala deles — o espectador compra em 2 toques sem sair da live.</li>
+<li>Acompanhe <strong>espectadores, reações e vendas em tempo real</strong> no painel do transmissor.</li>
+<li>O chat aparece em sobreposição discreta (no app, as mensagens não bloqueiam o vídeo).</li>
+</ul>
+<p><strong>Depois:</strong></p>
+<ul>
+<li>Revise o resumo de vendas e pico de audiência na página da sessão.</li>
+</ul>
+<p><strong>Dicas de resultado:</strong> lives curtas (20–40 min) com poucos produtos bem apresentados vendem mais que maratonas; anuncie a live com antecedência por Comunicado e WhatsApp; fixe o produto certo na hora certa — é o que mais converte.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(28)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 28 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 28 ? null : 28" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Cupons de desconto: escopos e regras</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 28 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 28" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Os <strong>Cupons</strong> são transversais: um mesmo cupom pode valer para diferentes serviços (Loja Online, Envio etc.), conforme os módulos marcados no cadastro.</p>
+<p><strong>Ao criar um cupom, defina:</strong></p>
+<ul>
+<li><strong>Código</strong> — o que o cliente digita (ex.: BEMVINDO10).</li>
+<li><strong>Tipo e valor</strong> — percentual ou valor fixo.</li>
+<li><strong>Módulos</strong> — onde o cupom é aceito.</li>
+<li><strong>Validade e limites</strong> — data de expiração, limite total de usos e por cliente.</li>
+<li><strong>Pedido mínimo</strong> — valor mínimo para o cupom valer.</li>
+</ul>
+<p><strong>Interação com VIP:</strong> se você tem Programa VIP com desconto, o comportamento cupom + VIP é configurável no programa (melhor preço, sem acúmulo ou acumular os dois).</p>
+<p><strong>Dica:</strong> cupons de primeiro uso (limite 1 por cliente) são ótimos para converter cadastros parados em primeiro pedido.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(29)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 29 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 29 ? null : 29" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Programas VIP: crie seu clube de assinatura (Pro+)</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 29 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 29" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>O <strong>Programa VIP</strong> (planos Pro e Enterprise) cria receita recorrente: o cliente paga uma mensalidade/anuidade e ganha benefícios.</p>
+<p><strong>Criando (3 passos):</strong></p>
+<ol>
+<li><strong>Identidade</strong> — nome do plano e template (Básico, Níveis ou Plus).</li>
+<li><strong>Preço &amp; regras</strong> — ciclo (mensal/anual), preço, trial, carência pós-vencimento e comportamento cupom+VIP.</li>
+<li><strong>Publicar</strong> — revise e crie; depois configure os <strong>benefícios</strong>.</li>
+</ol>
+<p><strong>Benefícios disponíveis:</strong> desconto em loja, cashback (geral e por serviço), descontos em taxas (envio, grupos, compra assistida, serviços), frete grátis, prioridade de atendimento, acesso antecipado a grupos, dias extras de armazenamento e até permissão de saldo negativo.</p>
+<p><strong>Modelo de cobrança:</strong> pagamento único com renovação manual — o cliente renova quando vence (a carência evita corte imediato).</p>
+<p><strong>Dica:</strong> comece com UM plano simples (desconto + prioridade) e evolua conforme a adesão. Acompanhe assinantes ativos e receita recorrente no topo da tela.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                    </div>
+                            </div>
+                                                    <div x-data="{ catOpen: true }" x-show="categoryHasResults('gestao')">
+                                <button @click="catOpen = !catOpen" class="w-full flex items-center justify-between gap-3 mb-3 group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-1.5 h-8 rounded-full bg-gradient-to-b from-rose-500 to-rose-600"></div>
+                                        <h3 class="text-base font-bold text-gray-800 dark:text-white">Gestão</h3>
+                                        <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">3</span>
+                                    </div>
+                                    <svg :class="catOpen ? 'rotate-180' : ''" class="w-5 h-5 text-gray-400 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+
+                                <div x-show="catOpen" x-collapse="" class="space-y-3 ml-5">
+                                                                                                                    <div x-show="matchesFaq(30)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 30 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 30 ? null : 30" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Carteira digital: créditos, débitos e cashback</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 30 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 30" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Cada cliente tem uma <strong>carteira digital</strong> dentro do seu painel:</p>
+<ul>
+<li><strong>Créditos</strong> — adicione saldo manualmente (ex.: reembolso, bônus) com motivo registrado.</li>
+<li><strong>Débitos</strong> — serviços e envios podem ser pagos com saldo da carteira.</li>
+<li><strong>Cashback</strong> — se você usa Programa VIP com cashback, o valor cai automaticamente na carteira após a confirmação do pagamento.</li>
+<li><strong>Extrato completo</strong> — toda movimentação fica registrada e visível para o cliente.</li>
+</ul>
+<p><strong>Saldo negativo:</strong> por padrão não é permitido. Existe um benefício VIP específico que autoriza o cliente a concluir pagamentos mesmo sem saldo (a suíte fica negativa) nos contextos que você marcar — use com critério, apenas para clientes de confiança.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(31)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 31 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 31 ? null : 31" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Comunicados: avisos em destaque no painel do cliente</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 31 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 31" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Os <strong>Comunicados</strong> exibem avisos em modal no painel dos seus clientes — perfeitos para recesso, mudanças de prazo, promoções ou novidades.</p>
+<p><strong>Criando um comunicado:</strong></p>
+<ol>
+<li>Acesse <strong>Comunicados → Novo</strong>.</li>
+<li>Escreva título e corpo (editor com formatação) e anexe uma imagem se quiser.</li>
+<li>Configure <strong>onde aparece</strong> (todas as páginas ou uma específica), se mostra <strong>apenas uma vez</strong> por cliente, e o <strong>período</strong> (início/fim).</li>
+<li>Adicione um <strong>botão de ação (CTA)</strong> com link, se fizer sentido.</li>
+<li>Ative — o painel mostra quantas <strong>visualizações</strong> cada comunicado teve.</li>
+</ol>
+<p><strong>Dica:</strong> avisos operacionais (ex.: "sem expedição dia 25") reduzem muito o volume de perguntas repetidas no WhatsApp. Prefira "mostrar apenas uma vez" para não irritar quem já viu.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                                                    <div x-show="matchesFaq(32)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 32 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 32 ? null : 32" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Suporte ao cliente: tickets, SLA e FAQ</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 32 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 32" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Centralize o atendimento em <strong>Suporte ao Cliente</strong> em vez do WhatsApp:</p>
+<ul>
+<li><strong>Fila com SLA</strong> — cada ticket tem prazo conforme a prioridade; o painel destaca os estourados.</li>
+<li><strong>Atribuição</strong> — distribua tickets entre os atendentes da equipe.</li>
+<li><strong>Notas internas</strong> — comente no ticket sem o cliente ver.</li>
+<li><strong>Avaliação (CSAT)</strong> — o cliente avalia o atendimento ao resolver.</li>
+<li><strong>FAQ própria</strong> — publique artigos para seus clientes; eles aparecem antes da abertura do chamado, reduzindo tickets repetidos.</li>
+</ul>
+<p><strong>Abrir chamado em nome do cliente:</strong> quando o cliente pede algo por telefone/WhatsApp, use o botão <strong>Novo chamado</strong> na tela de tickets, selecione o cliente e registre a solicitação — ela entra na fila normal e o cliente acompanha e responde pelo painel dele. Uma nota de sistema registra quem abriu.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                    </div>
+                            </div>
+                                                    <div x-data="{ catOpen: true }" x-show="categoryHasResults('configuracoes')">
+                                <button @click="catOpen = !catOpen" class="w-full flex items-center justify-between gap-3 mb-3 group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-1.5 h-8 rounded-full bg-gradient-to-b from-gray-500 to-slate-600"></div>
+                                        <h3 class="text-base font-bold text-gray-800 dark:text-white">Configurações</h3>
+                                        <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">1</span>
+                                    </div>
+                                    <svg :class="catOpen ? 'rotate-180' : ''" class="w-5 h-5 text-gray-400 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+
+                                <div x-show="catOpen" x-collapse="" class="space-y-3 ml-5">
+                                                                                                                    <div x-show="matchesFaq(33)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 33 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 33 ? null : 33" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Notificações: e-mail, push e WhatsApp</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 33 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 33" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>A BoxSuite avisa seus clientes automaticamente em cada etapa (caixa recebida, envio postado, ticket respondido...). Você controla os canais:</p>
+<ul>
+<li><strong>E-mail</strong> — habilitado por padrão; personalize remetente nas configurações (SMTP próprio disponível em planos Pro+).</li>
+<li><strong>Push (aplicativo)</strong> — clientes com o app instalado recebem notificações instantâneas.</li>
+<li><strong>WhatsApp</strong> — com a conexão de WhatsApp ativa, automações e avisos podem sair direto no número da sua empresa.</li>
+<li><strong>Telegram</strong> — o bot de grupos de compras divulga produtos e responde clientes autorizados.</li>
+</ul>
+<p><strong>Notificações personalizadas:</strong> em <strong>Comunicação → Notificações personalizadas</strong> você dispara mensagens em massa ou segmentadas (por exemplo, para todos os clientes com caixa parada há X dias).</p>
+<p><strong>Dica:</strong> quanto mais automático o aviso, menos "e aí, alguma novidade?" no seu WhatsApp pessoal.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                    </div>
+                            </div>
+                                                    <div x-data="{ catOpen: true }" x-show="categoryHasResults('painel-cliente')">
+                                <button @click="catOpen = !catOpen" class="w-full flex items-center justify-between gap-3 mb-3 group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-1.5 h-8 rounded-full bg-gradient-to-b from-teal-500 to-cyan-600"></div>
+                                        <h3 class="text-base font-bold text-gray-800 dark:text-white">Painel do Cliente</h3>
+                                        <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">1</span>
+                                    </div>
+                                    <svg :class="catOpen ? 'rotate-180' : ''" class="w-5 h-5 text-gray-400 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+
+                                <div x-show="catOpen" x-collapse="" class="space-y-3 ml-5">
+                                                                                                                    <div x-show="matchesFaq(34)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 34 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 34 ? null : 34" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">O que o seu cliente vê: painel web e aplicativo</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 34 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 34" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Seu cliente tem duas portas de entrada, ambas com a sua marca:</p>
+<p><strong>Painel web</strong> — cadastro, endereço da suíte, pré-alertas, caixas recebidas (com fotos), solicitação de envios com rastreio, carteira digital, grupos de compras, loja, lives, tickets de suporte e FAQ.</p>
+<p><strong>Aplicativo (iOS/Android)</strong> — mesmas funções principais com notificações push; inclui a experiência otimizada de Live Shopping (compra sem sair da live, reações, chat).</p>
+<p><strong>Como orientar o cliente novo:</strong></p>
+<ol>
+<li>Confirmar o cadastro e anotar o número da suíte.</li>
+<li>Usar o endereço do armazém + suíte em todas as compras.</li>
+<li>Criar <strong>pré-alerta</strong> a cada compra (agiliza o recebimento).</li>
+<li>Acompanhar tudo pelo painel/app — as notificações avisam cada movimento.</li>
+</ol>
+<p><strong>Dica:</strong> inclua um Comunicado de boas-vindas com esse passo a passo; economiza dezenas de mensagens de orientação.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                    </div>
+                            </div>
+                                                    <div x-data="{ catOpen: true }" x-show="categoryHasResults('assinatura')">
+                                <button @click="catOpen = !catOpen" class="w-full flex items-center justify-between gap-3 mb-3 group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-1.5 h-8 rounded-full bg-gradient-to-b from-fuchsia-500 to-purple-600"></div>
+                                        <h3 class="text-base font-bold text-gray-800 dark:text-white">Assinatura</h3>
+                                        <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">1</span>
+                                    </div>
+                                    <svg :class="catOpen ? 'rotate-180' : ''" class="w-5 h-5 text-gray-400 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+
+                                <div x-show="catOpen" x-collapse="" class="space-y-3 ml-5">
+                                                                                                                    <div x-show="matchesFaq(35)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 35 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 35 ? null : 35" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Planos Starter, Pro e Enterprise: o que cada um libera</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 35 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 35" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>Sua assinatura BoxSuite define os módulos disponíveis:</p>
+<p><strong>Starter</strong> — operação essencial: redirecionamento, carteira, tickets, notificações, grupos de compras, bot Telegram, vitrine shop, gateways de pagamento, pagamentos manuais, analytics básico e landing builder.</p>
+<p><strong>Pro</strong> — tudo do Starter, mais: <strong>Programas VIP</strong>, chatbot com IA, SMTP próprio, impersonação de cliente e API pública.</p>
+<p><strong>Enterprise</strong> — tudo do Pro, mais: <strong>Loja Online</strong>, <strong>Live Shopping</strong>, <strong>Warehouse</strong> (mapa/localizações), <strong>Automações do grupo de compras</strong>, domínio próprio, analytics avançado, módulo financeiro e galeria de produtos.</p>
+<p>No menu lateral, recursos fora do seu plano aparecem com <strong>selo de cadeado</strong> (Pro ou Enterprise). Clicar mostra a tela de upgrade.</p>
+<p>Para mudar de plano, acesse <strong>Minha Assinatura</strong> e escolha o upgrade — a liberação é imediata após a confirmação.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                    </div>
+                            </div>
+                                                    <div x-data="{ catOpen: true }" x-show="categoryHasResults('dicas')">
+                                <button @click="catOpen = !catOpen" class="w-full flex items-center justify-between gap-3 mb-3 group">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-1.5 h-8 rounded-full bg-gradient-to-b from-yellow-500 to-amber-600"></div>
+                                        <h3 class="text-base font-bold text-gray-800 dark:text-white">Boas práticas</h3>
+                                        <span class="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full">1</span>
+                                    </div>
+                                    <svg :class="catOpen ? 'rotate-180' : ''" class="w-5 h-5 text-gray-400 transition-transform duration-200 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+
+                                <div x-show="catOpen" x-collapse="" class="space-y-3 ml-5">
+                                                                                                                    <div x-show="matchesFaq(36)" class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all hover:shadow-sm" :class="openArticle === 36 ? 'shadow-md border-indigo-200 dark:border-indigo-800' : 'hover:shadow-sm'">
+                                            <button @click="openArticle = openArticle === 36 ? null : 36" class="w-full text-left p-4 group">
+                                                <div class="flex items-start justify-between gap-4">
+                                                    <div class="min-w-0">
+                                                                                                                <div class="mt-2 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition pr-4">Boas práticas para reduzir atendimento no WhatsApp</div>
+                                                    </div>
+                                                    <svg :class="openArticle === 36 ? 'rotate-180 text-indigo-500' : 'text-gray-400'" class="w-4 h-4 shrink-0 transition-transform duration-200 mt-1 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </button>
+
+                                            <div x-show="openArticle === 36" x-collapse="" style="display: none;">
+                                                <div class="px-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-3">
+                                                    <div class="prose prose-sm dark:prose-invert max-w-none
+                                                        prose-headings:text-gray-800 dark:prose-headings:text-gray-200
+                                                        prose-h2:text-base prose-h2:font-bold prose-h2:mt-4 prose-h2:mb-2
+                                                        prose-h3:text-sm prose-h3:font-semibold prose-h3:mt-3 prose-h3:mb-1
+                                                        prose-p:text-gray-600 dark:prose-p:text-gray-400 prose-p:text-sm prose-p:leading-relaxed
+                                                        prose-li:text-gray-600 dark:prose-li:text-gray-400 prose-li:text-sm
+                                                        prose-strong:text-gray-700 dark:prose-strong:text-gray-300
+                                                        prose-table:text-xs
+                                                        prose-th:bg-gray-50 dark:prose-th:bg-gray-700 prose-th:px-3 prose-th:py-1.5
+                                                        prose-td:px-3 prose-td:py-1.5
+                                                        prose-code:text-indigo-600 dark:prose-code:text-indigo-400 prose-code:text-xs prose-code:bg-indigo-50 dark:prose-code:bg-indigo-900/20 prose-code:px-1 prose-code:py-0.5 prose-code:rounded">
+                                                        <p>O objetivo do sistema é que o cliente <strong>se sirva sozinho</strong>. Práticas que mais reduzem mensagens:</p>
+<ol>
+<li><strong>Fotos sempre</strong> — registre caixa com foto. "Chegou minha encomenda?" morre quando a foto aparece no painel.</li>
+<li><strong>Notificações ativas em todos os canais</strong> — cada status enviado automaticamente é uma pergunta que não chega.</li>
+<li><strong>FAQ para clientes</strong> — publique artigos com as 10 perguntas mais comuns do seu atendimento; eles aparecem antes da abertura de ticket.</li>
+<li><strong>Comunicados para avisos gerais</strong> — recesso, atrasos de transportadora, mudanças de preço: um modal no painel evita responder um por um.</li>
+<li><strong>Tickets em vez de WhatsApp</strong> — orientar o cliente a abrir chamado cria fila organizada com SLA. Se o pedido chegar pelo WhatsApp mesmo assim, <strong>abra o ticket em nome dele</strong> para não perder o registro.</li>
+<li><strong>Status de rastreio detalhado</strong> — no módulo transportadora, status por produto respondem "onde está o item X?" sem você digitar nada.</li>
+</ol>
+<p>Meça o resultado: o painel de tickets mostra volume por dia e CSAT — se as perguntas repetidas continuam, vire-as em artigo de FAQ.</p>
+
+                                                    </div>
+                                                    <div class="mt-4 rounded-xl bg-gray-50 dark:bg-gray-900/50 px-4 py-3 text-xs text-gray-500 dark:text-gray-400">
+                                                        Se esse artigo não resolver, abra um chamado informando o que você já testou. Isso reduz retrabalho e acelera a resposta do suporte.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                    </div>
+                            </div>
+                                            </div>
+
+                    <div class="mt-6 rounded-2xl border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/70 dark:bg-indigo-900/10 p-5">
+                        <h3 class="text-sm font-semibold text-indigo-900 dark:text-indigo-300">Ainda precisa falar com a equipe?</h3>
+                        <p class="mt-1 text-sm text-indigo-800/80 dark:text-indigo-200/80">Abra um chamado somente depois de consultar a base. Ao enviar, inclua contexto, passos testados e evidências para evitar retorno pedindo informações básicas.</p>
+                        <div class="mt-4 flex flex-wrap gap-3">
+                            <a href="https://geekstorm.boxsuite.com.br/admin/master-support/new" class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-xl hover:bg-indigo-700 transition">Abrir chamado com contexto</a>
+                        </div>
+                    </div>
+                            </div>
+        </div>
+    </div>
+        </div>
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-08-17T20:47:29-03:00.
+</ADDITIONAL_METADATA>

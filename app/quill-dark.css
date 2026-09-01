@@ -1,0 +1,38 @@
+.quill-dark .ql-toolbar {
+  background-color: #18181b; /* zinc-900 */
+  border-color: #3f3f46 !important; /* zinc-700 */
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+.quill-dark .ql-container {
+  background-color: #09090b; /* zinc-950 */
+  border-color: #3f3f46 !important; /* zinc-700 */
+  border-bottom-left-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+  color: #f4f4f5; /* zinc-100 */
+  font-size: 1rem;
+}
+.quill-dark .ql-stroke {
+  stroke: #a1a1aa !important; /* zinc-400 */
+}
+.quill-dark .ql-fill {
+  fill: #a1a1aa !important; /* zinc-400 */
+}
+.quill-dark .ql-picker {
+  color: #a1a1aa !important;
+}
+.quill-dark .ql-picker-options {
+  background-color: #27272a !important; /* zinc-800 */
+  border-color: #3f3f46 !important;
+}
+.quill-dark .ql-editor.ql-blank::before {
+  color: #52525b !important; /* zinc-500 */
+}
+.quill-dark .ql-editor {
+  min-height: 200px;
+  overflow-y: hidden;
+}
+.quill-dark .ql-editor {
+  height: auto;
+  overflow-y: hidden;
+}

@@ -1,0 +1,14 @@
+logProductAudit called with field=name
+Insert failed: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT INSERT ON public.product_audit_logs TO service_role;","message":"permission denied for table product_audit_logs"}
+logProductAudit called with field=weight
+Insert failed: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT INSERT ON public.product_audit_logs TO service_role;","message":"permission denied for table product_audit_logs"}
+logProductAudit called with field=price_paid
+Insert failed: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT INSERT ON public.product_audit_logs TO service_role;","message":"permission denied for table product_audit_logs"}
+logProductAudit called with field=created_at
+Insert failed: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT INSERT ON public.product_audit_logs TO service_role;","message":"permission denied for table product_audit_logs"}
+logProductAudit called with field=test_field
+Insert failed: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT INSERT ON public.product_audit_logs TO service_role;","message":"permission denied for table product_audit_logs"}
+logProductAudit called with field=test_field
+Insert failed: {"code":"42501","details":null,"hint":"Grant the required privileges to the current role with: GRANT INSERT ON public.product_audit_logs TO service_role;","message":"permission denied for table product_audit_logs"}
+logProductAudit called with field=test_field
+Insert failed: {"code":"23503","details":"Key (tenant_id)=(00000000-0000-0000-0000-000000000000) is not present in table \"tenants\".","hint":null,"message":"insert or update on table \"product_audit_logs\" violates foreign key constraint \"product_audit_logs_tenant_id_fkey\""}
