@@ -124,7 +124,7 @@ export default function Register() {
     }
     
     alert("Conta criada com sucesso! Redirecionando para o seu painel...");
-    window.location.href = `http://${subdomain}.localhost:3000/admin/login`;
+    window.location.href = `${window.location.protocol}//${subdomain}.${window.location.host}/admin/login`;
   };
 
   return (
