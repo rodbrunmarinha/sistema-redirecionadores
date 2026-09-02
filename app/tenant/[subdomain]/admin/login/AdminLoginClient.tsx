@@ -26,7 +26,8 @@ export default function AdminLoginClient() {
     });
 
     if (error) {
-      setErrorMsg("E-mail ou senha incorretos.");
+      console.error("Supabase login error:", error);
+      setErrorMsg(error.message === "Email not confirmed" ? "Por favor, confirme seu e-mail antes de fazer login." : `Erro: ${error.message}`);
       setIsLoading(false);
       return;
     }
