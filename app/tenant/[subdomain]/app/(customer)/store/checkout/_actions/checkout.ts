@@ -234,7 +234,7 @@ export async function validateCoupon(subdomain: string, code: string, cartTotal:
   if (error || !coupon) return { error: 'Cupom inválido ou expirado.' };
 
   if (coupon.min_purchase_amount && cartTotal < coupon.min_purchase_amount) {
-    return { error: \Este cupom exige um carrinho de no mínimo \$ \\ };
+    return { error: `Este cupom exige um carrinho de no mínimo $${coupon.min_purchase_amount}` };
   }
 
   if (coupon.usage_limit && coupon.usage_count >= coupon.usage_limit) {
