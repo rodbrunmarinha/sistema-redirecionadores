@@ -403,13 +403,13 @@ export default function Register() {
                         )}
                       </div>
                       <div className="px-4 py-3 bg-zinc-800 border border-l-0 border-zinc-800 rounded-r-xl text-sm text-zinc-400 font-medium">
-                        .cndck.com.br
+                        .dockdrop.com.br
                       </div>
                     </div>
                     <div className="mt-3 p-4 bg-zinc-950/50 border border-zinc-800/50 rounded-xl">
                       <p className="text-xs font-medium text-zinc-500 mb-1">Sua plataforma ficará em:</p>
                       <p className="text-sm font-mono text-zinc-300">
-                        https://<span className="text-amber-500 font-bold">{subdomain || "sua-empresa"}</span>.cndck.com.br
+                        https://<span className="text-amber-500 font-bold">{subdomain || "sua-empresa"}</span>.dockdrop.com.br
                       </p>
                     </div>
                     {subdomain.length >= 3 && !isCheckingSubdomain && isSubdomainAvailable === true && (
