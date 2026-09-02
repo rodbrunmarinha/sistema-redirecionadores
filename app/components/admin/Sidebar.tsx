@@ -234,6 +234,7 @@ export default function Sidebar({
   const isActive = (href?: string) => {
     if (!href) return false;
     if (href === "/admin") return pathname === "/admin";
+    if (href === "/admin/store") return pathname === "/admin/store";
     return pathname === href || pathname.startsWith(`${href}/`);
   };
   const isSubmenuActive = (submenu?: { href: string }[]) => 

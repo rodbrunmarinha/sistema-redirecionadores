@@ -298,18 +298,34 @@ function BoxesContent() {
             </div>
           </div>
                           
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/20 p-4 text-white shadow-lg border border-orange-500/30 col-span-2 lg:col-span-1">
-            <div className="absolute -right-3 -top-3 w-20 h-20 bg-orange-500/10 rounded-full"></div>
-            <div className="relative">
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-xs font-semibold uppercase tracking-widest text-orange-400">Recebidas em 7 dias</p>
-                <div className="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center shrink-0">
-                  <Calendar className="w-4 h-4 text-orange-400" />
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/20 to-amber-500/20 p-4 text-white shadow-lg border border-orange-500/30">
+              <div className="absolute -right-3 -top-3 w-20 h-20 bg-orange-500/10 rounded-full"></div>
+              <div className="relative">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-orange-400">Recebidas em 7 dias</p>
+                  <div className="w-8 h-8 rounded-lg bg-orange-500/20 flex items-center justify-center shrink-0">
+                    <Calendar className="w-4 h-4 text-orange-400" />
+                  </div>
                 </div>
+                <p className="text-3xl font-extrabold tracking-tight">{last7Days}</p>
               </div>
-              <p className="text-3xl font-extrabold tracking-tight">{last7Days}</p>
             </div>
-          </div>
+
+            <div 
+              onClick={() => setQuickFilter("pending")}
+              className={`relative overflow-hidden rounded-2xl bg-gradient-to-br from-red-500/20 to-rose-600/20 p-4 text-white shadow-lg border cursor-pointer transition-all hover:scale-[1.02] ${quickFilter === 'pending' ? 'border-red-500 ring-2 ring-red-500/30' : 'border-red-500/30 hover:border-red-500/60'}`}
+            >
+              <div className="absolute -right-3 -top-3 w-20 h-20 bg-red-500/10 rounded-full"></div>
+              <div className="relative">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-red-400">Caixas sem cliente</p>
+                  <div className="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center shrink-0">
+                    <Users className="w-4 h-4 text-red-400" />
+                  </div>
+                </div>
+                <p className="text-3xl font-extrabold tracking-tight">{comPendencia}</p>
+              </div>
+            </div>
         </div>
 
         
@@ -411,11 +427,14 @@ function BoxesContent() {
                 </select>
               </div>
               
-              <div className="flex items-end lg:col-span-3 xl:col-span-2">
-                <button type="submit" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-orange-600 hover:bg-orange-700 px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition active:scale-[0.98]">
+              <div className="flex items-end lg:col-span-3 xl:col-span-2 gap-3">
+                <button type="submit" className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-orange-600 hover:bg-orange-700 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition active:scale-[0.98]">
                   <Search className="h-4 w-4" />
                   Filtrar
                 </button>
+                <Link href="/admin/boxes" onClick={() => setQuickFilter("all")} className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 px-6 py-2.5 text-sm font-semibold text-zinc-300 shadow-sm transition active:scale-[0.98]">
+                  Limpar
+                </Link>
               </div>
             </form>
           )}

@@ -266,7 +266,7 @@ export default function CategoryListClient({
                               {category.products && category.products.length > 0 ? (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                   {category.products.map((product: any) => (
-                                    <div key={product.id} className="flex items-center gap-3 p-3 rounded-xl border border-zinc-800 bg-zinc-950/50 hover:border-zinc-700 transition">
+                                    <Link key={product.id} href={`/admin/store/products/${product.id}/edit`} className="flex items-center gap-3 p-3 rounded-xl border border-zinc-800 bg-zinc-950/50 hover:border-amber-500/50 hover:bg-zinc-900 transition cursor-pointer">
                                       {product.main_image ? (
                                         <img src={product.main_image} alt={product.name} className="w-12 h-12 rounded-lg object-cover bg-zinc-900 border border-zinc-800" />
                                       ) : (
@@ -278,7 +278,7 @@ export default function CategoryListClient({
                                         <p className="text-sm font-bold text-white truncate" title={product.name}>{product.name}</p>
                                         <p className="text-xs text-emerald-500 font-medium mt-0.5">R$ {product.price?.toFixed(2).replace('.', ',')}</p>
                                       </div>
-                                    </div>
+                                    </Link>
                                   ))}
                                 </div>
                               ) : (

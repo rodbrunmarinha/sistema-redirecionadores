@@ -30,6 +30,55 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
 
   if (!tenant) redirect("/admin/login");
 
+  const tenantId = tenant.id;
+
+  const { data: settings } = await supabase
+    .from('tenant_settings')
+    .select('currency')
+    .eq('tenant_id', tenantId)
+    .single();
+  const currency = settings?.currency || 'USD';
+
+  // 1. Orders
+  const { data: orders } = await supabase
+    .from('store_orders')
+    .select('id, total_amount, status, created_at, profiles(full_name)')
+    .eq('tenant_id', tenantId)
+    .order('created_at', { ascending: false });
+    
+  const allOrders = orders || [];
+  const totalSales = allOrders.filter(o => o.status !== 'CANCELLED').reduce((sum, order) => sum + Number(order.total_amount), 0);
+  const totalOrders = allOrders.length;
+  const pendingOrders = allOrders.filter(o => o.status === 'PENDING').length;
+  const recentOrders = allOrders.slice(0, 5);
+
+  // 2. Products
+  const { data: products } = await supabase
+    .from('store_products')
+    .select('id, name, price, stock_quantity, track_stock, main_image')
+    .eq('tenant_id', tenantId)
+    .order('created_at', { ascending: false });
+
+  const allProducts = products || [];
+  const totalProducts = allProducts.length;
+  const lowStockProducts = allProducts.filter(p => p.track_stock && p.stock_quantity <= 5).length;
+  const topProducts = allProducts.slice(0, 5);
+
+  // 3. Categories
+  const { count: totalCategories } = await supabase
+    .from('store_categories')
+    .select('*', { count: 'exact', head: true })
+    .eq('tenant_id', tenantId);
+
+  // 4. Coupons
+  const { count: totalCoupons } = await supabase
+    .from('store_coupons')
+    .select('*', { count: 'exact', head: true })
+    .eq('tenant_id', tenantId)
+    .eq('status', 'ACTIVE');
+
+
+
   return (
     <div className="min-h-screen bg-zinc-950 -m-8">
       {/* Header Banner */}
@@ -68,7 +117,7 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
                   <div className="flex items-center justify-between">
                       <div>
                           <p className="text-sm font-medium text-zinc-400">Vendas Totais</p>
-                          <p className="text-2xl font-bold text-white mt-1">¥0.00</p>
+                          <p className="text-2xl font-bold text-white mt-1">{new Intl.NumberFormat(currency === 'BRL' ? 'pt-BR' : 'en-US', { style: 'currency', currency: currency }).format(totalSales)}</p>
                           <p className="text-sm mt-1 text-green-500 flex items-center gap-1">
                               ↑ 0% vs mês anterior
                           </p>
@@ -84,8 +133,8 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
                   <div className="flex items-center justify-between">
                       <div>
                           <p className="text-sm font-medium text-zinc-400">Total de Pedidos</p>
-                          <p className="text-2xl font-bold text-white mt-1">0</p>
-                          <p className="text-sm text-zinc-500 mt-1">0 pendentes</p>
+                          <p className="text-2xl font-bold text-white mt-1">{totalOrders}</p>
+                          <p className="text-sm text-zinc-500 mt-1">{pendingOrders} pendentes</p>
                       </div>
                       <div className="w-12 h-12 bg-blue-500/10 border border-blue-500/20 rounded-xl flex items-center justify-center">
                           <ShoppingBag className="w-6 h-6 text-blue-500" />
@@ -98,8 +147,8 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
                   <div className="flex items-center justify-between">
                       <div>
                           <p className="text-sm font-medium text-zinc-400">Produtos</p>
-                          <p className="text-2xl font-bold text-white mt-1">0</p>
-                          <p className="text-sm text-zinc-500 mt-1">0 com estoque baixo</p>
+                          <p className="text-2xl font-bold text-white mt-1">{totalProducts}</p>
+                          <p className="text-sm text-zinc-500 mt-1">{lowStockProducts} com estoque baixo</p>
                       </div>
                       <div className="w-12 h-12 bg-purple-500/10 border border-purple-500/20 rounded-xl flex items-center justify-center">
                           <Package className="w-6 h-6 text-purple-500" />
@@ -131,10 +180,27 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
                           Ver todos <ArrowRight className="w-4 h-4" />
                       </Link>
                   </div>
-                  <div className="flex-1 flex flex-col justify-center divide-y divide-zinc-800 min-h-[200px]">
-                      <div className="p-8 text-center text-zinc-500">
-                          Nenhum pedido ainda
-                      </div>
+                  <div className="flex-1 flex flex-col min-h-[200px]">
+                      {recentOrders.length === 0 ? (
+                          <div className="p-8 text-center text-zinc-500 m-auto">
+                              Nenhum pedido ainda
+                          </div>
+                      ) : (
+                          <div className="divide-y divide-zinc-800">
+                              {recentOrders.map((order: any) => (
+                                  <Link href={`/admin/store/orders/${order.id}`} key={order.id} className="p-4 flex items-center justify-between hover:bg-zinc-800/50 transition cursor-pointer">
+                                      <div>
+                                          <p className="text-white font-medium">Pedido #{order.id.split('-')[0].toUpperCase()}</p>
+                                          <p className="text-zinc-400 text-sm">{Array.isArray(order.profiles) ? order.profiles[0]?.full_name : order.profiles?.full_name || "Cliente Desconhecido"}</p>
+                                      </div>
+                                      <div className="text-right">
+                                          <p className="text-white font-bold">{new Intl.NumberFormat(currency === 'BRL' ? 'pt-BR' : 'en-US', { style: 'currency', currency: currency }).format(Number(order.total_amount))}</p>
+                                          <span className="inline-flex items-center rounded-md bg-zinc-500/10 px-2 py-1 text-xs font-medium text-zinc-400 ring-1 ring-inset ring-zinc-500/20 mt-1">{order.status}</span>
+                                      </div>
+                                  </Link>
+                              ))}
+                          </div>
+                      )}
                   </div>
               </div>
 
@@ -146,10 +212,35 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
                           Ver todos <ArrowRight className="w-4 h-4" />
                       </Link>
                   </div>
-                  <div className="flex-1 flex flex-col justify-center divide-y divide-zinc-800 min-h-[200px]">
-                      <div className="p-8 text-center text-zinc-500">
-                          Nenhum produto vendido ainda
-                      </div>
+                  <div className="flex-1 flex flex-col min-h-[200px]">
+                      {topProducts.length === 0 ? (
+                          <div className="p-8 text-center text-zinc-500 m-auto">
+                              Nenhum produto cadastrado ainda
+                          </div>
+                      ) : (
+                          <div className="divide-y divide-zinc-800">
+                              {topProducts.map((product: any) => (
+                                  <Link href={`/admin/store/products/${product.id}/edit`} key={product.id} className="p-4 flex items-center gap-4 hover:bg-zinc-800/50 transition cursor-pointer">
+                                      {product.main_image ? (
+                                        <img src={product.main_image} alt={product.name} className="w-12 h-12 rounded-lg object-cover bg-zinc-900 border border-zinc-800 shrink-0" />
+                                      ) : (
+                                        <div className="w-12 h-12 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center shrink-0">
+                                          <Package className="w-5 h-5 text-zinc-600" />
+                                        </div>
+                                      )}
+                                      <div className="flex-1 min-w-0">
+                                          <p className="text-white font-medium truncate" title={product.name}>{product.name}</p>
+                                          <p className="text-zinc-400 text-sm">
+                                            {product.track_stock ? `${product.stock_quantity} em estoque` : "Estoque livre"}
+                                          </p>
+                                      </div>
+                                      <div className="text-right">
+                                          <p className="text-white font-bold">{new Intl.NumberFormat(currency === 'BRL' ? 'pt-BR' : 'en-US', { style: 'currency', currency: currency }).format(Number(product.price))}</p>
+                                      </div>
+                                  </Link>
+                              ))}
+                          </div>
+                      )}
                   </div>
               </div>
           </div>
@@ -161,7 +252,7 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
                       <Tags className="w-5 h-5 text-zinc-400 group-hover:text-amber-500 transition" />
                   </div>
                   <p className="font-semibold text-white">Categorias</p>
-                  <p className="text-sm text-zinc-500">0 cadastradas</p>
+                  <p className="text-sm text-zinc-500">{totalCategories || 0} cadastradas</p>
               </Link>
               
               <Link href={`/admin/store/products`} className="bg-zinc-900 rounded-xl border border-zinc-800 p-4 hover:border-zinc-600 hover:bg-zinc-800/50 transition group">
@@ -169,7 +260,7 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
                       <Package className="w-5 h-5 text-zinc-400 group-hover:text-amber-500 transition" />
                   </div>
                   <p className="font-semibold text-white">Produtos</p>
-                  <p className="text-sm text-zinc-500">0 cadastrados</p>
+                  <p className="text-sm text-zinc-500">{totalProducts || 0} cadastrados</p>
               </Link>
               
               <Link href={`/admin/store/orders`} className="bg-zinc-900 rounded-xl border border-zinc-800 p-4 hover:border-zinc-600 hover:bg-zinc-800/50 transition group">
@@ -177,7 +268,7 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
                       <ShoppingBag className="w-5 h-5 text-zinc-400 group-hover:text-amber-500 transition" />
                   </div>
                   <p className="font-semibold text-white">Pedidos</p>
-                  <p className="text-sm text-zinc-500">0 pendentes</p>
+                  <p className="text-sm text-zinc-500">{pendingOrders || 0} pendentes</p>
               </Link>
               
               <Link href={`/admin/coupons`} className="bg-zinc-900 rounded-xl border border-zinc-800 p-4 hover:border-zinc-600 hover:bg-zinc-800/50 transition group">
@@ -185,7 +276,7 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
                       <Ticket className="w-5 h-5 text-zinc-400 group-hover:text-amber-500 transition" />
                   </div>
                   <p className="font-semibold text-white">Cupons</p>
-                  <p className="text-sm text-zinc-500">0 ativos</p>
+                  <p className="text-sm text-zinc-500">{totalCoupons || 0} ativos</p>
               </Link>
 
               <Link href={`/admin/store/reviews`} className="bg-zinc-900 rounded-xl border border-zinc-800 p-4 hover:border-zinc-600 hover:bg-zinc-800/50 transition group">

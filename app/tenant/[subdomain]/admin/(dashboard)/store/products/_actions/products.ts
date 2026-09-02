@@ -3,6 +3,11 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
+
+function generateSKU() {
+  return "SKU-" + Date.now().toString(36).toUpperCase() + "-" + Math.random().toString(36).substring(2, 6).toUpperCase();
+}
+
 export async function getStoreCategories(tenantId: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -58,7 +63,7 @@ export async function createStoreProduct(tenantId: string, productData: any) {
     tenant_id: tenantId,
     category_id: productData.category_id || null,
     name: productData.name,
-    sku: productData.sku || null,
+    sku: (productData.sku && productData.sku.trim() !== "") ? productData.sku.trim() : generateSKU(),
     short_description: productData.short_description || null,
     full_description: productData.full_description || null,
     price: productData.price,
@@ -94,7 +99,7 @@ export async function createStoreProduct(tenantId: string, productData: any) {
       tenant_id: tenantId,
       product_id: product.id,
       name: v.name,
-      sku: v.sku || null,
+      sku: (v.sku && v.sku.trim() !== "") ? v.sku.trim() : generateSKU(),
       stock_quantity: v.stock || 0,
       price: v.price ? parseFloat(v.price) : null
     }));
@@ -183,7 +188,7 @@ export async function updateStoreProduct(tenantId: string, productId: string, pr
   const updateData: any = {
     category_id: productData.category_id || null,
     name: productData.name,
-    sku: productData.sku || null,
+    sku: (productData.sku && productData.sku.trim() !== "") ? productData.sku.trim() : generateSKU(),
     short_description: productData.short_description || null,
     full_description: productData.full_description || null,
     price: productData.price,
@@ -235,7 +240,7 @@ export async function updateStoreProduct(tenantId: string, productId: string, pr
         tenant_id: tenantId,
         product_id: productId,
         name: v.name,
-        sku: v.sku || null,
+        sku: (v.sku && v.sku.trim() !== "") ? v.sku.trim() : generateSKU(),
         stock_quantity: v.stock_quantity || 0,
         price: v.price ? parseFloat(v.price) : null
       }));
