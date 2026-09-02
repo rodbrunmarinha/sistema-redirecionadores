@@ -95,6 +95,7 @@ export default function Register() {
       email,
       password,
       options: {
+        emailRedirectTo: `${window.location.protocol}//${subdomain}.${window.location.host}/admin/login`,
         data: {
           full_name: fullName,
         }
