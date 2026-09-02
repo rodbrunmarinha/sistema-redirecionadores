@@ -18,15 +18,20 @@ export default async function StoreCategoriesPage(props: { params: Promise<{ sub
 
   if (!tenant) redirect("/admin/login");
 
-  // Fetch categories with product count
-  // Since we don't have parent_id, is_active, sort_order in our basic schema, we will mock them in the UI.
+  // Fetch categories with products
   const { data: categories, error } = await supabase
     .from('store_categories')
     .select(`
       id,
       name,
       created_at,
-      store_products (count)
+      store_products (
+        id,
+        name,
+        main_image,
+        price,
+        is_active
+      )
     `)
     .eq('tenant_id', tenant.id)
     .order('created_at', { ascending: false });
@@ -35,10 +40,11 @@ export default async function StoreCategoriesPage(props: { params: Promise<{ sub
     console.error("Error fetching categories:", error);
   }
 
-  // Format the counts
+  // Format the counts and products
   const formattedCategories = categories?.map(cat => ({
     ...cat,
-    products_count: cat.store_products[0]?.count || 0,
+    products_count: cat.store_products?.length || 0,
+    products: cat.store_products || [],
     is_active: true, // mock
     sort_order: 0, // mock
     parent_id: null, // mock

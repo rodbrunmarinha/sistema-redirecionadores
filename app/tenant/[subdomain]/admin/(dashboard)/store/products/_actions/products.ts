@@ -269,3 +269,44 @@ export async function deleteStoreProduct(tenantId: string, productId: string) {
   revalidatePath(`/tenant/[subdomain]/admin/store/products`, "page");
   return { success: true };
 }
+export async function updateStoreCategory(tenantId: string, categoryId: string, name: string) {
+  const supabase = await createClient();
+  
+  if (!name || name.trim() === "") {
+    return { error: "Nome da categoria é obrigatório." };
+  }
+
+  const { data, error } = await supabase
+    .from("store_categories")
+    .update({ name: name.trim() })
+    .eq("id", categoryId)
+    .eq("tenant_id", tenantId)
+    .select("id, name")
+    .single();
+
+  if (error) {
+    console.error("Error updating category:", error);
+    return { error: "Erro ao atualizar categoria." };
+  }
+
+  revalidatePath("/tenant/[subdomain]/admin/store/categories", "page");
+  return { data };
+}
+
+export async function deleteStoreCategory(tenantId: string, categoryId: string) {
+  const supabase = await createClient();
+  
+  const { error } = await supabase
+    .from("store_categories")
+    .delete()
+    .eq("id", categoryId)
+    .eq("tenant_id", tenantId);
+
+  if (error) {
+    console.error("Error deleting category:", error);
+    return { error: "Erro ao excluir categoria. Ela pode estar em uso." };
+  }
+
+  revalidatePath("/tenant/[subdomain]/admin/store/categories", "page");
+  return { success: true };
+}

@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import Link from 'next/link';
 import { 
-  ChevronRight, Tags, CheckCircle2, Layers, FolderTree, Edit, Trash2, Plus
+  ChevronRight, Tags, CheckCircle2, Layers, FolderTree, Edit, Trash2, Plus, X, Info, ChevronDown, ChevronUp, Package
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { createStoreCategory, updateStoreCategory, deleteStoreCategory } from '../products/_actions/products';
 
 export default function CategoryListClient({ 
   tenantId, 
@@ -17,6 +18,19 @@ export default function CategoryListClient({
   initialCategories?: any[] 
 }) {
   const [categories, setCategories] = useState(initialCategories);
+  const [isPending, startTransition] = useTransition();
+
+  // Modal states
+  const [showModal, setShowModal] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<any>(null);
+  const [categoryName, setCategoryName] = useState('');
+
+  // Expand states
+  const [expandedCats, setExpandedCats] = useState<Record<string, boolean>>({});
+
+  const toggleExpand = (id: string) => {
+    setExpandedCats(prev => ({ ...prev, [id]: !prev[id] }));
+  };
 
   // Computed stats
   const totalCategories = categories.length;
@@ -24,13 +38,52 @@ export default function CategoryListClient({
   const mainCategories = categories.filter(c => !c.parent_id).length;
   const subCategories = categories.filter(c => c.parent_id).length;
 
+  const handleOpenModal = (category: any = null) => {
+    setEditingCategory(category);
+    setCategoryName(category ? category.name : '');
+    setShowModal(true);
+  };
+
+  const handleSaveCategory = () => {
+    if (!categoryName.trim()) {
+      toast.error('O nome da categoria é obrigatório.');
+      return;
+    }
+    startTransition(async () => {
+      if (editingCategory) {
+        const res = await updateStoreCategory(tenantId, editingCategory.id, categoryName);
+        if (res.error) {
+          toast.error(res.error);
+        } else if (res.data) {
+          toast.success('Categoria atualizada com sucesso!');
+          setCategories(categories.map(c => c.id === editingCategory.id ? { ...c, name: res.data.name } : c));
+          setShowModal(false);
+        }
+      } else {
+        const res = await createStoreCategory(tenantId, categoryName);
+        if (res.error) {
+          toast.error(res.error);
+        } else if (res.data) {
+          toast.success('Categoria criada com sucesso!');
+          setCategories([...categories, { ...res.data, is_active: true, parent_id: null }]);
+          setShowModal(false);
+        }
+      }
+    });
+  };
+
   const handleDelete = async (id: string) => {
     if (!window.confirm('Tem certeza que deseja excluir esta categoria?')) return;
     
-    // Fake deletion for now since we don't have the action here yet,
-    // but we can update state to reflect UI change.
-    toast.success('Categoria excluída (Simulação)');
-    setCategories(categories.filter(c => c.id !== id));
+    startTransition(async () => {
+      const res = await deleteStoreCategory(tenantId, id);
+      if (res.error) {
+        toast.error(res.error);
+      } else {
+        toast.success('Categoria excluída com sucesso!');
+        setCategories(categories.filter(c => c.id !== id));
+      }
+    });
   };
 
   return (
@@ -56,10 +109,10 @@ export default function CategoryListClient({
               </div>
             </div>
             
-            <Link href={`/admin/store/categories/create`} className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-zinc-950 font-bold rounded-xl transition shadow-lg active:scale-95 text-sm shrink-0">
+            <button onClick={() => handleOpenModal()} className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-zinc-950 font-bold rounded-xl transition shadow-lg active:scale-95 text-sm shrink-0">
               <Plus className="w-4 h-4 shrink-0" />
               Nova Categoria
-            </Link>
+            </button>
           </div>
         </div>
       </div>
@@ -141,57 +194,104 @@ export default function CategoryListClient({
                   </tr>
                 ) : (
                   categories.map(category => (
-                    <tr key={category.id} className="hover:bg-zinc-800/50 transition">
-                      <td className="px-4 sm:px-6 py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-zinc-800 rounded-xl overflow-hidden flex-shrink-0 border border-zinc-700 flex items-center justify-center">
-                            <Tags className="w-5 h-5 text-zinc-500" />
+                    <React.Fragment key={category.id}>
+                      <tr 
+                        className={`hover:bg-zinc-800/50 transition cursor-pointer ${expandedCats[category.id] ? 'bg-zinc-800/30' : ''}`}
+                        onClick={() => toggleExpand(category.id)}
+                      >
+                        <td className="px-4 sm:px-6 py-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-zinc-800 rounded-xl overflow-hidden flex-shrink-0 border border-zinc-700 flex items-center justify-center">
+                              <Tags className="w-5 h-5 text-amber-500" />
+                            </div>
+                            <div>
+                              <p className="font-semibold text-white text-base">
+                                {category.name}
+                              </p>
+                              <p className="text-xs text-zinc-500">{category.slug}</p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="font-semibold text-white text-base">
-                              {category.name}
-                            </p>
-                            <p className="text-xs text-zinc-500">{category.slug}</p>
+                        </td>
+                        <td className="px-4 sm:px-6 py-4 hidden sm:table-cell text-zinc-500">
+                          {category.parent_id || '-'}
+                        </td>
+                        <td className="px-4 sm:px-6 py-4 text-center hidden sm:table-cell">
+                          <span className="inline-flex items-center justify-center min-w-[2rem] px-2 h-8 rounded-lg text-sm font-bold bg-zinc-800 text-amber-500 border border-zinc-700">
+                            {category.products_count}
+                          </span>
+                        </td>
+                        <td className="px-4 sm:px-6 py-4 text-center">
+                          <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold ${category.is_active ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                            {category.is_active ? <CheckCircle2 className="w-3.5 h-3.5" /> : null}
+                            {category.is_active ? 'Ativo' : 'Inativo'}
+                          </span>
+                        </td>
+                        <td className="px-4 sm:px-6 py-4 text-center hidden sm:table-cell">
+                          <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-sm font-semibold bg-zinc-800 text-zinc-400">
+                            {category.sort_order}
+                          </span>
+                        </td>
+                        <td className="px-4 sm:px-6 py-4">
+                          <div className="flex items-center justify-end gap-1 sm:gap-2">
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); handleOpenModal(category); }}
+                              className="p-2.5 text-zinc-400 hover:text-amber-500 hover:bg-zinc-800 rounded-xl transition"
+                              title="Editar"
+                            >
+                              <Edit className="w-5 h-5" />
+                            </button>
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); handleDelete(category.id); }}
+                              className="p-2.5 text-zinc-400 hover:text-red-500 hover:bg-zinc-800 rounded-xl transition"
+                              title="Excluir"
+                            >
+                              <Trash2 className="w-5 h-5" />
+                            </button>
+                            <button className="p-2.5 text-zinc-400 hover:text-white rounded-xl transition">
+                              {expandedCats[category.id] ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+                            </button>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-4 sm:px-6 py-4 hidden sm:table-cell text-zinc-500">
-                        {category.parent_id || '-'}
-                      </td>
-                      <td className="px-4 sm:px-6 py-4 text-center hidden sm:table-cell">
-                        <span className="inline-flex items-center justify-center min-w-[2rem] px-2 h-8 rounded-lg text-sm font-bold bg-zinc-800 text-amber-500 border border-zinc-700">
-                          {category.products_count}
-                        </span>
-                      </td>
-                      <td className="px-4 sm:px-6 py-4 text-center">
-                        <span className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold ${category.is_active ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
-                          {category.is_active ? <CheckCircle2 className="w-3.5 h-3.5" /> : null}
-                          {category.is_active ? 'Ativo' : 'Inativo'}
-                        </span>
-                      </td>
-                      <td className="px-4 sm:px-6 py-4 text-center hidden sm:table-cell">
-                        <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg text-sm font-semibold bg-zinc-800 text-zinc-400">
-                          {category.sort_order}
-                        </span>
-                      </td>
-                      <td className="px-4 sm:px-6 py-4">
-                        <div className="flex items-center justify-end gap-1 sm:gap-2">
-                          <button 
-                            className="p-2.5 text-zinc-400 hover:text-amber-500 hover:bg-zinc-800 rounded-xl transition"
-                            title="Editar"
-                          >
-                            <Edit className="w-5 h-5" />
-                          </button>
-                          <button 
-                            onClick={() => handleDelete(category.id)}
-                            className="p-2.5 text-zinc-400 hover:text-red-500 hover:bg-zinc-800 rounded-xl transition"
-                            title="Excluir"
-                          >
-                            <Trash2 className="w-5 h-5" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
+                        </td>
+                      </tr>
+                      {/* Expanded Products Row */}
+                      {expandedCats[category.id] && (
+                        <tr>
+                          <td colSpan={6} className="p-0 border-t-0">
+                            <div className="px-6 py-6 bg-zinc-900/50 border-y border-zinc-800 shadow-inner">
+                              <div className="flex items-center gap-2 mb-4">
+                                <Package className="w-4 h-4 text-amber-500" />
+                                <h4 className="text-sm font-bold text-white">Produtos nesta categoria ({category.products_count})</h4>
+                              </div>
+                              
+                              {category.products && category.products.length > 0 ? (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                  {category.products.map((product: any) => (
+                                    <div key={product.id} className="flex items-center gap-3 p-3 rounded-xl border border-zinc-800 bg-zinc-950/50 hover:border-zinc-700 transition">
+                                      {product.main_image ? (
+                                        <img src={product.main_image} alt={product.name} className="w-12 h-12 rounded-lg object-cover bg-zinc-900 border border-zinc-800" />
+                                      ) : (
+                                        <div className="w-12 h-12 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center">
+                                          <Package className="w-5 h-5 text-zinc-600" />
+                                        </div>
+                                      )}
+                                      <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-bold text-white truncate" title={product.name}>{product.name}</p>
+                                        <p className="text-xs text-emerald-500 font-medium mt-0.5">R$ {product.price?.toFixed(2).replace('.', ',')}</p>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <div className="flex flex-col items-center justify-center py-8 text-zinc-500 bg-zinc-950/30 rounded-xl border border-zinc-800/50 border-dashed">
+                                  <Package className="w-8 h-8 mb-2 opacity-50" />
+                                  <p className="text-sm">Nenhum produto cadastrado nesta categoria.</p>
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
                   ))
                 )}
               </tbody>
@@ -200,6 +300,67 @@ export default function CategoryListClient({
         </div>
 
       </div>
+
+      {/* Category Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setShowModal(false)}></div>
+          <div className="relative bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="p-5 border-b border-zinc-800 flex items-center justify-between">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <Tags className="w-5 h-5 text-amber-500" />
+                {editingCategory ? 'Editar Categoria' : 'Nova Categoria'}
+              </h3>
+              <button onClick={() => setShowModal(false)} className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-xl transition">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-5 space-y-4">
+              <div>
+                <label className="flex items-center gap-2 text-sm font-bold text-white mb-2">
+                  Nome da Categoria *
+                </label>
+                <input 
+                  type="text" 
+                  className="w-full px-4 py-3 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" 
+                  placeholder="Ex: Roupas" 
+                  value={categoryName} 
+                  onChange={e => setCategoryName(e.target.value)} 
+                  onKeyDown={e => e.key === 'Enter' && handleSaveCategory()} 
+                  autoFocus
+                />
+              </div>
+
+              {!editingCategory && (
+                <div className="bg-blue-500/10 border border-blue-500/20 text-blue-400 p-4 rounded-xl flex items-start gap-3 text-sm">
+                  <Info className="w-5 h-5 shrink-0" />
+                  <p>A categoria ficará disponível para ser associada a qualquer produto.</p>
+                </div>
+              )}
+            </div>
+
+            <div className="p-5 bg-zinc-800/50 border-t border-zinc-800 flex items-center justify-end gap-3">
+              <button 
+                type="button" 
+                onClick={() => setShowModal(false)} 
+                className="px-5 py-2.5 rounded-xl font-bold text-zinc-300 hover:text-white hover:bg-zinc-700 transition-colors border border-transparent hover:border-zinc-700"
+              >
+                Cancelar
+              </button>
+              <button 
+                type="button" 
+                onClick={handleSaveCategory} 
+                disabled={isPending} 
+                className="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-zinc-950 font-bold rounded-xl flex items-center gap-2 transition-colors disabled:opacity-50"
+              >
+                {isPending ? 'Salvando...' : 'Salvar'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
