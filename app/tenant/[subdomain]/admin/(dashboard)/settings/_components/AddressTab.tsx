@@ -21,7 +21,7 @@ export function AddressTab({ data, onChange }: { data?: any, onChange?: (data: a
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-zinc-300 mb-1">Nome / Aos Cuidados de</label>
-            <input type="text" value={data?.name || ""} onChange={e => onChange?.({...data, name: e.target.value})} placeholder="Ex: Cndck Hub" className="w-full bg-zinc-900 border border-zinc-700 text-zinc-100 rounded-lg px-3 py-2 text-sm focus:ring-amber-500 focus:border-amber-500" />
+            <input type="text" value={data?.name || ""} onChange={e => onChange?.({...data, name: e.target.value})} placeholder="Ex: Dock Drop" className="w-full bg-zinc-900 border border-zinc-700 text-zinc-100 rounded-lg px-3 py-2 text-sm focus:ring-amber-500 focus:border-amber-500" />
           </div>
 
           <div className="md:col-span-2">

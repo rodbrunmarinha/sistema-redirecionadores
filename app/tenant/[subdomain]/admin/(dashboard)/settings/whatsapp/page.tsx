@@ -125,7 +125,7 @@ export default function WhatsAppQRPage(props: { params: Promise<{ subdomain: str
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-300">
-      {/* Header with Cndck Hub signature orange gradient */}
+      {/* Header with Dock Drop signature orange gradient */}
       <div className="relative overflow-hidden bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 shadow-lg shadow-orange-500/20">
         <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-white/10 pointer-events-none"></div>
         <div className="absolute -bottom-16 -left-8 w-64 h-64 rounded-full bg-white/5 pointer-events-none"></div>

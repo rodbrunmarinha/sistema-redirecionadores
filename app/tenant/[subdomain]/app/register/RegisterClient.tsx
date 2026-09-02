@@ -383,7 +383,7 @@ export default function RegisterClient({ organizationName, subdomain, themeColor
                 </p>
                 
                 <p className="text-xs text-zinc-400 mt-2">
-                  Powered by <span className="font-semibold text-zinc-600">Cndck Hub</span>
+                  Powered by <span className="font-semibold text-zinc-600">Dock Drop</span>
                 </p>
               </div>
             </div>

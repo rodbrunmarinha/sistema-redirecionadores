@@ -30,7 +30,7 @@ export default async function AdminLayout(props: { children: ReactNode, params: 
     redirect("/app/login");
   }
 
-  const organizationName = tenant.organization_name || "Cndck Hub";
+  const organizationName = tenant.organization_name || "Dock Drop";
 
   const settings = await getTenantSettings(subdomain);
   

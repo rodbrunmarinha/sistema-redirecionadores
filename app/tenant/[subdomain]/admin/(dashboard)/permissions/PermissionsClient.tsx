@@ -255,7 +255,7 @@ export default function PermissionsClient({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950 text-zinc-100">
-      {/* Cabeçalho igual à Cndck Hub Premium */}
+      {/* Cabeçalho igual à Dock Drop Premium */}
       <div className="relative overflow-hidden bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 shadow-lg shadow-orange-500/10">
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
           <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-white/10 blur-xl"></div>

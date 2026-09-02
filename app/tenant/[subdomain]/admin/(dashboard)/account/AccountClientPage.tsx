@@ -327,7 +327,7 @@ export default function AccountClientPage({ tenant, profile, subdomain }: { tena
                   <div className="bg-gradient-to-r from-orange-600 to-amber-600 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <h3 className="text-2xl font-bold text-white">Starter</h3>
-                      <p className="text-orange-100/80">Assinatura Mensal Cndck Hub</p>
+                      <p className="text-orange-100/80">Assinatura Mensal Dock Drop</p>
                     </div>
                     <div className="sm:text-right">
                       <div className="text-3xl font-bold text-white">R$ 368,79</div>

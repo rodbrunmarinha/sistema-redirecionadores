@@ -38,6 +38,7 @@ export default function CreateBoxClient({ clients }: { clients: ClientType[] }) 
   // Formulário Local State
   const [tracking, setTracking] = useState(initialTracking);
   const [selectedClient, setSelectedClient] = useState<ClientType | null>(() => clients.find(c => c.id === initialCustomerId) || null);
+  const [chooseLater, setChooseLater] = useState(false);
   const [clientSearch, setClientSearch] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
@@ -122,13 +123,15 @@ export default function CreateBoxClient({ clients }: { clients: ClientType[] }) 
     const formData = new FormData(e.currentTarget);
     
     // Verifica se selecionou o cliente
-    if (!selectedClient) {
-      toast.error("Por favor, selecione um cliente.");
+    if (!selectedClient && !chooseLater) {
+      toast.error("Por favor, selecione um cliente ou marque a opção 'Escolher mais tarde'.");
       setLoading(false);
       return;
     }
     
-    formData.set("client_id", selectedClient.id);
+    if (selectedClient && !chooseLater) {
+      formData.set("client_id", selectedClient.id);
+    }
     
     const res = await createBoxByAdmin(formData);
     
@@ -269,11 +272,29 @@ export default function CreateBoxClient({ clients }: { clients: ClientType[] }) 
               <h3 className="font-bold text-white mb-4 flex items-center gap-2">
                 1. Cliente
               </h3>
-              <label className="block text-sm font-semibold text-zinc-300 mb-2">
-                Selecione o Cliente <span className="text-red-500">*</span>
-              </label>
               
-              <div className="relative">
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-semibold text-zinc-300">
+                  Selecione o Cliente {!chooseLater && <span className="text-red-500">*</span>}
+                </label>
+                <label className="flex items-center gap-2 text-sm text-zinc-400 cursor-pointer hover:text-white transition-colors">
+                  <input 
+                    type="checkbox" 
+                    className="rounded border-zinc-700 bg-zinc-900/50 text-amber-500 focus:ring-amber-500/20"
+                    checked={chooseLater}
+                    onChange={(e) => {
+                      setChooseLater(e.target.checked);
+                      if (e.target.checked) {
+                        setSelectedClient(null);
+                        setClientSearch("");
+                      }
+                    }}
+                  />
+                  Escolher mais tarde
+                </label>
+              </div>
+              
+              <div className={`relative ${chooseLater ? 'opacity-50 pointer-events-none' : ''}`}>
                 <input 
                   type="text" 
                   value={selectedClient ? selectedClient.label : clientSearch}

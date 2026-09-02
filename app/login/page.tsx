@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -43,7 +43,7 @@ export default function Login() {
               </svg>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-white tracking-tight">Cndck Hub</h1>
+          <h1 className="text-3xl font-bold text-white tracking-tight">Dock Drop</h1>
           <p className="text-sm text-zinc-400">Entre com suas credenciais para acessar a plataforma.</p>
         </div>
 
@@ -77,7 +77,7 @@ export default function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                 className="w-full px-4 py-3 rounded-lg border border-zinc-700 bg-zinc-900 text-white focus:ring-2 focus:ring-brand-orange focus:border-transparent transition-all outline-none placeholder:text-zinc-600"
               />
             </div>
@@ -99,7 +99,7 @@ export default function Login() {
             
             <div className="pt-4 text-center">
               <p className="text-center text-sm text-zinc-500 mt-8">
-                Ainda não tem uma conta? <a href="/register" className="text-amber-500 hover:text-orange-500 font-medium transition-colors">Criar conta</a>
+                Ainda nÃ£o tem uma conta? <a href="/register" className="text-amber-500 hover:text-orange-500 font-medium transition-colors">Criar conta</a>
               </p>
             </div>
           </form>
@@ -108,7 +108,7 @@ export default function Login() {
         {/* Footer Section */}
         <div className="bg-zinc-800/50 px-8 py-4 border-t border-zinc-700 text-center">
           <p className="text-xs text-zinc-500">
-            Powered by <span className="font-semibold text-zinc-400">Cndck Hub</span>
+            Powered by <span className="font-semibold text-zinc-400">Dock Drop</span>
           </p>
         </div>
       </div>

@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { createAdminClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
@@ -33,8 +33,8 @@ export async function createBoxByAdmin(formData: FormData) {
     const notes = formData.get("notes") as string;
     const pre_alert_id = formData.get("pre_alert_id") as string;
     
-    if (!customer_id || !tracking_number) {
-      return { error: "Cliente e Rastreio são obrigatórios." };
+    if (!tracking_number) {
+      return { error: "O Rastreio é obrigatório." };
     }
 
     const supabaseAdmin = createAdminClient();
@@ -72,7 +72,7 @@ export async function createBoxByAdmin(formData: FormData) {
       .from('boxes')
       .insert({
         tenant_id: tenantId,
-        customer_id: customer_id,
+        customer_id: customer_id || null,
         tracking_number: tracking_number,
         store_name: store_name || null,
         store_location: store_location || null,

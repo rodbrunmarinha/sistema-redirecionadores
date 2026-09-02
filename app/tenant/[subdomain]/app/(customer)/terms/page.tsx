@@ -22,7 +22,7 @@ export default function TermsPage() {
         </h3>
         
         <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-2 mb-8 max-w-lg mx-auto">
-          Este serviço ainda não publicou termos de uso próprios. Você pode consultar os termos e a política da plataforma Cndck Hub abaixo.
+          Este serviço ainda não publicou termos de uso próprios. Você pode consultar os termos e a política da plataforma Dock Drop abaixo.
         </p>
         
         <div className="flex flex-wrap items-center justify-center gap-4 text-sm">

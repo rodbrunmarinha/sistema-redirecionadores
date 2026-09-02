@@ -40,7 +40,7 @@ export default async function CustomerLayout(props: { children: ReactNode, param
     redirect("/app/login");
   }
 
-  const organizationName = tenant.organization_name || "Cndck Hub";
+  const organizationName = tenant.organization_name || "Dock Drop";
 
   // Obter Perfil garantindo que o token JWT seja enviado no header para o RLS
   const { data: profile, error: profileError } = await supabase
@@ -132,15 +132,15 @@ export default async function CustomerLayout(props: { children: ReactNode, param
               <div className="w-6 h-6 rounded-md bg-violet-600 flex items-center justify-center">
                 <span className="text-white text-[10px]">CH</span>
               </div>
-              Cndck Hub
+              Dock Drop
             </div>
             <div className="border-l border-zinc-300 pl-4">
-              <p className="font-semibold text-zinc-700">Powered by Cndck Hub</p>
+              <p className="font-semibold text-zinc-700">Powered by Dock Drop</p>
               <p className="text-xs">Sistema de Gestão para Redirecionadores</p>
             </div>
           </div>
           <div className="text-right">
-            <p>© 2026 Cndck Hub. Todos os direitos reservados.</p>
+            <p>© 2026 Dock Drop. Todos os direitos reservados.</p>
             <div className="flex gap-3 justify-end mt-1 text-xs">
               <a href="#" className="hover:text-zinc-900 transition-colors">cndck.com.br</a>
               <span>•</span>

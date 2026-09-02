@@ -93,7 +93,7 @@ export default async function SupportTicketsPage(props: {
   return (
     <div className="min-h-screen bg-gradient-to-br from-zinc-950 via-zinc-900 to-zinc-950">
       
-      {/* Header Premium Cndck Hub (Laranja/Amber) */}
+      {/* Header Premium Dock Drop (Laranja/Amber) */}
       <div className="relative overflow-hidden bg-gradient-to-r from-amber-600 via-orange-600 to-amber-600 shadow-lg shadow-orange-500/10">
         <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full bg-white/10 pointer-events-none blur-xl"></div>
         <div className="absolute -bottom-16 -left-8 w-64 h-64 rounded-full bg-white/5 pointer-events-none blur-2xl"></div>

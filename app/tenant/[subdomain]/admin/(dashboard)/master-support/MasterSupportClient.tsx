@@ -161,7 +161,7 @@ export default function MasterSupportClient({ tickets, stats, subdomain, initial
               activeTab === 'faq' ? 'bg-zinc-800 shadow-sm text-white' : 'text-zinc-500 hover:text-zinc-300'
             }`}
           >
-            FAQ Cndck Hub
+            FAQ Dock Drop
           </button>
           <button 
             onClick={() => setActiveTab('tickets')} 
