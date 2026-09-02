@@ -32,7 +32,7 @@ export function OperationsTab({ data, onChange }: { data?: any, onChange?: (data
   const weightUnit = data?.weightUnit ?? 'kg';
   const setWeightUnit = (val: string) => onChange?.({ ...data, weightUnit: val });
   
-  const currency = data?.currency ?? 'JPY';
+  const currency = data?.currency ?? 'USD';
   const setCurrency = (val: string) => onChange?.({ ...data, currency: val });
   
   const language = data?.language ?? 'pt-BR';

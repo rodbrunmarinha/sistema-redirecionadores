@@ -4,6 +4,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import QRCode from "react-qr-code";
 import { usePermissions } from "@/app/providers/PermissionsProvider";
 import { deleteBoxByAdmin } from "@/app/actions/deleteBoxByAdmin";
 import { deleteProductByAdmin } from "@/app/actions/deleteProductByAdmin";
@@ -596,13 +597,8 @@ export default function BoxDetailsClient({ box, initialProducts, initialMovement
               <p className="text-xs text-gray-600 mb-4 font-mono font-bold">CAIXA: {box.id.substring(0,6).toUpperCase()}</p>
               
               <div className="flex justify-center mb-2">
-                 {/* QR Code Placeholder */}
-                 <div className="w-24 h-24 border-4 border-black p-1 flex items-center justify-center">
-                   <div className="grid grid-cols-3 grid-rows-3 gap-1 w-full h-full">
-                     <div className="bg-black"></div><div className="bg-white"></div><div className="bg-black"></div>
-                     <div className="bg-white"></div><div className="bg-black"></div><div className="bg-black"></div>
-                     <div className="bg-black"></div><div className="bg-black"></div><div className="bg-white"></div>
-                   </div>
+                 <div className="w-24 h-24 flex items-center justify-center bg-white p-1 border-2 border-black rounded-lg">
+                   <QRCode value={box.id} size={80} level="M" />
                  </div>
               </div>
               <p className="font-mono text-[10px] font-bold text-gray-800 tracking-widest mt-2">{labelProduct.id.toUpperCase()}</p>

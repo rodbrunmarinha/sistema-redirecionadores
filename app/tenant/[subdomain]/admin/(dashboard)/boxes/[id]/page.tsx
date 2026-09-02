@@ -1,52 +1,59 @@
 import { Suspense } from "react";
-import ClientBoxesClient from "./ClientBoxesClient";
+import BoxDetailsClient from "./BoxDetailsClient";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
-export default async function ClientBoxesPage(props: {
+export default async function BoxDetailsPage(props: {
   params: Promise<{ subdomain: string; id: string }>;
 }) {
-  const { id } = await props.params;
+  const { id: boxId, subdomain } = await props.params;
+  const supabase = await createClient();
 
-  // Dummy data based on the provided HTML layout.
-  // In a real scenario, fetch this from Supabase using the `id` and `subdomain`.
-  const dummyClient = {
-    id: id,
-    name: "Bruno de Souza",
-    email: "rodbrun_dragon@hotmail.com",
-    suite: "Suíte 1001",
-    initials: "B",
-    status: "active",
-  };
+  // 1. Fetch tenant ID
+  const { data: tenant } = await supabase
+    .from("tenants")
+    .select("id")
+    .eq("subdomain", subdomain)
+    .single();
 
-  const dummyBoxes = [
-    {
-      id: "6332",
-      date: "27/08/2026 12:59",
-      tracking: "STORE-ORD-6A905ECEB7CFD",
-      store: "Loja Virtual",
-      location: null,
-      products: [
-        { image: "https://gabisdaily.boxsuite.com.br/storage/received-products/rp_6a905ecebe4ec.jpg", isBox: false }
-      ],
-      weight: "1,600 kg"
-    },
-    {
-      id: "5874",
-      date: "23/08/2026 20:07",
-      tracking: "PROD123456",
-      store: "Mercari",
-      location: "A-01-01",
-      products: [
-        { image: "https://gabisdaily.boxsuite.com.br/storage/received-boxes/YfOPd46O8szMMFl5wCpr5UwhaO4MSYnz7RrPfikK.png", isBox: true },
-        { image: "https://gabisdaily.boxsuite.com.br/storage/received-products/xns1Her9CbztXRu8g8qfedOQP1a6sO8wBvuqbpZY.webp", isBox: false },
-        { image: "https://gabisdaily.boxsuite.com.br/storage/received-products/dUhVJzWz2mAhCNEd8MWBf0NymUlIvxxjqRbu925L.png", isBox: false }
-      ],
-      weight: "3,380 kg"
-    }
-  ];
+  if (!tenant) redirect("/admin/login");
+
+  // 2. Fetch Box with Customer
+  const { data: box } = await supabase
+    .from("boxes")
+    .select(`
+      *,
+      customer:profiles!boxes_customer_id_fkey (
+        id,
+        full_name,
+        email,
+        suite_number
+      )
+    `)
+    .eq("id", boxId)
+    .eq("tenant_id", tenant.id)
+    .single();
+
+  if (!box) redirect(`/admin/boxes`);
+
+  // 3. Fetch Products in this Box
+  const { data: products } = await supabase
+    .from("products")
+    .select("*")
+    .eq("box_id", boxId)
+    .eq("tenant_id", tenant.id);
+
+  // 4. Fetch Box Movements (if applicable)
+  const { data: movements } = await supabase
+    .from("warehouse_movements")
+    .select("*")
+    .eq("box_id", boxId)
+    .eq("tenant_id", tenant.id)
+    .order("created_at", { ascending: false });
 
   return (
-    <Suspense fallback={<div className="p-8 text-zinc-400 flex justify-center items-center h-full">Carregando caixas...</div>}>
-      <ClientBoxesClient client={dummyClient} boxes={dummyBoxes} />
+    <Suspense fallback={<div className="p-8 text-zinc-400 flex justify-center items-center h-full">Carregando detalhes da caixa...</div>}>
+      <BoxDetailsClient box={box} initialProducts={products || []} initialMovements={movements || []} />
     </Suspense>
   );
 }

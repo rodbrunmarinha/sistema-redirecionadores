@@ -27,12 +27,19 @@ export default async function CreateProductPage({
       customer:customer_id ( full_name, suite_number )
     `)
     .eq("id", box_id)
-    .is("deleted_at", null)
     .single();
 
   if (!box) {
     notFound();
   }
 
-  return <CreateProductClient box={box} />;
+  const { data: settings } = await supabase
+    .from("tenant_settings")
+    .select("currency")
+    .eq("tenant_id", box.tenant_id)
+    .single();
+    
+  const currency = settings?.currency || "USD";
+
+  return <CreateProductClient box={box} currency={currency} />;
 }

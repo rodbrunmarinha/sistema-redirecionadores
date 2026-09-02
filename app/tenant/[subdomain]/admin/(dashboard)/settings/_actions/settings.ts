@@ -61,7 +61,7 @@ export async function updateTenantSettings(tenantId: string, payload: any, subdo
     return { success: false, error: error.message };
   }
 
-  revalidatePath(`/tenant/${subdomain}/admin/settings`);
+  revalidatePath(`/tenant/${subdomain}`, 'layout');
   
   return { success: true };
 }

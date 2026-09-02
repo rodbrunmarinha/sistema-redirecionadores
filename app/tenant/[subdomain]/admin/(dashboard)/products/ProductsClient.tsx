@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import QRCode from "react-qr-code";
 import { PackageOpen, Search, Package, AlertTriangle, Image as ImageIcon, X, Printer, LayoutGrid, List, Edit2, Trash2 } from "lucide-react";
 import { deleteProductByAdmin } from "@/app/actions/deleteProductByAdmin";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -437,12 +438,8 @@ export default function ProductsClient({ initialProducts, tenantSettings }: { in
               <p className="text-xs text-gray-600 mb-1">Dock {labelModal.product.customer?.suite_number}</p>
               <p className="text-xs text-gray-600 mb-4 font-mono font-bold">CAIXA: {labelModal.product.box_id.substring(0,6).toUpperCase()}</p>
               <div className="flex justify-center mb-2">
-                 <div className="w-24 h-24 border-4 border-black p-1 flex items-center justify-center">
-                   <div className="grid grid-cols-3 grid-rows-3 gap-1 w-full h-full">
-                     <div className="bg-black"></div><div className="bg-white"></div><div className="bg-black"></div>
-                     <div className="bg-white"></div><div className="bg-black"></div><div className="bg-black"></div>
-                     <div className="bg-black"></div><div className="bg-black"></div><div className="bg-white"></div>
-                   </div>
+                 <div className="w-24 h-24 flex items-center justify-center bg-white p-1 border-2 border-black rounded-lg">
+                   <QRCode value={labelModal.product.barcode || labelModal.product.id} size={80} level="M" />
                  </div>
               </div>
               <p className="font-mono text-[10px] font-bold text-gray-800 tracking-widest mt-2">{labelModal.product.code || ('ID-'+labelModal.product.id.substring(0,6).toUpperCase())}</p>

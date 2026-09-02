@@ -5,10 +5,13 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createProductByAdmin } from "@/app/actions/createProductByAdmin";
+import QRCode from "react-qr-code";
 import { Package, Camera, Info, X, Printer, AlertTriangle } from "lucide-react";
+import { useTenantSettings } from "../../../../app/(customer)/components/TenantSettingsContext";
 
-export default function CreateProductClient({ box }: { box: any }) {
+export default function CreateProductClient({ box, currency = "USD" }: { box: any, currency?: string }) {
   const router = useRouter();
+  const { currencySymbol } = useTenantSettings();
   
   const [barcode, setBarcode] = useState("");
   const [name, setName] = useState("");
@@ -232,13 +235,13 @@ export default function CreateProductClient({ box }: { box: any }) {
                 <input type="text" value={weightDisplay} onChange={handleWeightChange} placeholder="0,000" required className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:ring-2 focus:ring-purple-500 outline-none text-lg font-semibold" />
               </div>
             </div>
-            <div className="mt-6 pt-6 border-t border-zinc-800">
-              <label className="block text-sm font-semibold text-zinc-300 mb-2">Valor Declarado USD (Opcional)</label>
-              <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 font-semibold">$</span>
-                <input type="text" value={pricePaid} onChange={handlePriceChange} placeholder="0.00" className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-9 pr-4 py-3 text-white focus:ring-2 focus:ring-purple-500 outline-none" />
+              <div className="mt-6 pt-6 border-t border-zinc-800">
+                <label className="block text-sm font-semibold text-zinc-300 mb-2">Valor Declarado ({currencySymbol === 'R$' ? 'BRL' : currencySymbol === '€' ? 'EUR' : 'USD'}) (Opcional)</label>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 font-semibold">{currencySymbol}</span>
+                  <input type="text" value={pricePaid} onChange={handlePriceChange} placeholder="0.00" className="w-full bg-zinc-950 border border-zinc-800 rounded-xl pl-9 pr-4 py-3 text-white focus:ring-2 focus:ring-amber-500 outline-none" />
+                </div>
               </div>
-            </div>
           </div>
         </div>
 
@@ -337,12 +340,8 @@ export default function CreateProductClient({ box }: { box: any }) {
               <p className="text-xs text-gray-600 mb-1">Dock {box.customer?.suite_number}</p>
               <p className="text-xs text-gray-600 mb-4 font-mono font-bold">CAIXA: {box.id.substring(0,6).toUpperCase()}</p>
               <div className="flex justify-center mb-2">
-                 <div className="w-24 h-24 border-4 border-black p-1 flex items-center justify-center">
-                   <div className="grid grid-cols-3 grid-rows-3 gap-1 w-full h-full">
-                     <div className="bg-black"></div><div className="bg-white"></div><div className="bg-black"></div>
-                     <div className="bg-white"></div><div className="bg-black"></div><div className="bg-black"></div>
-                     <div className="bg-black"></div><div className="bg-black"></div><div className="bg-white"></div>
-                   </div>
+                 <div className="w-24 h-24 flex items-center justify-center bg-white p-1 border-2 border-black rounded-lg">
+                   <QRCode value={barcode} size={80} level="M" />
                  </div>
               </div>
               <p className="font-mono text-[10px] font-bold text-gray-800 tracking-widest mt-2">{barcode}</p>
