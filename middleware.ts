@@ -39,7 +39,7 @@ export async function middleware(req: NextRequest) {
   // A simple way is to remove the base domain
   const baseDomain = isLocal 
     ? (hostname.includes(':') ? `localhost:${hostname.split(':')[1]}` : 'localhost')
-    : 'cndck.com.br' // Change this to your production domain later
+    : 'dockdrop.com.br' // Fixed to the actual production domain
     
   let subdomain = null;
   
