@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import { Mail, Lock, Eye, EyeOff, Check, Package, Globe, Loader2 } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, Check, Package, Globe, Loader2, AlertTriangle } from "lucide-react";
 
-export default function LoginClient({ organizationName, themeColor = "amber" }: { organizationName: string, themeColor?: string }) {
+export default function LoginClient({ organizationName, themeColor = "amber", initialError }: { organizationName: string, themeColor?: string, initialError?: string }) {
   const themeStyles: Record<string, any> = {
     amber: { panel: "bg-amber-500", circle: "bg-amber-600", text: "text-amber-100", ring: "focus:ring-amber-500/20", border: "focus:border-amber-500", button: "bg-amber-500 hover:bg-amber-600 shadow-amber-500/25", link: "text-amber-600", checkbox: "text-amber-600 focus:ring-amber-600" },
     blue: { panel: "bg-blue-500", circle: "bg-blue-600", text: "text-blue-100", ring: "focus:ring-blue-500/20", border: "focus:border-blue-500", button: "bg-blue-500 hover:bg-blue-600 shadow-blue-500/25", link: "text-blue-600", checkbox: "text-blue-600 focus:ring-blue-600" },
@@ -22,6 +22,12 @@ export default function LoginClient({ organizationName, themeColor = "amber" }: 
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (initialError === 'cross_tenant_forbidden') {
+      setError("Esta conta pertence a outra loja. Por favor, acesse a loja onde você se cadastrou.");
+    }
+  }, [initialError]);
   
   const router = useRouter();
   const supabase = createClient();

@@ -32,19 +32,30 @@ export default async function CustomerLayout(props: { children: ReactNode, param
   // Obter Tenant
   const { data: tenant } = await supabase
     .from('tenants')
-    .select('organization_name')
+    .select('id, organization_name')
     .eq('subdomain', subdomain)
     .single();
 
-  const organizationName = tenant?.organization_name || "Cndck Hub";
+  if (!tenant) {
+    redirect("/app/login");
+  }
+
+  const organizationName = tenant.organization_name || "Cndck Hub";
 
   // Obter Perfil garantindo que o token JWT seja enviado no header para o RLS
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
-    .select('full_name, suite_number')
+    .select('full_name, suite_number, tenant_id')
     .eq('id', user.id)
     .setHeader('Authorization', `Bearer ${session.access_token}`)
     .maybeSingle();
+
+  // Bloqueio rigoroso de Tenant cruzado
+  if (profile && profile.tenant_id !== tenant.id) {
+    // O usuário pertence a outro tenant. Vamos forçar o logout e redirecionar.
+    await supabase.auth.signOut();
+    redirect("/app/login?error=cross_tenant_forbidden");
+  }
 
   console.log("=== RLS OFICIAL ===");
   console.log("User ID Node:", user.id);
