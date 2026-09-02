@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+import { toast } from "react-hot-toast";
 import { 
   ChevronRight, 
   ArrowLeft, 
@@ -138,6 +140,62 @@ export default function ProductEditClient({ product, categories: initialCategori
     setMarkedForRemoval(newSet);
   };
 
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>, isMain: boolean = false) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    
+    const validImages = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if (validImages.length !== files.length) {
+      toast.error('Apenas arquivos de imagem são permitidos!');
+    }
+    
+    const validSizedImages = validImages.filter(f => f.size <= 5 * 1024 * 1024);
+    if (validSizedImages.length !== validImages.length) {
+      toast.error('Algumas imagens excederam o limite de 5MB e foram ignoradas.');
+    }
+
+    if (validSizedImages.length === 0) return;
+
+    const supabase = createClient();
+    toast.loading(isMain ? 'Enviando imagem principal...' : `Enviando ${validSizedImages.length} imagem(ns)...`, { id: 'upload-toast' });
+
+    const uploadedUrls: string[] = [];
+
+    for (const file of validSizedImages) {
+       const fileExt = file.name.split('.').pop();
+       const fileName = `${tenantId}/${Date.now()}-${Math.random().toString(36).substring(2,9)}.${fileExt}`;
+       
+       const { error: uploadError } = await supabase.storage
+         .from('products')
+         .upload(fileName, file);
+
+       if (uploadError) {
+         console.error('Upload erro:', uploadError);
+         toast.error(`Falha ao enviar ${file.name}`);
+         continue;
+       }
+
+       const { data: { publicUrl } } = supabase.storage
+         .from('products')
+         .getPublicUrl(fileName);
+       
+       uploadedUrls.push(publicUrl);
+    }
+
+    toast.dismiss('upload-toast');
+    if (uploadedUrls.length > 0) {
+      if (isMain) {
+        setImagePreview(uploadedUrls[0]);
+        toast.success('Imagem principal pronta para salvar!');
+      } else {
+        setGalleryPreviews(prev => [...prev, ...uploadedUrls.map(url => ({ name: 'Nova imagem', url }))]);
+        toast.success(`${uploadedUrls.length} imagem(ns) pronta(s)!`);
+      }
+    }
+    
+    e.target.value = '';
+  };
+
   const calculateMargin = () => {
     if (priceValue > 0 && costValue >= 0) {
       return ((priceValue - costValue) / priceValue * 100).toFixed(1);
@@ -188,6 +246,13 @@ export default function ProductEditClient({ product, categories: initialCategori
     setIsSubmitting(true);
     
     try {
+      const currentGalleryUrls = product.galleryImages
+         .filter(img => !markedForRemoval.has(img.id))
+         .map(img => img.url);
+      
+      const newGalleryUrls = galleryPreviews.map(p => p.url);
+      const finalGalleryImages = [...currentGalleryUrls, ...newGalleryUrls];
+
       const productData = {
         name,
         sku: sku || null,
@@ -206,15 +271,17 @@ export default function ProductEditClient({ product, categories: initialCategori
         track_stock: trackStock,
         allow_backorders: allowBackorders,
         has_variations: hasVariationsEnabled,
-        variations: hasVariationsEnabled ? variationRows : []
+        variations: hasVariationsEnabled ? variationRows : [],
+        main_image: imagePreview || undefined,
+        gallery_images: finalGalleryImages
       };
       
       const res = await updateStoreProduct(tenantId, product.id, productData);
       
       if (res.error) {
-        alert(res.error);
+        toast.error(res.error);
       } else {
-        // Success
+        toast.success("Produto salvo com sucesso!");
         router.push(`/admin/store/products`);
         router.refresh();
       }
@@ -595,10 +662,7 @@ export default function ProductEditClient({ product, categories: initialCategori
                     )}
                     
                     <div className="flex-1 space-y-2 w-full">
-                      <input type="file" accept="image/*" onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) setImagePreview(URL.createObjectURL(file));
-                      }} className="w-full px-4 py-3.5 border-2 border-zinc-800 bg-zinc-950 text-zinc-300 rounded-xl focus:ring-2 focus:ring-amber-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-zinc-800 file:text-zinc-100 hover:file:bg-zinc-700" />
+                      <input type="file" accept="image/*" onChange={(e) => handleUploadImage(e, true)} className="w-full px-4 py-3.5 border-2 border-zinc-800 bg-zinc-950 text-zinc-300 rounded-xl focus:ring-2 focus:ring-amber-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-zinc-800 file:text-zinc-100 hover:file:bg-zinc-700" />
                       <div className="bg-zinc-950 border border-zinc-800 rounded-lg p-3">
                         <p className="text-xs text-zinc-400 flex items-start gap-2">
                           <AlertTriangle className="w-4 h-4 shrink-0 text-amber-500" />
@@ -645,10 +709,7 @@ export default function ProductEditClient({ product, categories: initialCategori
                     </>
                   )}
 
-                  <input type="file" multiple accept="image/*" onChange={(e) => {
-                    const files = Array.from(e.target.files || []);
-                    setGalleryPreviews(files.map(f => ({ name: f.name, url: URL.createObjectURL(f) })));
-                  }} className="w-full px-4 py-3.5 border-2 border-zinc-800 bg-zinc-950 text-zinc-300 rounded-xl focus:ring-2 focus:ring-amber-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-zinc-800 file:text-zinc-100 hover:file:bg-zinc-700" />
+                  <input type="file" multiple accept="image/*" onChange={(e) => handleUploadImage(e, false)} className="w-full px-4 py-3.5 border-2 border-zinc-800 bg-zinc-950 text-zinc-300 rounded-xl focus:ring-2 focus:ring-amber-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-zinc-800 file:text-zinc-100 hover:file:bg-zinc-700" />
                   
                   {galleryPreviews.length > 0 && (
                     <div className="mt-4 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4">

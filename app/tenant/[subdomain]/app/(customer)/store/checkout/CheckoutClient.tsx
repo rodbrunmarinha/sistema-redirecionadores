@@ -4,11 +4,11 @@ import React, { useState, useTransition, useEffect } from 'react';
 import Link from 'next/link';
 import { 
   ChevronRight, Package, Wallet, CreditCard, ShieldCheck, 
-  Check, Info, FileText
+  Check, Info, FileText, Ticket
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { checkoutStoreCart } from './_actions/checkout';
+import { checkoutStoreCart, validateCoupon } from './_actions/checkout';
 import { useCart } from '@/utils/store/useCart';
 
 type CartItem = {
@@ -41,6 +41,9 @@ export default function CheckoutClient({
   const [walletError, setWalletError] = useState<string | null>(null);
   const [notes, setNotes] = useState('');
   const [isPending, startTransition] = useTransition();
+  const [couponCode, setCouponCode] = useState('');
+  const [isApplyingCoupon, setIsApplyingCoupon] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState<{code: string, discount: number} | null>(null);
 
   // Handle client-side hydration issues with persist
   const [isMounted, setIsMounted] = useState(false);
@@ -91,7 +94,34 @@ export default function CheckoutClient({
     }).format(value);
   };
 
-  const total = subtotal;
+  const total = Math.max(0, subtotal - (appliedCoupon?.discount || 0));
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    
+    setIsApplyingCoupon(true);
+    try {
+      const res = await validateCoupon(subdomain, couponCode, subtotal);
+      if (res.success && res.discount !== undefined) {
+        setAppliedCoupon({ code: res.code, discount: res.discount });
+        toast.success(`Cupom aplicado! Desconto de ${formatCurrency(res.discount)}`);
+      } else {
+        setAppliedCoupon(null);
+        toast.error(res.error || 'Cupom inválido.');
+      }
+    } catch (err) {
+      setAppliedCoupon(null);
+      toast.error('Erro ao validar cupom.');
+    } finally {
+      setIsApplyingCoupon(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode('');
+    toast.success('Cupom removido.');
+  };
 
   const handleCheckout = (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,7 +133,8 @@ export default function CheckoutClient({
     startTransition(async () => {
       const payload = {
         items: cartItems.map(item => ({ product_id: item.id, quantity: item.quantity })),
-        notes: notes
+        notes: notes,
+        coupon_code: appliedCoupon?.code
       };
       
       const res = await checkoutStoreCart(subdomain, payload);
@@ -329,12 +360,57 @@ export default function CheckoutClient({
                   ))}
                 </div>
 
+                {/* Coupon Input */}
+                <div className="pt-6 pb-2">
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <Ticket className="h-5 w-5 text-zinc-400" />
+                      </div>
+                      <input
+                        type="text"
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                        disabled={!!appliedCoupon || isApplyingCoupon}
+                        placeholder="Cupom de desconto"
+                        className="block w-full pl-10 pr-3 py-2 border border-zinc-200 dark:border-zinc-700 rounded-lg bg-zinc-50 dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-500 focus:ring-amber-500 focus:border-amber-500 sm:text-sm disabled:opacity-60"
+                      />
+                    </div>
+                    {appliedCoupon ? (
+                      <button
+                        type="button"
+                        onClick={removeCoupon}
+                        className="px-4 py-2 border border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium hover:bg-red-100 dark:hover:bg-red-900/40 transition"
+                      >
+                        Remover
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleApplyCoupon}
+                        disabled={!couponCode.trim() || isApplyingCoupon}
+                        className="px-4 py-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg text-sm font-medium hover:bg-zinc-800 dark:hover:bg-zinc-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isApplyingCoupon ? 'Aplicando' : 'Aplicar'}
+                      </button>
+                    )}
+                  </div>
+                </div>
+
                 {/* Totals */}
                 <div className="space-y-3 py-6 border-b border-zinc-200 dark:border-zinc-800">
                   <div className="flex justify-between text-zinc-600 dark:text-zinc-400 font-medium">
                     <span>Subtotal</span>
                     <span>{formatCurrency(subtotal)}</span>
                   </div>
+                  
+                  {appliedCoupon && (
+                    <div className="flex justify-between text-emerald-600 dark:text-emerald-500 font-medium">
+                      <span>Desconto ({appliedCoupon.code})</span>
+                      <span>-{formatCurrency(appliedCoupon.discount)}</span>
+                    </div>
+                  )}
+
                   <div className="flex justify-between text-zinc-600 dark:text-zinc-400 font-medium">
                     <span>Frete p/ Suíte</span>
                     <span className="text-emerald-600 dark:text-emerald-500 font-bold">Grátis</span>

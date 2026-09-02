@@ -5,8 +5,9 @@ import { createStoreCategory, createStoreProduct } from '../_actions/products';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { createClient } from '@/utils/supabase/client';
 import { 
-  ArrowLeft, Plus, ChevronRight, X, Check, Info
+  ArrowLeft, Plus, ChevronRight, X, Check, Info, Trash2
 } from 'lucide-react';
 
 export default function ProductCreateClient({ tenantId, initialCategories }: { tenantId: string, initialCategories: any[] }) {
@@ -45,9 +46,76 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
   const [trackStock, setTrackStock] = useState(true);
   const [allowBackorders, setAllowBackorders] = useState(false);
 
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>, isMain: boolean = false) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    
+    // Regra de segurança: Apenas imagens
+    const validImages = Array.from(files).filter(f => f.type.startsWith('image/'));
+    if (validImages.length !== files.length) {
+      toast.error('Apenas arquivos de imagem são permitidos!');
+    }
+    
+    // Regra de segurança: max 5MB
+    const validSizedImages = validImages.filter(f => f.size <= 5 * 1024 * 1024);
+    if (validSizedImages.length !== validImages.length) {
+      toast.error('Algumas imagens excederam o limite de 5MB e foram ignoradas.');
+    }
+
+    if (validSizedImages.length === 0) return;
+
+    const supabase = createClient();
+    toast.loading(isMain ? 'Enviando imagem principal...' : `Enviando ${validSizedImages.length} imagem(ns)...`, { id: 'upload-toast' });
+
+    const uploadedUrls: string[] = [];
+
+    for (const file of validSizedImages) {
+       const fileExt = file.name.split('.').pop();
+       // Regra de segurança: isolamento de Tenant no storage path
+       const fileName = `${tenantId}/${Date.now()}-${Math.random().toString(36).substring(2,9)}.${fileExt}`;
+       
+       const { error: uploadError } = await supabase.storage
+         .from('products')
+         .upload(fileName, file);
+
+       if (uploadError) {
+         console.error('Upload erro:', uploadError);
+         toast.error(`Falha ao enviar ${file.name}`);
+         continue;
+       }
+
+       const { data: { publicUrl } } = supabase.storage
+         .from('products')
+         .getPublicUrl(fileName);
+       
+       uploadedUrls.push(publicUrl);
+    }
+
+    toast.dismiss('upload-toast');
+    if (uploadedUrls.length > 0) {
+      if (isMain) {
+        setMainImage(uploadedUrls[0]);
+        toast.success('Imagem principal atualizada!');
+      } else {
+        setGalleryImages(prev => [...prev, ...uploadedUrls]);
+        toast.success(`${uploadedUrls.length} imagem(ns) adicionada(s) à galeria!`);
+      }
+    }
+    
+    // Clear the input so it can be used again without visual confusion
+    e.target.value = '';
+  };
+
+  const removeGalleryImage = (index: number) => {
+    setGalleryImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const numPrice = Number(price.toString().replace(',', '.')) || 0;
+  const numCost = Number(cost?.toString().replace(',', '.')) || 0;
+
   const calculateMargin = () => {
-    if (price > 0 && cost >= 0) {
-      const margin = ((price - cost) / price) * 100;
+    if (numPrice > 0 && numCost >= 0) {
+      const margin = ((numPrice - numCost) / numPrice) * 100;
       return margin.toFixed(1);
     }
     return '0.0';
@@ -72,7 +140,7 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
 
   const handleSaveProduct = () => {
     if (!name.trim()) return toast.error("O nome é obrigatório");
-    if (price <= 0) return toast.error("O preço é obrigatório e deve ser maior que zero");
+    if (numPrice <= 0) return toast.error("O preço é obrigatório e deve ser maior que zero");
     
     startTransition(async () => {
       const payload = {
@@ -93,7 +161,9 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
         track_stock: trackStock,
         allow_backorders: allowBackorders,
         has_variations: hasVariations,
-        variations: hasVariations ? variations : []
+        variations: hasVariations ? variations : [],
+        main_image: mainImage,
+        gallery_images: galleryImages
       };
 
       const res = await createStoreProduct(tenantId, payload);
@@ -112,6 +182,10 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
           setWeight(0);
           setHasVariations(false);
           setVariations([]);
+          setMainImage(null);
+          setGalleryImages([]);
+          // Reset file inputs visually
+          document.querySelectorAll('input[type=file]').forEach(el => (el as HTMLInputElement).value = '');
         } else {
           router.push('/admin/store/products');
         }
@@ -257,7 +331,7 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
                   </div>
                   <div className="rounded-xl bg-zinc-800/80 p-3 border border-zinc-700">
                     <div className="text-xs uppercase tracking-wide text-zinc-500">Preço de Venda *</div>
-                    <div className="mt-1 font-semibold text-white">$ {price.toFixed(2)}</div>
+                    <div className="mt-1 font-semibold text-white">$ {numPrice.toFixed(2)}</div>
                   </div>
                   <div className="rounded-xl bg-zinc-800/80 p-3 border border-zinc-700">
                     <div className="text-xs uppercase tracking-wide text-zinc-500">Imagem Principal</div>
@@ -516,12 +590,21 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
                     <span className="text-lg">⭐</span> Imagem Principal
                   </label>
                   <div className="flex flex-col sm:flex-row items-start gap-4">
-                    <div className="w-32 h-32 bg-zinc-800 rounded-2xl flex items-center justify-center border-2 border-dashed border-zinc-600 flex-shrink-0 relative overflow-hidden">
-                      <span className="text-5xl">🖼️</span>
+                    <div className="w-32 h-32 bg-zinc-800 rounded-2xl flex items-center justify-center border-2 border-dashed border-zinc-600 flex-shrink-0 relative overflow-hidden group">
+                      {mainImage ? (
+                        <>
+                          <img src={mainImage} alt="Principal" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <span className="text-white text-xs font-bold">Alterar</span>
+                          </div>
+                        </>
+                      ) : (
+                        <span className="text-5xl">🖼️</span>
+                      )}
                     </div>
                     <div className="flex-1 space-y-3 w-full">
                       <div className="relative">
-                        <input type="file" accept="image/*" className="w-full px-4 py-3 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-zinc-700 file:text-zinc-300 hover:file:bg-zinc-600 cursor-pointer" />
+                        <input type="file" accept="image/*" onChange={(e) => handleUploadImage(e, true)} className="w-full px-4 py-3 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-zinc-700 file:text-zinc-300 hover:file:bg-zinc-600 cursor-pointer" />
                       </div>
                       <div className="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-4 py-3 rounded-xl text-sm flex items-start gap-2">
                         <Info className="w-5 h-5 shrink-0" />
@@ -535,16 +618,35 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
                   <label className="flex items-center gap-2 text-sm font-bold text-white mb-3">
                     <span className="text-lg">🎨</span> Galeria de Imagens
                   </label>
-                  <input type="file" multiple accept="image/*" className="w-full px-4 py-3 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-zinc-700 file:text-zinc-300 hover:file:bg-zinc-600 cursor-pointer" />
+                  <input type="file" multiple accept="image/*" onChange={(e) => handleUploadImage(e, false)} className="w-full px-4 py-3 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-zinc-700 file:text-zinc-300 hover:file:bg-zinc-600 cursor-pointer" />
                   
                   <div className="mt-4 bg-zinc-800/50 border border-zinc-700 rounded-2xl p-4">
                     <div className="flex justify-between items-center mb-3">
-                      <h4 className="font-bold text-white text-sm">Novas imagens selecionadas</h4>
-                      <span className="text-xs text-zinc-400">Selecionadas: 0</span>
+                      <h4 className="font-bold text-white text-sm">Imagens na galeria</h4>
+                      <span className="text-xs text-zinc-400">Total: {galleryImages.length}</span>
                     </div>
-                    <div className="flex flex-wrap gap-3">
-                       <p className="text-zinc-500 text-sm">Nenhuma imagem extra selecionada.</p>
-                    </div>
+                    
+                    {galleryImages.length > 0 ? (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                        {galleryImages.map((imgUrl, idx) => (
+                          <div key={idx} className="relative group rounded-xl overflow-hidden bg-zinc-950 border border-zinc-700 aspect-square">
+                            <img src={imgUrl} alt={`Galeria ${idx + 1}`} className="w-full h-full object-cover" />
+                            <button 
+                              type="button" 
+                              onClick={() => removeGalleryImage(idx)}
+                              className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
+                              title="Remover imagem"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex flex-wrap gap-3">
+                        <p className="text-zinc-500 text-sm">Nenhuma imagem extra selecionada.</p>
+                      </div>
+                    )}
                   </div>
                   <p className="text-xs text-zinc-500 mt-2">Selecione múltiplas imagens para mostrar diferentes ângulos do produto</p>
                 </div>

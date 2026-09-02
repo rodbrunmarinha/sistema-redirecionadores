@@ -73,9 +73,8 @@ export async function createStoreProduct(tenantId: string, productData: any) {
     track_stock: productData.track_stock,
     allow_backorders: productData.allow_backorders,
     has_variations: productData.has_variations,
-    // main_image and gallery_images will be handled later when we implement upload
-    main_image: null,
-    gallery_images: []
+    main_image: productData.main_image || null,
+    gallery_images: productData.gallery_images || []
   };
 
   const { data: product, error: productError } = await supabase
@@ -181,7 +180,7 @@ export async function updateStoreProduct(tenantId: string, productId: string, pr
     return { error: "O preço deve ser maior ou igual a zero." };
   }
 
-  const updateData = {
+  const updateData: any = {
     category_id: productData.category_id || null,
     name: productData.name,
     sku: productData.sku || null,
@@ -201,6 +200,13 @@ export async function updateStoreProduct(tenantId: string, productId: string, pr
     has_variations: productData.has_variations,
     updated_at: new Date().toISOString(),
   };
+
+  if (productData.main_image !== undefined) {
+    updateData.main_image = productData.main_image;
+  }
+  if (productData.gallery_images !== undefined) {
+    updateData.gallery_images = productData.gallery_images;
+  }
 
   const { error: productError } = await supabase
     .from("store_products")

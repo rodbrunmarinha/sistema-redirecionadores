@@ -1747,3 +1747,66 @@ CREATE POLICY "Staff can delete warehouse movements" ON public.warehouse_movemen
     );
 
 
+
+-- ==========================================
+-- STORAGE POLICIES (products bucket)
+-- ==========================================
+
+-- Create the products bucket if it doesn't exist
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('products', 'products', true)
+ON CONFLICT (id) DO UPDATE SET public = true;
+
+-- Permitir acesso publico para visualizar as imagens
+CREATE POLICY "Public Access for products" 
+ON storage.objects FOR SELECT USING ( bucket_id = 'products' );
+
+-- Permitir que usuarios autenticados enviem arquivos
+CREATE POLICY "Auth Upload to products" 
+ON storage.objects FOR INSERT TO authenticated WITH CHECK ( bucket_id = 'products' );
+
+-- Permitir que usuarios autenticados apaguem arquivos
+CREATE POLICY "Auth Delete from products" 
+ON storage.objects FOR DELETE TO authenticated USING ( bucket_id = 'products' );
+
+-- Permitir que usuarios autenticados atualizem arquivos
+CREATE POLICY "Auth Update in products" 
+ON storage.objects FOR UPDATE TO authenticated USING ( bucket_id = 'products' );
+
+-- ==========================================
+-- COUPONS
+-- ==========================================
+CREATE TABLE IF NOT EXISTS public.store_coupons (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
+    code VARCHAR(50) NOT NULL,
+    discount_type VARCHAR(20) NOT NULL, -- 'PERCENTAGE' or 'FIXED'
+    discount_value DECIMAL(10, 2) NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE', -- 'ACTIVE', 'INACTIVE', 'EXPIRED'
+    
+    -- Eligibility
+    customer_eligibility VARCHAR(20) NOT NULL DEFAULT 'ALL', -- 'ALL', 'VIP_ONLY', 'SPECIFIC_CUSTOMERS'
+    eligible_customer_ids UUID[], -- Array of client IDs if eligibility is SPECIFIC_CUSTOMERS
+    
+    -- Restrictions & Limits
+    min_purchase_amount DECIMAL(10, 2),
+    usage_limit INTEGER, -- Total times it can be used
+    usage_count INTEGER DEFAULT 0,
+    start_date TIMESTAMP WITH TIME ZONE,
+    end_date TIMESTAMP WITH TIME ZONE,
+    
+    -- Scopes (where can it be applied?)
+    applies_to_shipping BOOLEAN DEFAULT true,
+    applies_to_store BOOLEAN DEFAULT true,
+    applies_to_extra_services BOOLEAN DEFAULT true,
+
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+
+    UNIQUE (tenant_id, code)
+);
+
+ALTER TABLE public.store_coupons ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Tenant isolation for coupons" ON public.store_coupons
+    FOR ALL USING (tenant_id = public.get_auth_user_tenant(auth.uid()));
