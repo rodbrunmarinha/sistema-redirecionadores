@@ -199,7 +199,7 @@ export default function ProductEditClient({ product, categories: initialCategori
         cost: Number(costValue),
         stock_quantity: Number(stockQuantity),
         max_per_customer: maxPerCustomer ? Number(maxPerCustomer) : null,
-        weight_kg: Number(weight),
+        weight_kg: Number(weight.toString().replace(',', '.')),
         sort_order: Number(sortOrder),
         is_active: isActive,
         is_featured: isFeatured,
@@ -541,7 +541,7 @@ export default function ProductEditClient({ product, categories: initialCategori
                       <Scale className="w-4 h-4 text-zinc-500" />
                       Peso (kg) *
                     </label>
-                    <input type="number" step="0.001" value={weight} onChange={e => setWeight(Number(e.target.value))} required className="w-full px-4 py-3.5 border-2 border-zinc-800 bg-zinc-950 text-zinc-100 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="0.000" />
+                    <input type="text" inputMode="decimal" value={weight} onChange={e => setWeight(e.target.value as any)} required className="w-full px-4 py-3.5 border-2 border-zinc-800 bg-zinc-950 text-zinc-100 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="0,000" />
                   </div>
 
                   {/* Sort Order */}

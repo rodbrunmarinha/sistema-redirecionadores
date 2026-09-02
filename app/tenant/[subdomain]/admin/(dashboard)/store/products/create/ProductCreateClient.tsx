@@ -81,12 +81,12 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
         category_id: categoryId || null,
         short_description: shortDesc,
         full_description: fullDesc,
-        price,
-        compare_at_price: comparePrice || null,
-        cost: cost || null,
+        price: Number(price.toString().replace(',', '.')),
+        compare_at_price: comparePrice ? Number(comparePrice.toString().replace(',', '.')) : null,
+        cost: cost ? Number(cost.toString().replace(',', '.')) : null,
         stock_quantity: stock,
         max_per_customer: maxPerCustomer || null,
-        weight_kg: weight,
+        weight_kg: Number(weight.toString().replace(',', '.')),
         sort_order: sortOrder,
         is_active: isActive,
         is_featured: isFeatured,
@@ -391,7 +391,7 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
                     </label>
                     <div className="relative">
                       <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 font-bold text-lg">¥</span>
-                      <input type="number" step="0.01" value={price || ''} onChange={(e) => setPrice(Number(e.target.value))} className="w-full pl-10 pr-4 py-3.5 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-lg font-semibold" placeholder="0.00" />
+                      <input type="text" inputMode="decimal" value={price || ''} onChange={(e) => setPrice(e.target.value as any)} className="w-full pl-10 pr-4 py-3.5 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all text-lg font-semibold" placeholder="0,00" />
                     </div>
                   </div>
 
@@ -403,7 +403,7 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
                         </label>
                         <div className="relative">
                           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 font-bold">¥</span>
-                          <input type="number" step="0.01" className="w-full pl-10 pr-4 py-3.5 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="0.00" value={comparePrice || ''} onChange={(e) => setComparePrice(Number(e.target.value))} />
+                          <input type="text" inputMode="decimal" className="w-full pl-10 pr-4 py-3.5 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="0,00" value={comparePrice || ''} onChange={(e) => setComparePrice(e.target.value as any)} />
                         </div>
                       </div>
                       <div>
@@ -412,7 +412,7 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
                         </label>
                         <div className="relative">
                           <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 font-bold">¥</span>
-                          <input type="number" step="0.01" value={cost || ''} onChange={(e) => setCost(Number(e.target.value))} className="w-full pl-10 pr-4 py-3.5 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="0.00" />
+                          <input type="text" inputMode="decimal" value={cost || ''} onChange={(e) => setCost(e.target.value as any)} className="w-full pl-10 pr-4 py-3.5 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="0,00" />
                         </div>
                       </div>
                     </>
@@ -484,7 +484,7 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
                     <label className="flex items-center gap-2 text-sm font-bold text-white mb-2">
                       <span className="text-lg">⚖️</span> Peso (kg) <span className="text-amber-500">*</span>
                     </label>
-                    <input type="number" step="0.001" className="w-full px-4 py-3.5 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="0.000" value={weight || ''} onChange={e => setWeight(Number(e.target.value))} />
+                    <input type="text" inputMode="decimal" className="w-full px-4 py-3.5 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all" placeholder="0,000" value={weight || ''} onChange={e => setWeight(e.target.value as any)} />
                   </div>
 
                   {(showAdvanced || !quickMode) && (
