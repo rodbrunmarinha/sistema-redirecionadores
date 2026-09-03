@@ -12,12 +12,14 @@ export default function StoreFrontClient({
   tenant, 
   subdomain, 
   categories, 
-  products 
+  products,
+  currentCategoryId
 }: { 
   tenant: any, 
   subdomain: string, 
   categories: any[], 
-  products: any[] 
+  products: any[],
+  currentCategoryId?: string
 }) {
   const [search, setSearch] = useState('');
   const [cartOpen, setCartOpen] = useState(false);
@@ -119,11 +121,11 @@ export default function StoreFrontClient({
         {/* Categories Nav */}
         <nav className="border-t border-zinc-100 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center gap-1 overflow-x-auto scrollbar-none py-1.5">
-            <Link href={`/app/store`} className="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-semibold transition text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+            <Link href={`/app/store`} className={`shrink-0 px-3.5 py-1.5 rounded-full text-sm font-semibold transition ${!currentCategoryId ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-white' : 'text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}>
               Todos os produtos
             </Link>
             {categories.map(cat => (
-              <Link key={cat.id} href={`/app/store/category/${cat.id}`} className="shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium transition text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+              <Link key={cat.id} href={`/app/store/category/${cat.id}`} className={`shrink-0 px-3.5 py-1.5 rounded-full text-sm font-medium transition ${currentCategoryId === cat.id ? 'bg-zinc-100 text-zinc-900 dark:bg-zinc-800 dark:text-white' : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'}`}>
                 {cat.name}
               </Link>
             ))}

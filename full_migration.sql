@@ -1845,3 +1845,4 @@ CREATE POLICY "Admin/Manager can manage store_coupons" ON public.store_coupons F
 CREATE POLICY "Public can read store_coupons" ON public.store_coupons FOR SELECT USING (true);
 
 GRANT ALL ON TABLE public.store_coupons TO authenticated, service_role, anon;
+ALTER TABLE public.store_categories ADD COLUMN IF NOT EXISTS image_url text;

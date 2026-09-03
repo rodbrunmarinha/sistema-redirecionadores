@@ -6,6 +6,7 @@ import {
   ChevronRight, Tags, CheckCircle2, Layers, FolderTree, Edit, Trash2, Plus, X, Info, ChevronDown, ChevronUp, Package
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { createClient } from '@/utils/supabase/client';
 import { createStoreCategory, updateStoreCategory, deleteStoreCategory } from '../products/_actions/products';
 
 export default function CategoryListClient({ 
@@ -24,6 +25,8 @@ export default function CategoryListClient({
   const [showModal, setShowModal] = useState(false);
   const [editingCategory, setEditingCategory] = useState<any>(null);
   const [categoryName, setCategoryName] = useState('');
+  const [categoryImage, setCategoryImage] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   // Expand states
   const [expandedCats, setExpandedCats] = useState<Record<string, boolean>>({});
@@ -41,7 +44,45 @@ export default function CategoryListClient({
   const handleOpenModal = (category: any = null) => {
     setEditingCategory(category);
     setCategoryName(category ? category.name : '');
+    setCategoryImage(category ? category.image_url : null);
     setShowModal(true);
+  };
+
+  const handleUploadImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Imagem deve ter no máximo 2MB');
+      return;
+    }
+    
+    setIsUploading(true);
+    const toastId = toast.loading('Enviando imagem...');
+    
+    try {
+      const supabase = createClient();
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${tenantId}/categories/${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('products')
+        .upload(fileName, file);
+        
+      if (uploadError) throw uploadError;
+      
+      const { data: { publicUrl } } = supabase.storage
+        .from('products')
+        .getPublicUrl(fileName);
+        
+      setCategoryImage(publicUrl);
+      toast.success('Imagem enviada!', { id: toastId });
+    } catch (err: any) {
+      console.error(err);
+      toast.error('Erro ao enviar imagem', { id: toastId });
+    } finally {
+      setIsUploading(false);
+      e.target.value = '';
+    }
   };
 
   const handleSaveCategory = () => {
@@ -51,16 +92,16 @@ export default function CategoryListClient({
     }
     startTransition(async () => {
       if (editingCategory) {
-        const res = await updateStoreCategory(tenantId, editingCategory.id, categoryName);
+        const res = await updateStoreCategory(tenantId, editingCategory.id, categoryName, categoryImage || undefined);
         if (res.error) {
           toast.error(res.error);
         } else if (res.data) {
           toast.success('Categoria atualizada com sucesso!');
-          setCategories(categories.map(c => c.id === editingCategory.id ? { ...c, name: res.data.name } : c));
+          setCategories(categories.map(c => c.id === editingCategory.id ? { ...c, name: res.data.name, image_url: res.data.image_url } : c));
           setShowModal(false);
         }
       } else {
-        const res = await createStoreCategory(tenantId, categoryName);
+        const res = await createStoreCategory(tenantId, categoryName, categoryImage || undefined);
         if (res.error) {
           toast.error(res.error);
         } else if (res.data) {
@@ -201,9 +242,13 @@ export default function CategoryListClient({
                       >
                         <td className="px-4 sm:px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-zinc-800 rounded-xl overflow-hidden flex-shrink-0 border border-zinc-700 flex items-center justify-center">
-                              <Tags className="w-5 h-5 text-amber-500" />
-                            </div>
+                            {category.image_url ? (
+                              <img src={category.image_url} alt={category.name} className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover bg-zinc-800 border border-zinc-700 flex-shrink-0" />
+                            ) : (
+                              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-zinc-800 rounded-xl overflow-hidden flex-shrink-0 border border-zinc-700 flex items-center justify-center">
+                                <Tags className="w-5 h-5 text-amber-500" />
+                              </div>
+                            )}
                             <div>
                               <p className="font-semibold text-white text-base">
                                 {category.name}
@@ -330,6 +375,40 @@ export default function CategoryListClient({
                   onKeyDown={e => e.key === 'Enter' && handleSaveCategory()} 
                   autoFocus
                 />
+              </div>
+
+              <div className="space-y-4 mt-6">
+                <label className="block text-sm font-semibold text-zinc-300">
+                  Imagem da Categoria (Opcional)
+                </label>
+                <div className="flex items-center gap-4">
+                  {categoryImage ? (
+                    <div className="relative group w-20 h-20 rounded-xl overflow-hidden bg-zinc-800 border border-zinc-700">
+                      <img src={categoryImage} alt="Preview" className="w-full h-full object-cover" />
+                      <button 
+                        type="button"
+                        onClick={() => setCategoryImage(null)}
+                        className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Trash2 className="w-5 h-5 text-red-500" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="w-20 h-20 rounded-xl bg-zinc-800/50 border border-dashed border-zinc-700 flex items-center justify-center text-zinc-500">
+                      <Package className="w-6 h-6 opacity-50" />
+                    </div>
+                  )}
+                  <div className="flex-1">
+                    <input 
+                      type="file" 
+                      accept="image/*"
+                      onChange={handleUploadImage}
+                      disabled={isUploading}
+                      className="w-full px-4 py-2 border-2 border-zinc-700 bg-zinc-800 text-white rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-zinc-700 file:text-zinc-300 hover:file:bg-zinc-600 cursor-pointer disabled:opacity-50 text-sm" 
+                    />
+                    <p className="text-xs text-zinc-500 mt-2">Formatos recomendados: JPG, PNG, WEBP (Max 2MB)</p>
+                  </div>
+                </div>
               </div>
 
               {!editingCategory && (

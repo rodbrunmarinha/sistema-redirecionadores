@@ -38,6 +38,13 @@ export function OperationsTab({ data, onChange }: { data?: any, onChange?: (data
   const language = data?.language ?? 'pt-BR';
   const setLanguage = (val: string) => onChange?.({ ...data, language: val });
   
+  // Exchange Rates
+  const exchangeRatePix = data?.exchangeRatePix ?? "5.50";
+  const setExchangeRatePix = (val: string) => onChange?.({ ...data, exchangeRatePix: val });
+  
+  const exchangeRateCard = data?.exchangeRateCard ?? "5.80";
+  const setExchangeRateCard = (val: string) => onChange?.({ ...data, exchangeRateCard: val });
+  
   // Storage
   const storageDays = data?.storageDays ?? 30;
   const setStorageDays = (val: number) => onChange?.({ ...data, storageDays: val });
@@ -159,6 +166,41 @@ export function OperationsTab({ data, onChange }: { data?: any, onChange?: (data
               <option value="en-US">Inglês (US)</option>
               <option value="es">Espanhol</option>
             </select>
+          </div>
+        </div>
+
+        <div className="pt-6 border-t border-zinc-800 space-y-6">
+          <h4 className="text-sm font-semibold text-zinc-100 flex items-center gap-2">
+            <Calculator className="w-4 h-4 text-amber-500" />
+            Cotação p/ Reais (Aproximada)
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-zinc-300 mb-1">Cotação via PIX</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500">R$</span>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={exchangeRatePix}
+                  onChange={(e) => setExchangeRatePix(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all outline-none"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-zinc-300 mb-1">Cotação via Cartão</label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500">R$</span>
+                <input
+                  type="number"
+                  step="0.01"
+                  value={exchangeRateCard}
+                  onChange={(e) => setExchangeRateCard(e.target.value)}
+                  className="w-full pl-9 pr-4 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-white focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all outline-none"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>

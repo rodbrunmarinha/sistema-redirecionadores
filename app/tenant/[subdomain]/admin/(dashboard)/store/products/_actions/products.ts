@@ -12,7 +12,7 @@ export async function getStoreCategories(tenantId: string) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("store_categories")
-    .select("id, name")
+    .select("id, name, image_url")
     .eq("tenant_id", tenantId)
     .order("name");
 
@@ -23,7 +23,7 @@ export async function getStoreCategories(tenantId: string) {
   return data;
 }
 
-export async function createStoreCategory(tenantId: string, name: string) {
+export async function createStoreCategory(tenantId: string, name: string, image_url?: string) {
   const supabase = await createClient();
   
   if (!name || name.trim() === "") {
@@ -34,9 +34,10 @@ export async function createStoreCategory(tenantId: string, name: string) {
     .from("store_categories")
     .insert({
       tenant_id: tenantId,
-      name: name.trim()
+      name: name.trim(),
+      image_url: image_url || null
     })
-    .select("id, name")
+    .select("id, name, image_url")
     .single();
 
   if (error) {
@@ -280,7 +281,7 @@ export async function deleteStoreProduct(tenantId: string, productId: string) {
   revalidatePath(`/tenant/[subdomain]/admin/store/products`, "page");
   return { success: true };
 }
-export async function updateStoreCategory(tenantId: string, categoryId: string, name: string) {
+export async function updateStoreCategory(tenantId: string, categoryId: string, name: string, image_url?: string) {
   const supabase = await createClient();
   
   if (!name || name.trim() === "") {
@@ -289,10 +290,10 @@ export async function updateStoreCategory(tenantId: string, categoryId: string, 
 
   const { data, error } = await supabase
     .from("store_categories")
-    .update({ name: name.trim() })
+    .update({ name: name.trim(), image_url: image_url !== undefined ? image_url : null })
     .eq("id", categoryId)
     .eq("tenant_id", tenantId)
-    .select("id, name")
+    .select("id, name, image_url")
     .single();
 
   if (error) {

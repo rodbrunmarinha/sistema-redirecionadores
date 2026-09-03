@@ -6,6 +6,8 @@ type TenantSettingsContextType = {
   currency: string;
   currencySymbol: string;
   weightUnit: string;
+  exchangeRatePix: number;
+  exchangeRateCard: number;
 };
 
 const TenantSettingsContext = createContext<TenantSettingsContextType | null>(null);
@@ -20,9 +22,13 @@ export function TenantSettingsProvider({
   const currency = settings?.operations?.currency || "USD";
   const currencySymbol = currency === "BRL" ? "R$" : currency === "EUR" ? "€" : currency === "JPY" ? "¥" : "$";
   const weightUnit = settings?.operations?.weightUnit || "kg";
+  
+  // Cotação da moeda para conversão aproximada
+  const exchangeRatePix = Number(settings?.operations?.exchangeRatePix) || 5.50;
+  const exchangeRateCard = Number(settings?.operations?.exchangeRateCard) || 5.80;
 
   return (
-    <TenantSettingsContext.Provider value={{ settings, currency, currencySymbol, weightUnit }}>
+    <TenantSettingsContext.Provider value={{ settings, currency, currencySymbol, weightUnit, exchangeRatePix, exchangeRateCard }}>
       {children}
     </TenantSettingsContext.Provider>
   );

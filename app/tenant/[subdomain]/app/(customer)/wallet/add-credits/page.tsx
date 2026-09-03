@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, Wallet, DollarSign, Info } from "lucide-react";
 
 export default function AddCreditsPage() {
-  const { currency, weightUnit, currencySymbol } = useTenantSettings();
+  const { currency, weightUnit, currencySymbol, exchangeRatePix, exchangeRateCard } = useTenantSettings();
   const [amount, setAmount] = useState<number>(50);
 
   const presetValues = [25, 50, 100, 200, 500, 1000];
@@ -38,7 +38,9 @@ export default function AddCreditsPage() {
           <div className="flex items-center justify-between relative z-10">
             <div>
               <p className="text-emerald-100 text-sm font-medium uppercase tracking-wider">Seu saldo atual</p>
-              <p className="text-4xl font-bold mt-1">$0.00</p>
+              <p className="text-4xl font-bold mt-1">
+                {new Intl.NumberFormat(currency === 'BRL' ? 'pt-BR' : 'en-US', { style: 'currency', currency }).format(0)}
+              </p>
             </div>
             <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
               <Wallet className="w-8 h-8" />
@@ -69,7 +71,9 @@ export default function AddCreditsPage() {
                       : "border-zinc-200 text-zinc-700 hover:border-emerald-300 hover:bg-emerald-50/50"
                   }`}
                 >
-                  <span className="text-2xl font-bold">${val}</span>
+                  <span className="text-2xl font-bold">
+                    {new Intl.NumberFormat(currency === 'BRL' ? 'pt-BR' : 'en-US', { style: 'currency', currency, minimumFractionDigits: 0 }).format(val)}
+                  </span>
                 </button>
               ))}
             </div>
@@ -81,7 +85,7 @@ export default function AddCreditsPage() {
               </label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400 font-semibold text-lg">
-                  $
+                  {currencySymbol}
                 </span>
                 <input
                   type="number"
@@ -94,11 +98,11 @@ export default function AddCreditsPage() {
                   className="w-full pl-10 pr-4 py-3 border border-zinc-300 rounded-xl text-lg font-semibold bg-white text-zinc-900 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
                 />
               </div>
-              <p className="text-xs text-zinc-500 mt-2">Mínimo: $10 • Máximo: $10,000</p>
+              <p className="text-xs text-zinc-500 mt-2">Mínimo: {currencySymbol}10 • Máximo: {currencySymbol}10.000</p>
             </div>
 
             {/* Cotação (MOCK) */}
-            {amount >= 10 && (
+            {amount >= 10 && currency !== "BRL" && (
               <div className="bg-indigo-50/50 border border-indigo-100 rounded-xl p-5">
                 <h4 className="text-sm font-semibold text-indigo-900 mb-4 flex items-center gap-2">
                   <span>💱</span> Valores aproximados em Reais
@@ -107,13 +111,13 @@ export default function AddCreditsPage() {
                   <div className="text-center p-4 bg-white rounded-xl shadow-sm border border-indigo-50">
                     <p className="text-xs font-medium text-zinc-500 mb-1 uppercase tracking-wider">PIX</p>
                     <p className="text-xl font-bold text-emerald-600">
-                      {currencySymbol} {(amount * 5.5).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      R$ {(amount * exchangeRatePix).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
                   </div>
                   <div className="text-center p-4 bg-white rounded-xl shadow-sm border border-indigo-50">
                     <p className="text-xs font-medium text-zinc-500 mb-1 uppercase tracking-wider">Cartão (1x)</p>
                     <p className="text-xl font-bold text-indigo-600">
-                      {currencySymbol} {(amount * 5.8).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      R$ {(amount * exchangeRateCard).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </p>
                   </div>
                 </div>
