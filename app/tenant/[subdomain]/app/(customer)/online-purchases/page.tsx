@@ -1,8 +1,8 @@
-﻿import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
-import AdminOnlinePurchasesClient from './Client';
+import OnlinePurchasesClient from './Client';
 
-export default async function AdminOnlinePurchasesPage(props: { params: Promise<{ subdomain: string }> }) {
+export default async function OnlinePurchasesPage(props: { params: Promise<{ subdomain: string }> }) {
   const params = await props.params;
   const subdomain = params.subdomain;
   const supabase = await createClient();
@@ -12,7 +12,7 @@ export default async function AdminOnlinePurchasesPage(props: { params: Promise<
 
   const { data: tenant } = await supabase
     .from('tenants')
-    .select('id')
+    .select('id, organization_name')
     .eq('subdomain', subdomain)
     .single();
 
@@ -20,18 +20,28 @@ export default async function AdminOnlinePurchasesPage(props: { params: Promise<
 
   const { data: purchases, error } = await supabase
     .from('assisted_purchases')
-    .select('*, profiles:user_id(full_name, suite_number)')
+    .select('*')
     .eq('tenant_id', tenant.id)
+    .eq('user_id', user.id)
     .order('created_at', { ascending: false });
 
   if (error) {
     console.error("Error fetching purchases:", error);
   }
 
+  const { data: wallet } = await supabase
+    .from('wallets')
+    .select('balance')
+    .eq('tenant_id', tenant.id)
+    .eq('customer_id', user.id)
+    .single();
+
   return (
-    <AdminOnlinePurchasesClient 
-      tenantId={tenant.id} 
+    <OnlinePurchasesClient 
+      tenant={tenant} 
       purchases={purchases || []} 
+      userId={user.id}
+      balance={wallet?.balance || 0}
     />
   );
 }

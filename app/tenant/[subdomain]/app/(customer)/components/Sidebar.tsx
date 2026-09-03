@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "./NavLink";
 import { useTenantSettings } from "./TenantSettingsContext";
 import { LogoutButton } from "./LogoutButton";
@@ -9,7 +9,7 @@ import {
   ShoppingBag, ShoppingCart, MapPin, Calculator, 
   Scale, Headset, User, FileText, Menu, X, Store, ClipboardList, LogOut
 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
 
 interface SidebarProps {
@@ -24,9 +24,16 @@ export function Sidebar({ organizationName, firstName, fullName, suiteNumber, in
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
   const supabase = createClient();
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const { settings } = useTenantSettings();
+
+  useEffect(() => {
+    if (pathname?.includes('/app/store')) {
+      setSidebarCollapsed(true);
+    }
+  }, [pathname]);
 
   const toggleCollapse = () => setSidebarCollapsed(!sidebarCollapsed);
 
@@ -95,7 +102,7 @@ export function Sidebar({ organizationName, firstName, fullName, suiteNumber, in
     online_purchases: { 
       name: "Compra Assistida", 
       href: "/app/online-purchases", 
-      icon: <ShoppingCart className="w-5 h-5" />,
+      icon: <ShoppingBag className="w-5 h-5" />,
       iconBgClass: "bg-slate-100 dark:bg-slate-800/50",
       iconColorClass: "text-slate-600 dark:text-slate-300"
     },

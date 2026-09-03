@@ -26,12 +26,13 @@ export default async function CustomerDashboard(props: { params: Promise<{ subdo
   let recentBoxes: any[] = [];
 
   if (user) {
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('wallet_balance')
-      .eq('id', user.id)
+    const { data: wallet } = await supabase
+      .from('wallets')
+      .select('balance')
+      .eq('customer_id', user.id)
+      .eq('tenant_id', settings?.tenant_id)
       .single();
-    walletBalance = profile?.wallet_balance || 0;
+    walletBalance = wallet?.balance || 0;
 
     const { count: boxesCount } = await supabase
       .from('boxes')
