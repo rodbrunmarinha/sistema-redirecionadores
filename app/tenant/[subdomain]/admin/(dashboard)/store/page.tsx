@@ -34,10 +34,10 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
 
   const { data: settings } = await supabase
     .from('tenant_settings')
-    .select('currency')
+    .select('operations')
     .eq('tenant_id', tenantId)
     .single();
-  const currency = settings?.currency || 'USD';
+  const currency = settings?.operations?.currency || 'BRL';
 
   // 1. Orders
   const { data: orders } = await supabase
@@ -53,11 +53,15 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
   const recentOrders = allOrders.slice(0, 5);
 
   // 2. Products
-  const { data: products } = await supabase
+  const { data: products, error: productsError } = await supabase
     .from('store_products')
     .select('id, name, price, stock_quantity, track_stock, main_image')
     .eq('tenant_id', tenantId)
     .order('created_at', { ascending: false });
+
+  if (productsError) {
+    console.error("Store Dashboard - Error fetching products:", productsError);
+  }
 
   const allProducts = products || [];
   const totalProducts = allProducts.length;
@@ -65,10 +69,14 @@ export default async function StoreDashboardPage(props: { params: Promise<{ subd
   const topProducts = allProducts.slice(0, 5);
 
   // 3. Categories
-  const { count: totalCategories } = await supabase
+  const { count: totalCategories, error: catError } = await supabase
     .from('store_categories')
     .select('*', { count: 'exact', head: true })
     .eq('tenant_id', tenantId);
+
+  if (catError) {
+    console.error("Store Dashboard - Error fetching categories:", catError);
+  }
 
   // 4. Coupons
   const { count: totalCoupons } = await supabase
