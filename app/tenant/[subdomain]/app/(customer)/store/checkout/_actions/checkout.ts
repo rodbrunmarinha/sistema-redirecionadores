@@ -151,7 +151,7 @@ export async function checkoutStoreCart(
       .from('store_order_items')
       .insert(itemsWithOrderId);
 
-    // 8. Create the Box in the Suite (Dock)
+    // 8. Create the Box in the Dock (Dock)
     const { data: newBox, error: boxError } = await supabaseAdmin
       .from('boxes')
       .insert({

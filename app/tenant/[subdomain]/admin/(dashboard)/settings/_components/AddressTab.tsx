@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export function AddressTab({ data, onChange }: { data?: any, onChange?: (data: any) => void }) {
   const suitePosition = data?.suitePosition ?? 'address2';
-  const setSuitePosition = (val: string) => onChange?.({ ...data, suitePosition: val });
+  const setDockPosition = (val: string) => onChange?.({ ...data, suitePosition: val });
 
   return (
     <div className="bg-zinc-900 rounded-2xl shadow-sm border border-zinc-800 p-4 sm:p-8 space-y-10">
@@ -66,7 +66,7 @@ export function AddressTab({ data, onChange }: { data?: any, onChange?: (data: a
 
         <div className="grid grid-cols-1 gap-3">
           <label className={`flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${suitePosition === 'address2' ? 'border-amber-500 bg-amber-500/10' : 'border-zinc-700 hover:border-zinc-600'}`}>
-            <input type="radio" checked={suitePosition === 'address2'} onChange={() => setSuitePosition('address2')} className="hidden" />
+            <input type="radio" checked={suitePosition === 'address2'} onChange={() => setDockPosition('address2')} className="hidden" />
             <div className={`mt-0.5 w-4 h-4 flex-shrink-0 rounded border flex items-center justify-center ${suitePosition === 'address2' ? 'border-amber-500 bg-amber-500' : 'border-zinc-600'}`}>
               {suitePosition === 'address2' && <div className="w-2 h-2 rounded-sm bg-white" />}
             </div>
@@ -77,7 +77,7 @@ export function AddressTab({ data, onChange }: { data?: any, onChange?: (data: a
           </label>
 
           <label className={`flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${suitePosition === 'name' ? 'border-amber-500 bg-amber-500/10' : 'border-zinc-700 hover:border-zinc-600'}`}>
-            <input type="radio" checked={suitePosition === 'name'} onChange={() => setSuitePosition('name')} className="hidden" />
+            <input type="radio" checked={suitePosition === 'name'} onChange={() => setDockPosition('name')} className="hidden" />
             <div className={`mt-0.5 w-4 h-4 flex-shrink-0 rounded border flex items-center justify-center ${suitePosition === 'name' ? 'border-amber-500 bg-amber-500' : 'border-zinc-600'}`}>
               {suitePosition === 'name' && <div className="w-2 h-2 rounded-sm bg-white" />}
             </div>
@@ -88,7 +88,7 @@ export function AddressTab({ data, onChange }: { data?: any, onChange?: (data: a
           </label>
 
           <label className={`flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors ${suitePosition === 'address1_suffix' ? 'border-amber-500 bg-amber-500/10' : 'border-zinc-700 hover:border-zinc-600'}`}>
-            <input type="radio" checked={suitePosition === 'address1_suffix'} onChange={() => setSuitePosition('address1_suffix')} className="hidden" />
+            <input type="radio" checked={suitePosition === 'address1_suffix'} onChange={() => setDockPosition('address1_suffix')} className="hidden" />
             <div className={`mt-0.5 w-4 h-4 flex-shrink-0 rounded border flex items-center justify-center ${suitePosition === 'address1_suffix' ? 'border-amber-500 bg-amber-500' : 'border-zinc-600'}`}>
               {suitePosition === 'address1_suffix' && <div className="w-2 h-2 rounded-sm bg-white" />}
             </div>

@@ -49,6 +49,20 @@ export default function LoginClient({ organizationName, themeColor = "amber", in
         return;
       }
 
+      if (data?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', data.user.id)
+          .single();
+          
+        if (profile && profile.role !== 'CUSTOMER') {
+          router.push("/admin");
+          router.refresh();
+          return;
+        }
+      }
+
       // Se login deu certo, recarregar a rota principal do painel do cliente
       router.push("/app");
       router.refresh();

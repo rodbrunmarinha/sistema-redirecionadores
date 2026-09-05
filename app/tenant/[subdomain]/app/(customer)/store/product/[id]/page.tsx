@@ -25,19 +25,19 @@ export default async function ProductDetailPage(props: { params: Promise<{ subdo
 
   if (!product) notFound();
 
-  // Fetch product images
-  const { data: images } = await supabase
-    .from('store_product_images')
-    .select('*')
-    .eq('product_id', id)
-    .order('sort_order', { ascending: true });
+  // Parse gallery images
+  const galleryImages = product.gallery_images || [];
+  const images = galleryImages.map((url: string, index: number) => ({
+    id: `gallery-${index}`,
+    image_url: url
+  }));
 
   return (
     <ProductDetailClient 
       tenant={tenant}
       subdomain={subdomain} 
       product={product}
-      images={images || []}
+      images={images}
     />
   );
 }

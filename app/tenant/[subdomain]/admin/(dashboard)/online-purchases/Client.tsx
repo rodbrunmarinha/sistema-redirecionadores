@@ -164,7 +164,7 @@ export default function AdminOnlinePurchasesClient({
               <div className="flex items-center gap-2 mb-3 text-sm text-zinc-300">
                 <User className="w-4 h-4 text-zinc-500" />
                 <span className="font-semibold">{purchase.profiles?.full_name}</span>
-                <span className="text-zinc-500 text-xs bg-zinc-800 px-2 py-0.5 rounded-full">Suite {purchase.profiles?.suite_number}</span>
+                <span className="text-zinc-500 text-xs bg-zinc-800 px-2 py-0.5 rounded-full">Dock {purchase.profiles?.suite_number}</span>
               </div>
 
               <div className="flex gap-3 mb-3">

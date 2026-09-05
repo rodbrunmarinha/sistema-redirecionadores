@@ -7,6 +7,9 @@ export default async function StoreFrontPage(props: { params: Promise<{ subdomai
   const subdomain = params.subdomain;
   const supabase = await createClient();
 
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/app/login");
+
   const { data: tenant } = await supabase
     .from('tenants')
     .select('id, organization_name')
@@ -14,6 +17,15 @@ export default async function StoreFrontPage(props: { params: Promise<{ subdomai
     .single();
 
   if (!tenant) redirect("/app/login");
+
+  const { data: wallet } = await supabase
+    .from('wallets')
+    .select('balance')
+    .eq('tenant_id', tenant.id)
+    .eq('customer_id', user.id)
+    .single();
+
+  const walletBalance = wallet?.balance || 0;
 
   // Fetch store categories
   const { data: categories } = await supabase
@@ -36,6 +48,7 @@ export default async function StoreFrontPage(props: { params: Promise<{ subdomai
       subdomain={subdomain} 
       categories={categories || []}
       products={products || []}
+      walletBalance={walletBalance}
     />
   );
 }

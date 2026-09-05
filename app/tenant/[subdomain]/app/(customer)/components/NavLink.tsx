@@ -39,7 +39,7 @@ export function NavLink({ href, name, icon, iconBgClass, iconColorClass, hasDrop
     }
   }, [isActive, pathname]);
 
-  if (subItems && subItems.length > 0) {
+  if (subItems && subItems.length > 0 && !isCollapsed) {
     return (
       <div className="flex flex-col">
         <button
@@ -96,7 +96,9 @@ export function NavLink({ href, name, icon, iconBgClass, iconColorClass, hasDrop
   return (
     <Link
       href={href}
-      className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
+      className={`flex items-center gap-3 py-3 rounded-xl transition-all duration-200 ${
+        isCollapsed ? 'justify-center px-0' : 'px-4'
+      } ${
         isActive 
           ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30' 
           : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -109,7 +111,7 @@ export function NavLink({ href, name, icon, iconBgClass, iconColorClass, hasDrop
         {icon}
       </div>
       {!isCollapsed && (
-        <span className="font-medium leading-tight text-left">{name}</span>
+        <span className="font-medium leading-tight flex-1">{name}</span>
       )}
     </Link>
   );

@@ -3,27 +3,33 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { 
-  Search, Heart, ShoppingCart, User, X, Plus, Check, ChevronRight, Package, LayoutGrid
+  Search, Heart, ShoppingCart, User, X, Plus, Check, ChevronRight, Package, LayoutGrid, Wallet
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useCart } from '@/utils/store/useCart';
+import { useTenantSettings } from '../components/TenantSettingsContext';
 
 export default function StoreFrontClient({ 
   tenant, 
   subdomain, 
   categories, 
   products,
-  currentCategoryId
+  currentCategoryId,
+  walletBalance = 0
 }: { 
   tenant: any, 
   subdomain: string, 
   categories: any[], 
   products: any[],
-  currentCategoryId?: string
+  currentCategoryId?: string,
+  walletBalance?: number
 }) {
   const [search, setSearch] = useState('');
   const [cartOpen, setCartOpen] = useState(false);
   
+  const { settings } = useTenantSettings();
+  const currency = settings?.operations?.currency || 'USD';
+
   const addItem = useCart(state => state.addItem);
   const cartCount = useCart(state => state.getTotalItems());
   const cartItems = useCart(state => state.items);
@@ -86,6 +92,23 @@ export default function StoreFrontClient({
             </form>
 
             <div className="flex items-center gap-1 sm:gap-2 ml-auto shrink-0">
+              <div className="hidden sm:flex items-center bg-zinc-100 dark:bg-zinc-800 rounded-xl p-1 pr-3 mr-2">
+                <div className="bg-white dark:bg-zinc-900 rounded-lg p-1.5 shadow-sm border border-zinc-200 dark:border-zinc-700 text-zinc-500 mr-2">
+                  <Wallet className="w-4 h-4" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-[10px] font-medium text-zinc-500 uppercase leading-none mb-0.5">Saldo</span>
+                  <span className="text-xs font-bold text-zinc-900 dark:text-white leading-none">{currency} {walletBalance.toFixed(2)}</span>
+                </div>
+                <Link 
+                  href="/app/wallet/add-credits"
+                  className="ml-3 p-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors flex items-center justify-center"
+                  title="Adicionar Saldo"
+                >
+                  <Plus className="w-4 h-4" />
+                </Link>
+              </div>
+
               <button onClick={handleWishlist} className="p-2.5 rounded-xl text-zinc-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 transition">
                 <Heart className="w-5 h-5" />
               </button>
@@ -97,9 +120,6 @@ export default function StoreFrontClient({
                   </span>
                 )}
               </button>
-              <Link href={`/app/dashboard`} className="p-2.5 rounded-xl text-zinc-500 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
-                <User className="w-5 h-5" />
-              </Link>
             </div>
           </div>
 
@@ -186,7 +206,7 @@ export default function StoreFrontClient({
               {/* Image */}
               <Link href={`/app/store/product/${product.id}`} className="block relative aspect-square overflow-hidden bg-zinc-100 dark:bg-zinc-800">
                 {product.main_image ? (
-                  <img src={product.main_image} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                  <img src={product.main_image} alt={product.name} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <Package className="w-12 h-12 text-zinc-300 dark:text-zinc-700" />
@@ -233,7 +253,7 @@ export default function StoreFrontClient({
 
                 <div className="mt-3 flex items-baseline gap-2">
                   <span className="text-lg sm:text-xl font-bold text-amber-500">
-                    ¥{Number(product.price).toFixed(2)}
+                    {currency} {Number(product.price).toFixed(2)}
                   </span>
                 </div>
 
@@ -326,17 +346,17 @@ export default function StoreFrontClient({
                       <div key={item.id} className="flex items-center gap-3 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800">
                         <div className="w-16 h-16 rounded-xl bg-zinc-50 dark:bg-zinc-800 overflow-hidden shrink-0 flex items-center justify-center">
                           {item.image_url ? (
-                            <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />
+                            <img src={item.image_url} alt={item.name} className="w-full h-full object-contain" />
                           ) : (
                             <Package className="w-6 h-6 text-zinc-400" />
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="text-sm font-semibold text-zinc-900 dark:text-white truncate">{item.name}</p>
-                          <p className="text-xs text-zinc-500 mt-1">{item.quantity} × ${Number(item.price).toFixed(2)}</p>
+                          <p className="text-xs text-zinc-500 mt-1">{item.quantity} × {currency} {Number(item.price).toFixed(2)}</p>
                         </div>
                         <p className="text-sm font-bold text-amber-500 shrink-0">
-                          ${(Number(item.price) * item.quantity).toFixed(2)}
+                          {currency} {(Number(item.price) * item.quantity).toFixed(2)}
                         </p>
                       </div>
                     ))}
@@ -348,7 +368,7 @@ export default function StoreFrontClient({
                 <div className="border-t border-zinc-100 dark:border-zinc-800 px-5 py-4 space-y-4 bg-white dark:bg-zinc-900">
                   <div className="flex justify-between font-bold text-zinc-900 dark:text-white text-lg">
                     <span>Total</span>
-                    <span className="text-amber-500">${cartTotal.toFixed(2)}</span>
+                    <span className="text-amber-500">{currency} {cartTotal.toFixed(2)}</span>
                   </div>
                 <div className="grid grid-cols-2 gap-2">
                   <Link href={`/app/store/cart`} className="px-4 py-3 text-center rounded-xl border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 text-sm font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition">

@@ -200,7 +200,7 @@ export default function BehaviorClient({ subdomain }: { subdomain: string }) {
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-yellow-600 flex items-center justify-center font-bold">1</div>
                 <div>
                   <p className="font-medium text-zinc-100">Bruno de Souza</p>
-                  <p className="text-xs text-zinc-400">rodbrun_dragon@hotmail.com · Suite 1001</p>
+                  <p className="text-xs text-zinc-400">rodbrun_dragon@hotmail.com · Dock 1001</p>
                 </div>
               </div>
               <div className="text-right">

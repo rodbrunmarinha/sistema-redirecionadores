@@ -647,14 +647,14 @@ export default function ProductEditClient({ product, categories: initialCategori
                   <div className="flex flex-col sm:flex-row items-start gap-4">
                     {imagePreview ? (
                       <div className="relative w-32 h-32 rounded-2xl overflow-hidden flex-shrink-0 border-2 border-amber-500 bg-zinc-950">
-                        <img src={imagePreview} alt="Nova Imagem" className="w-full h-full object-cover" />
+                        <img src={imagePreview} alt="Nova Imagem" className="w-full h-full object-contain" />
                         <div className="absolute inset-0 bg-black/50 flex items-end justify-center p-2">
                           <span className="text-amber-500 text-xs font-bold">Nova Imagem</span>
                         </div>
                       </div>
                     ) : (
                       <div className="relative group w-32 h-32 bg-zinc-950 border-2 border-zinc-800 rounded-2xl overflow-hidden flex-shrink-0">
-                        <img src={product.mainImage} alt="Atual" className="w-full h-full object-cover" />
+                        <img src={product.mainImage} alt="Atual" className="w-full h-full object-contain" />
                         <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
                           <span className="text-white text-xs font-bold">Alterar</span>
                         </div>
@@ -693,7 +693,7 @@ export default function ProductEditClient({ product, categories: initialCategori
                           return (
                             <label key={img.id} className={`relative group rounded-2xl overflow-hidden shadow-sm border-2 bg-zinc-950 cursor-pointer transition-all duration-200 ${isMarked ? 'border-red-500 ring-2 ring-red-500/20 opacity-75' : 'border-zinc-800 hover:border-zinc-700'}`}>
                               <input type="checkbox" className="sr-only" checked={isMarked} onChange={() => toggleRemoval(img.id)} />
-                              <img src={img.url} alt="Gallery" className={`w-full h-28 object-cover ${isMarked ? 'grayscale' : ''}`} />
+                              <img src={img.url} alt="Gallery" className={`w-full h-28 object-contain ${isMarked ? 'grayscale' : ''}`} />
                               <div className={`p-2 text-xs font-bold text-center ${isMarked ? 'text-red-400 bg-red-500/10' : 'text-zinc-400 bg-zinc-900'}`}>
                                 {isMarked ? 'Será removida' : 'Marcar p/ remover'}
                               </div>
@@ -720,7 +720,7 @@ export default function ProductEditClient({ product, categories: initialCategori
                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                         {galleryPreviews.map((preview, i) => (
                           <div key={i} className="rounded-2xl overflow-hidden bg-zinc-950 border border-amber-500/30">
-                            <img src={preview.url} alt={preview.name} className="w-full h-28 object-cover" />
+                            <img src={preview.url} alt={preview.name} className="w-full h-28 object-contain" />
                             <div className="p-2 text-xs text-zinc-400 truncate">{preview.name}</div>
                           </div>
                         ))}

@@ -33,6 +33,21 @@ export default function AdminLoginClient() {
     }
 
     if (data?.user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .single();
+
+      const allowedRoles = ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'SUPPORT'];
+
+      if (!profile || !allowedRoles.includes(profile.role)) {
+        await supabase.auth.signOut();
+        setErrorMsg('Acesso restrito. Esta conta não possui privilégios de administrador.');
+        setIsLoading(false);
+        return;
+      }
+
       router.push("/admin");
       router.refresh();
     }

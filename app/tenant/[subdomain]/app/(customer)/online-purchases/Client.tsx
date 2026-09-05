@@ -3,10 +3,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
-  ShoppingBag, Plus, Search, ExternalLink, CreditCard, Clock, CheckCircle, XCircle, AlertCircle 
+  ShoppingBag, Plus, Search, ExternalLink, CreditCard, Clock, CheckCircle, XCircle, AlertCircle, Trash2 
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-import { payAssistedPurchase, payExtraAmountAssistedPurchase } from './_actions';
+import { payAssistedPurchase, payExtraAmountAssistedPurchase, deleteAssistedPurchase } from './_actions';
 import { useTenantSettings } from '../components/TenantSettingsContext';
 
 function ProductImagePreview({ url }: { url: string }) {
@@ -77,6 +77,18 @@ export default function OnlinePurchasesClient({
       toast.error(res.error);
     } else {
       toast.success("Valor extra pago! A compra seguirá.");
+    }
+    setIsProcessing(null);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Tem certeza que deseja excluir esta solicitação?")) return;
+    setIsProcessing(id);
+    const res = await deleteAssistedPurchase(tenant.id, userId, id);
+    if (res?.error) {
+      toast.error(res.error);
+    } else {
+      toast.success("Solicitação excluída com sucesso!");
     }
     setIsProcessing(null);
   };
@@ -199,14 +211,24 @@ export default function OnlinePurchasesClient({
 
               <div className="border-t border-zinc-100 pt-4 mt-auto">
                 {purchase.status === 'PENDING_PAYMENT' && (
-                  <button
-                    onClick={() => handlePay(purchase.id, purchase.unit_price * purchase.quantity)}
-                    disabled={isProcessing === purchase.id}
-                    className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-xl font-bold hover:bg-blue-700 transition disabled:opacity-50"
-                  >
-                    <CreditCard className="w-4 h-4" />
-                    Pagar {currency} {(purchase.unit_price * purchase.quantity).toFixed(2)}
-                  </button>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handlePay(purchase.id, purchase.unit_price * purchase.quantity)}
+                      disabled={isProcessing === purchase.id}
+                      className="flex-1 flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-xl font-bold hover:bg-blue-700 transition disabled:opacity-50"
+                    >
+                      <CreditCard className="w-4 h-4" />
+                      Pagar {currency} {(purchase.unit_price * purchase.quantity).toFixed(2)}
+                    </button>
+                    <button
+                      onClick={() => handleDelete(purchase.id)}
+                      disabled={isProcessing === purchase.id}
+                      className="flex items-center justify-center shrink-0 w-[44px] h-[44px] bg-red-50 text-red-600 rounded-xl font-bold hover:bg-red-100 transition disabled:opacity-50"
+                      title="Excluir solicitação"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  </div>
                 )}
 
                 {purchase.status === 'PENDING_EXTRA_PAYMENT' && (

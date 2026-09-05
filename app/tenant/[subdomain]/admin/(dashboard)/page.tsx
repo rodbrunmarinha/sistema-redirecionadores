@@ -56,6 +56,14 @@ export default async function AdminDashboardPage(props: { params: Promise<{ subd
   let boxesChartData: any[] = [];
   let custChartData: any[] = [];
 
+  // New Metrics
+  let walletBalanceTotal = 0;
+  let totalShipments = 0;
+  let pendingShipments = 0;
+  let totalOrders = 0;
+  let activeGroups = 0;
+  let currency = 'USD';
+
   if (tenant) {
     // Buscar total de clientes
     const { count: countCust } = await supabaseAdmin
@@ -72,7 +80,7 @@ export default async function AdminDashboardPage(props: { params: Promise<{ subd
       .eq('tenant_id', tenant.id)
       .eq('role', 'CUSTOMER')
       .order('created_at', { ascending: false })
-      .is('deleted_at', null).limit(5);
+      .limit(5);
     recentCustomers = cData || [];
 
     // Buscar total de caixas
@@ -114,10 +122,36 @@ export default async function AdminDashboardPage(props: { params: Promise<{ subd
       .select('created_at')
       .eq('tenant_id', tenant.id)
       .eq('role', 'CUSTOMER')
-      .gte('created_at', isoDate).is('deleted_at', null);
+      .gte('created_at', isoDate);
       
     boxesChartData = chartBoxes || [];
     custChartData = chartCust || [];
+
+    // Fetch wallet balances
+    const { data: wallets } = await supabaseAdmin.from('wallets').select('balance').eq('tenant_id', tenant.id);
+    walletBalanceTotal = wallets?.reduce((sum, w) => sum + (Number(w.balance) || 0), 0) || 0;
+
+    // Fetch shipments (Envios)
+    const { count: countShipments } = await supabaseAdmin.from('shipments').select('*', { count: 'exact', head: true }).eq('tenant_id', tenant.id);
+    totalShipments = countShipments || 0;
+
+    const { count: countPendingShipments } = await supabaseAdmin.from('shipments').select('*', { count: 'exact', head: true }).eq('tenant_id', tenant.id).in('status', ['PENDING', 'PENDING_PAYMENT']);
+    pendingShipments = countPendingShipments || 0;
+
+    // Fetch orders (Pedidos)
+    const { count: countAssisted } = await supabaseAdmin.from('assisted_purchases').select('*', { count: 'exact', head: true }).eq('tenant_id', tenant.id);
+    const { count: countStore } = await supabaseAdmin.from('store_orders').select('*', { count: 'exact', head: true }).eq('tenant_id', tenant.id);
+    totalOrders = (countAssisted || 0) + (countStore || 0);
+
+    // Fetch Active Groups
+    const { count: countGroups } = await supabaseAdmin.from('purchase_groups').select('*', { count: 'exact', head: true }).eq('tenant_id', tenant.id).eq('status', 'ACTIVE');
+    activeGroups = countGroups || 0;
+
+    // Fetch currency
+    const { data: tSettings } = await supabaseAdmin.from('tenant_settings').select('settings').eq('tenant_id', tenant.id).single();
+    if (tSettings?.settings?.operations?.currency) {
+      currency = tSettings.settings.operations.currency;
+    }
   }
 
   // --- Financial Summary Logic ---
@@ -149,27 +183,31 @@ export default async function AdminDashboardPage(props: { params: Promise<{ subd
     const endDate = endD.toISOString().split('T')[0];
 
     const { data: finances } = await supabaseAdmin
-      .from('financial_transactions')
-      .select('amount, type, transaction_date')
+      .from('wallet_transactions')
+      .select('amount, type, created_at')
       .eq('tenant_id', tenant.id)
-      .gte('transaction_date', startDate)
-      .lte('transaction_date', endDate)
-      .is('deleted_at', null);
+      .gte('created_at', startDate)
+      .lte('created_at', endDate + 'T23:59:59.999Z')
+      .eq('status', 'COMPLETED');
 
     if (finances) {
       finances.forEach((t: any) => {
-        const tMonth = t.transaction_date.slice(0, 7);
+        const tMonth = t.created_at.slice(0, 7);
         const amount = Number(t.amount);
         
+        // Deposits represent cash inflow for the business.
+        const isIncome = t.type === 'DEPOSIT';
+        const isExpense = t.type === 'WITHDRAWAL' || t.type === 'REFUND';
+        
         if (tMonth === currentMonthKey) {
-          if (t.type === 'INCOME') currentMonthRevenue += amount;
-          else if (t.type === 'EXPENSE') currentMonthExpenses += amount;
+          if (isIncome) currentMonthRevenue += amount;
+          else if (isExpense) currentMonthExpenses += amount;
         }
 
         const monthBucket = months.find(m => m.key === tMonth);
         if (monthBucket) {
-          if (t.type === 'INCOME') monthBucket.revenue += amount;
-          else if (t.type === 'EXPENSE') monthBucket.expenses += amount;
+          if (isIncome) monthBucket.revenue += amount;
+          else if (isExpense) monthBucket.expenses += amount;
         }
       });
     }
@@ -255,7 +293,7 @@ export default async function AdminDashboardPage(props: { params: Promise<{ subd
           <div className="relative flex justify-between items-start">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-purple-200">Envios Pendentes</p>
-              <p className="mt-2 text-4xl font-bold text-white">0</p>
+              <p className="mt-2 text-4xl font-bold text-white">{pendingShipments}</p>
               <p className="mt-1 text-xs text-purple-200">Aguardando pagamento</p>
             </div>
             <div className="rounded-xl bg-white/20 p-2.5">
@@ -269,8 +307,8 @@ export default async function AdminDashboardPage(props: { params: Promise<{ subd
           <div className="relative flex justify-between items-start">
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-emerald-200">Grupos Ativos</p>
-              <p className="mt-2 text-4xl font-bold text-white">0</p>
-              <p className="mt-1 text-xs text-emerald-200">0 pedidos pendentes</p>
+              <p className="mt-2 text-4xl font-bold text-white">{activeGroups}</p>
+              <p className="mt-1 text-xs text-emerald-200">Monitoramento ativo</p>
             </div>
             <div className="rounded-xl bg-white/20 p-2.5">
               <ShoppingBag className="h-6 w-6 text-white" />
@@ -289,7 +327,7 @@ export default async function AdminDashboardPage(props: { params: Promise<{ subd
           </div>
           <div>
             <p className="text-xs uppercase tracking-wider font-semibold text-zinc-500">Saldo em carteiras</p>
-            <p className="text-xl font-bold text-white mt-0.5">$ 0,00</p>
+            <p className="text-xl font-bold text-white mt-0.5">{currency} {walletBalanceTotal.toFixed(2)}</p>
           </div>
         </div>
         <div className="flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
@@ -298,7 +336,7 @@ export default async function AdminDashboardPage(props: { params: Promise<{ subd
           </div>
           <div>
             <p className="text-xs uppercase tracking-wider font-semibold text-zinc-500">Envios totais</p>
-            <p className="text-xl font-bold text-white mt-0.5">0</p>
+            <p className="text-xl font-bold text-white mt-0.5">{totalShipments}</p>
           </div>
         </div>
         <div className="flex items-center gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-5">
@@ -307,7 +345,7 @@ export default async function AdminDashboardPage(props: { params: Promise<{ subd
           </div>
           <div>
             <p className="text-xs uppercase tracking-wider font-semibold text-zinc-500">Pedidos totais</p>
-            <p className="text-xl font-bold text-white mt-0.5">0</p>
+            <p className="text-xl font-bold text-white mt-0.5">{totalOrders}</p>
           </div>
         </div>
       </div>

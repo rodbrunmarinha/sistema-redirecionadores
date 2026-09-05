@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
@@ -170,4 +170,29 @@ export async function getProductOgImage(url: string) {
   } catch (e) {
     return null;
   }
+}
+
+export async function deleteAssistedPurchase(tenantId: string, userId: string, purchaseId: string) {
+  const supabase = await createClient();
+  
+  // Apenas excluir se o status for PENDING_PAYMENT
+  const { data: purchase } = await supabase
+    .from('assisted_purchases')
+    .select('status')
+    .eq('id', purchaseId)
+    .eq('customer_id', userId)
+    .single();
+    
+  if (!purchase) return { error: 'Compra não encontrada.' };
+  if (purchase.status !== 'PENDING_PAYMENT') return { error: 'Você só pode excluir compras que ainda não foram pagas.' };
+
+  const { error } = await supabase
+    .from('assisted_purchases')
+    .delete()
+    .eq('id', purchaseId);
+
+  if (error) return { error: error.message };
+
+  revalidatePath(`/tenant/${tenantId}/app/online-purchases`);
+  return { success: true };
 }

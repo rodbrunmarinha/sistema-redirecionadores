@@ -53,8 +53,8 @@ export function Sidebar({ organizationName, firstName, fullName, suiteNumber, in
     },
     my_suite: { 
       name: "Meu Dock", 
-      href: "/app/products", 
-      icon: <Package className="w-5 h-5" />,
+      href: "/app/suite", 
+      icon: <Map className="w-5 h-5" />,
       iconBgClass: "bg-slate-100 dark:bg-slate-800/50",
       iconColorClass: "text-slate-600 dark:text-slate-300"
     },

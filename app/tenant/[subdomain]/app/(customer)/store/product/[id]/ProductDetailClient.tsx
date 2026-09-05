@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useCart } from '@/utils/store/useCart';
+import { useTenantSettings } from '../../../components/TenantSettingsContext';
 
 export default function ProductDetailClient({ 
   tenant, 
@@ -24,13 +25,16 @@ export default function ProductDetailClient({
   const [activeTab, setActiveTab] = useState<'description' | 'reviews'>('description');
   const [quantity, setQuantity] = useState(1);
   const [cartOpen, setCartOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  const { settings } = useTenantSettings();
+  const currency = settings?.operations?.currency || 'USD';
   
   const addItem = useCart(state => state.addItem);
   const cartCount = useCart(state => state.getTotalItems());
   const cartItems = useCart(state => state.items);
   const cartTotal = useCart(state => state.getSubtotal());
 
-  const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -127,7 +131,7 @@ export default function ProductDetailClient({
               {/* Main Image */}
               <div className="aspect-square relative flex items-center justify-center bg-zinc-50 dark:bg-zinc-900">
                 {mainImage ? (
-                  <img src={mainImage} alt={product.name} className="w-full h-full object-cover" />
+                  <img src={mainImage} alt={product.name} className="w-full h-full object-contain" />
                 ) : (
                   <Package className="w-24 h-24 text-zinc-300 dark:text-zinc-700" />
                 )}
@@ -166,7 +170,7 @@ export default function ProductDetailClient({
                         : 'border-zinc-200 dark:border-zinc-800 hover:border-amber-300'
                     }`}
                   >
-                    <img src={img.image_url} alt={`Thumb ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img src={img.image_url} alt={`Thumb ${idx + 1}`} className="w-full h-full object-contain" />
                   </button>
                 ))}
               </div>
@@ -181,7 +185,7 @@ export default function ProductDetailClient({
 
             <div className="mb-6">
               <span className="text-3xl sm:text-4xl font-extrabold text-amber-500">
-                ¥{Number(product.price).toFixed(2)}
+                {currency} {Number(product.price).toFixed(2)}
               </span>
             </div>
 
@@ -359,17 +363,17 @@ export default function ProductDetailClient({
                     <div key={item.id} className="flex items-center gap-3 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800">
                       <div className="w-16 h-16 rounded-xl bg-zinc-50 dark:bg-zinc-800 overflow-hidden shrink-0 flex items-center justify-center">
                         {item.image_url ? (
-                          <img src={item.image_url} alt={item.name} className="w-full h-full object-cover" />
+                          <img src={item.image_url} alt={item.name} className="w-full h-full object-contain" />
                         ) : (
                           <Package className="w-6 h-6 text-zinc-400" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-semibold text-zinc-900 dark:text-white truncate">{item.name}</p>
-                        <p className="text-xs text-zinc-500 mt-1">{item.quantity} × ${Number(item.price).toFixed(2)}</p>
+                        <p className="text-xs text-zinc-500 mt-1">{item.quantity} × {currency} {Number(item.price).toFixed(2)}</p>
                       </div>
                       <p className="text-sm font-bold text-amber-500 shrink-0">
-                        ${(Number(item.price) * item.quantity).toFixed(2)}
+                        {currency} {(Number(item.price) * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   ))}
@@ -381,7 +385,7 @@ export default function ProductDetailClient({
               <div className="border-t border-zinc-100 dark:border-zinc-800 px-5 py-4 space-y-4 bg-white dark:bg-zinc-900">
                 <div className="flex justify-between font-bold text-zinc-900 dark:text-white text-lg">
                   <span>Total</span>
-                  <span className="text-amber-500">${cartTotal.toFixed(2)}</span>
+                  <span className="text-amber-500">{currency} {cartTotal.toFixed(2)}</span>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <Link href={`/app/store/cart`} className="px-4 py-3 text-center rounded-xl border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 text-sm font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition">

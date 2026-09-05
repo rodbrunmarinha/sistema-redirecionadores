@@ -30,8 +30,8 @@ export default function OrderDetailClient({
   const steps = [
     { key: 'received', title: 'Pedido Recebido', description: 'Pagamento confirmado', icon: <ShoppingBag className="w-8 h-8" />, completed: true },
     { key: 'processing', title: 'Processando', description: 'Separando produtos', icon: <Box className="w-8 h-8" />, completed: true },
-    { key: 'shipped_to_suite', title: 'Enviado para Suíte', description: 'Produtos em sua suíte', icon: <Inbox className="w-8 h-8" />, completed: true },
-    { key: 'delivered', title: 'Concluído', description: 'Disponível na sua suíte', icon: <Check className="w-8 h-8" />, completed: true },
+    { key: 'shipped_to_suite', title: 'Enviado para Dock', description: 'Produtos em sua dock', icon: <Inbox className="w-8 h-8" />, completed: true },
+    { key: 'delivered', title: 'Concluído', description: 'Disponível na sua dock', icon: <Check className="w-8 h-8" />, completed: true },
   ];
 
   return (
@@ -172,14 +172,14 @@ export default function OrderDetailClient({
               </div>
             </div>
 
-            {/* Suite Delivery Info */}
+            {/* Dock Delivery Info */}
             <div className="rounded-3xl border border-blue-200 dark:border-blue-900/50 bg-blue-50/50 dark:bg-blue-900/10 p-6 shadow-sm">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm bg-gradient-to-br from-blue-500 to-blue-600 text-white">
                   <Package className="w-6 h-6" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-blue-900 dark:text-blue-300 mb-2">Entrega na Suíte</h3>
+                  <h3 className="text-lg font-bold text-blue-900 dark:text-blue-300 mb-2">Entrega na Dock</h3>
                   
                   {order.box ? (
                     <div className="mb-4 bg-white/80 dark:bg-zinc-900/80 p-4 rounded-xl shadow-sm border border-blue-100 dark:border-blue-800">
@@ -188,7 +188,7 @@ export default function OrderDetailClient({
                     </div>
                   ) : (
                     <p className="text-blue-800/80 dark:text-blue-400/80 font-medium mb-3">
-                      Os produtos deste pedido serão enviados diretamente para sua suíte após a confirmação do pagamento.
+                      Os produtos deste pedido serão enviados diretamente para sua dock após a confirmação do pagamento.
                     </p>
                   )}
 
@@ -228,7 +228,7 @@ export default function OrderDetailClient({
                 
                 <div className="flex justify-between text-zinc-600 dark:text-zinc-400 font-medium">
                   <span className="flex items-center gap-2">
-                    Frete para Suíte
+                    Frete para Dock
                   </span>
                   <span className="font-bold text-emerald-600 dark:text-emerald-500">Grátis</span>
                 </div>

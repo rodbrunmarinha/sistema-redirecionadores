@@ -593,7 +593,7 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
                     <div className="w-32 h-32 bg-zinc-800 rounded-2xl flex items-center justify-center border-2 border-dashed border-zinc-600 flex-shrink-0 relative overflow-hidden group">
                       {mainImage ? (
                         <>
-                          <img src={mainImage} alt="Principal" className="w-full h-full object-cover" />
+                          <img src={mainImage} alt="Principal" className="w-full h-full object-contain" />
                           <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                             <span className="text-white text-xs font-bold">Alterar</span>
                           </div>
@@ -630,7 +630,7 @@ export default function ProductCreateClient({ tenantId, initialCategories }: { t
                       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
                         {galleryImages.map((imgUrl, idx) => (
                           <div key={idx} className="relative group rounded-xl overflow-hidden bg-zinc-950 border border-zinc-700 aspect-square">
-                            <img src={imgUrl} alt={`Galeria ${idx + 1}`} className="w-full h-full object-cover" />
+                            <img src={imgUrl} alt={`Galeria ${idx + 1}`} className="w-full h-full object-contain" />
                             <button 
                               type="button" 
                               onClick={() => removeGalleryImage(idx)}

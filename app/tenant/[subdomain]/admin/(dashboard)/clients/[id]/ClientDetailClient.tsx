@@ -53,7 +53,7 @@ export default function ClientDetailClient({
                   <p className="text-zinc-400 text-sm mt-0.5">
                     {clientData.email}
                     <span className="mx-1.5 text-zinc-600">·</span>
-                    <span className="font-medium text-amber-400">Suíte {clientData.suite}</span>
+                    <span className="font-medium text-amber-400">Dock {clientData.suite}</span>
                   </p>
                 </div>
               </div>
@@ -293,31 +293,31 @@ export default function ClientDetailClient({
               <div className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-medium text-zinc-400">Créditos na Carteira</p>
-                  <p className="text-xs font-bold text-emerald-400">¥{(clientData.wallet_balance + clientData.wallet_debits).toFixed(2)}</p>
+                  <p className="text-xs font-bold text-emerald-400">¥{clientData.wallet_credits?.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-medium text-zinc-400">Débitos na Carteira</p>
-                  <p className="text-xs font-bold text-red-400">¥{clientData.wallet_debits.toFixed(2)}</p>
+                  <p className="text-xs font-bold text-red-400">¥{clientData.wallet_debits?.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-medium text-zinc-400">Total em Compras em Grupo</p>
-                  <p className="text-xs font-bold text-amber-400">¥0.00</p>
+                  <p className="text-xs font-bold text-amber-400">¥{clientData.total_groups?.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-medium text-zinc-400">Total na Loja</p>
-                  <p className="text-xs font-bold text-pink-400">¥18,000.00</p>
+                  <p className="text-xs font-bold text-pink-400">¥{clientData.total_store?.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-medium text-zinc-400">Total em Envios</p>
-                  <p className="text-xs font-bold text-purple-400">¥0.00</p>
+                  <p className="text-xs font-bold text-purple-400">¥{clientData.total_shipments?.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-xs font-medium text-zinc-400">Total em Solicitações</p>
-                  <p className="text-xs font-bold text-indigo-400">¥0.00</p>
+                  <p className="text-xs font-bold text-indigo-400">¥{clientData.total_assisted?.toFixed(2)}</p>
                 </div>
                 <div className="pt-3 mt-2 border-t border-zinc-800 flex items-center justify-between gap-2">
                   <p className="text-sm font-bold text-zinc-300">Total Movimentado</p>
-                  <p className="text-sm font-bold text-white">¥{clientData.total_moved.toFixed(2)}</p>
+                  <p className="text-sm font-bold text-white">¥{clientData.total_moved?.toFixed(2)}</p>
                 </div>
               </div>
             </div>
@@ -329,12 +329,12 @@ export default function ClientDetailClient({
             {/* Small Stat Blocks Grid */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
               {[
-                { label: 'Total Caixas', value: '2', sub: '39 itens', color: 'blue' },
-                { label: 'Estoque', value: '3', sub: '39 itens', color: 'violet' },
-                { label: 'Solicitações', value: '0', sub: '0 reg.', color: 'indigo' },
-                { label: 'Envios', value: '0', sub: '0 reg.', color: 'purple' },
-                { label: 'Ped. Grupo', value: '0', sub: '0 reg.', color: 'amber' },
-                { label: 'Ped. Loja', value: '1', sub: '1 reg.', color: 'pink' }
+                { label: 'Total Caixas', value: clientData.boxes_count?.toString() || '0', sub: `${clientData.available_weight?.toFixed(2) || '0.00'} kg`, color: 'blue' },
+                { label: 'Estoque', value: clientData.available_items?.toString() || '0', sub: `${clientData.products_count || 0} produtos`, color: 'violet' },
+                { label: 'Solicitações', value: clientData.assisted_count?.toString() || '0', sub: `${clientData.assisted_count || 0} reg.`, color: 'indigo' },
+                { label: 'Envios', value: clientData.shipments_count?.toString() || '0', sub: `${clientData.shipments_count || 0} reg.`, color: 'purple' },
+                { label: 'Ped. Grupo', value: clientData.groups_count?.toString() || '0', sub: `${clientData.groups_count || 0} reg.`, color: 'amber' },
+                { label: 'Ped. Loja', value: clientData.store_count?.toString() || '0', sub: `${clientData.store_count || 0} reg.`, color: 'pink' }
               ].map(stat => (
                 <div key={stat.label} className="group rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-zinc-700 px-4 py-4 transition-all duration-200 cursor-pointer">
                   <div className="flex items-start justify-between gap-1">
@@ -352,50 +352,117 @@ export default function ClientDetailClient({
               <div className="rounded-2xl bg-zinc-900 border border-zinc-800 shadow-sm overflow-hidden">
                 <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-zinc-800">
                   <p className="font-bold text-sm text-zinc-300">Solicitações Recentes</p>
-                  <button className="text-[10px] font-bold text-indigo-400 hover:text-indigo-300 transition">Ver todas →</button>
+                  <Link href={`/admin/online-purchases?client=${clientData.id}`} className="text-[10px] font-bold text-indigo-400 hover:text-indigo-300 transition">Ver todas →</Link>
                 </div>
-                <div className="px-5 py-5 text-sm text-zinc-500 italic">Nenhum registro recente encontrado.</div>
+                {clientData.recent_assisted?.length > 0 ? (
+                  <div className="divide-y divide-zinc-800">
+                    {clientData.recent_assisted.map((item: any) => (
+                      <div key={item.id} className="flex items-center gap-3 px-5 py-3.5">
+                        <span className="flex-shrink-0 w-2 h-2 rounded-full bg-indigo-500 mt-0.5"></span>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-sm font-bold text-white truncate">{item.product_name || `Req #${item.id.slice(0,6)}`}</p>
+                            <span className="flex-shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold bg-indigo-500/10 text-indigo-400">{item.status}</span>
+                          </div>
+                          <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500">
+                            <span>{new Date(item.created_at).toLocaleDateString('pt-BR')}</span>
+                            <span className="text-zinc-700">·</span>
+                            <span>¥{Number(item.total_paid || 0).toFixed(2)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="px-5 py-5 text-sm text-zinc-500 italic">Nenhum registro recente encontrado.</div>
+                )}
               </div>
               
               <div className="rounded-2xl bg-zinc-900 border border-zinc-800 shadow-sm overflow-hidden">
                 <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-zinc-800">
                   <p className="font-bold text-sm text-zinc-300">Envios Recentes</p>
-                  <button className="text-[10px] font-bold text-purple-400 hover:text-purple-300 transition">Ver todas →</button>
+                  <Link href={`/admin/shipments?client=${clientData.id}`} className="text-[10px] font-bold text-purple-400 hover:text-purple-300 transition">Ver todas →</Link>
                 </div>
-                <div className="px-5 py-5 text-sm text-zinc-500 italic">Nenhum registro recente encontrado.</div>
+                {clientData.recent_shipments?.length > 0 ? (
+                  <div className="divide-y divide-zinc-800">
+                    {clientData.recent_shipments.map((item: any) => (
+                      <div key={item.id} className="flex items-center gap-3 px-5 py-3.5">
+                        <span className="flex-shrink-0 w-2 h-2 rounded-full bg-purple-500 mt-0.5"></span>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-sm font-bold text-white truncate">{item.tracking_number || `Envio #${item.id.slice(0,6)}`}</p>
+                            <span className="flex-shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold bg-purple-500/10 text-purple-400">{item.status}</span>
+                          </div>
+                          <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500">
+                            <span>{new Date(item.created_at).toLocaleDateString('pt-BR')}</span>
+                            <span className="text-zinc-700">·</span>
+                            <span>¥{Number(item.total_amount || 0).toFixed(2)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="px-5 py-5 text-sm text-zinc-500 italic">Nenhum registro recente encontrado.</div>
+                )}
               </div>
               
               <div className="rounded-2xl bg-zinc-900 border border-zinc-800 shadow-sm overflow-hidden">
                 <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-zinc-800">
                   <p className="font-bold text-sm text-zinc-300">Pedidos Grupo Recentes</p>
-                  <button className="text-[10px] font-bold text-amber-400 hover:text-amber-300 transition">Ver todas →</button>
+                  <Link href={`/admin/purchase-groups?client=${clientData.id}`} className="text-[10px] font-bold text-amber-400 hover:text-amber-300 transition">Ver todas →</Link>
                 </div>
-                <div className="px-5 py-5 text-sm text-zinc-500 italic">Nenhum registro recente encontrado.</div>
+                {clientData.recent_groups?.length > 0 ? (
+                  <div className="divide-y divide-zinc-800">
+                    {clientData.recent_groups.map((item: any) => (
+                      <div key={item.id} className="flex items-center gap-3 px-5 py-3.5">
+                        <span className="flex-shrink-0 w-2 h-2 rounded-full bg-amber-500 mt-0.5"></span>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-sm font-bold text-white truncate">{`Grupo #${item.id.slice(0,6)}`}</p>
+                            <span className="flex-shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold bg-amber-500/10 text-amber-400">{item.status}</span>
+                          </div>
+                          <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500">
+                            <span>{new Date(item.created_at).toLocaleDateString('pt-BR')}</span>
+                            <span className="text-zinc-700">·</span>
+                            <span>¥{Number(item.total_amount || 0).toFixed(2)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="px-5 py-5 text-sm text-zinc-500 italic">Nenhum registro recente encontrado.</div>
+                )}
               </div>
               
               <div className="rounded-2xl bg-zinc-900 border border-zinc-800 shadow-sm overflow-hidden">
                 <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-zinc-800">
                   <p className="font-bold text-sm text-zinc-300">Pedidos da Loja Recentes</p>
-                  <button className="text-[10px] font-bold text-pink-400 hover:text-pink-300 transition">Ver todas →</button>
+                  <Link href={`/admin/store/orders?client=${clientData.id}`} className="text-[10px] font-bold text-pink-400 hover:text-pink-300 transition">Ver todas →</Link>
                 </div>
-                <div className="divide-y divide-zinc-800">
-                  <Link href="#" className="flex items-center gap-3 px-5 py-3.5 hover:bg-zinc-800/50 transition group">
-                    <span className="flex-shrink-0 w-2 h-2 rounded-full bg-pink-500 mt-0.5"></span>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="text-sm font-bold text-white truncate group-hover:text-pink-400 transition">ORD-6A905ECEB7CFD</p>
-                        <span className="flex-shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold bg-emerald-500/10 text-emerald-400">Entregue</span>
-                      </div>
-                      <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500">
-                        <span>Pago</span>
-                        <span className="text-zinc-700">·</span>
-                        <span>27/08/2026</span>
-                        <span className="text-zinc-700">·</span>
-                        <span>¥18,000.00</span>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
+                {clientData.recent_store?.length > 0 ? (
+                  <div className="divide-y divide-zinc-800">
+                    {clientData.recent_store.map((item: any) => (
+                      <Link key={item.id} href={`/admin/store/orders/${item.id}`} className="flex items-center gap-3 px-5 py-3.5 hover:bg-zinc-800/50 transition group">
+                        <span className="flex-shrink-0 w-2 h-2 rounded-full bg-pink-500 mt-0.5"></span>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-sm font-bold text-white truncate group-hover:text-pink-400 transition">{`ORD-${item.id.slice(0,8).toUpperCase()}`}</p>
+                            <span className="flex-shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold bg-pink-500/10 text-pink-400">{item.status}</span>
+                          </div>
+                          <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-zinc-500">
+                            <span>{new Date(item.created_at).toLocaleDateString('pt-BR')}</span>
+                            <span className="text-zinc-700">·</span>
+                            <span>¥{Number(item.total_amount || 0).toFixed(2)}</span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="px-5 py-5 text-sm text-zinc-500 italic">Nenhum registro recente encontrado.</div>
+                )}
               </div>
             </div>
 
@@ -404,53 +471,58 @@ export default function ClientDetailClient({
               <div className="rounded-2xl bg-zinc-900 border border-zinc-800 shadow-sm overflow-hidden">
                 <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-zinc-800">
                   <p className="font-bold text-sm text-zinc-300">Últimas Caixas Recebidas</p>
-                  <button className="text-[10px] font-bold text-blue-400 hover:text-blue-300 transition">Ver todas →</button>
+                  <Link href={`/admin/boxes?client=${clientData.id}`} className="text-[10px] font-bold text-blue-400 hover:text-blue-300 transition">Ver todas →</Link>
                 </div>
-                <div className="divide-y divide-zinc-800">
-                  <div className="flex items-center gap-3 px-5 py-3.5">
-                    <span className="flex-shrink-0 w-2 h-2 rounded-full bg-blue-500 mt-0.5"></span>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="text-sm font-bold text-white truncate">STORE-ORD-6A9...</p>
-                        <span className="flex-shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold bg-zinc-800 text-zinc-400">Assigned</span>
+                {clientData.recent_boxes?.length > 0 ? (
+                  <div className="divide-y divide-zinc-800">
+                    {clientData.recent_boxes.map((item: any) => (
+                      <div key={item.id} className="flex items-center gap-3 px-5 py-3.5">
+                        <span className="flex-shrink-0 w-2 h-2 rounded-full bg-blue-500 mt-0.5"></span>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-sm font-bold text-white truncate">{item.tracking_number || `Caixa #${item.id.slice(0,6)}`}</p>
+                            <span className="flex-shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold bg-zinc-800 text-zinc-400">{item.status}</span>
+                          </div>
+                          <div className="mt-0.5 flex items-center gap-2 text-[10px] text-zinc-500 font-medium">
+                            <span>{new Date(item.created_at).toLocaleDateString('pt-BR')}</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="mt-0.5 flex items-center gap-2 text-[10px] text-zinc-500 font-medium">
-                        <span>27/08/2026</span>
-                        <span className="text-zinc-700">·</span>
-                        <span>1 itens</span>
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                </div>
+                ) : (
+                  <div className="px-5 py-5 text-sm text-zinc-500 italic">Nenhuma caixa recente encontrada.</div>
+                )}
               </div>
 
               <div className="rounded-2xl bg-zinc-900 border border-zinc-800 shadow-sm overflow-hidden">
                 <div className="flex items-center justify-between gap-3 px-5 py-4 border-b border-zinc-800">
                   <p className="font-bold text-sm text-zinc-300">Transações Recentes Carteira</p>
-                  <button className="text-[10px] font-bold text-emerald-400 hover:text-emerald-300 transition">Ver todas →</button>
+                  <Link href={`/admin/wallets/${clientData.id}`} className="text-[10px] font-bold text-emerald-400 hover:text-emerald-300 transition">Ver todas →</Link>
                 </div>
-                <div className="divide-y divide-zinc-800">
-                  <div className="flex items-center gap-3 px-5 py-3.5">
-                    <span className="flex-shrink-0 p-1.5 rounded-lg bg-red-500/10">
-                      <ArrowDownRight className="w-4 h-4 text-red-400" />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-white truncate">Loja Virtual - Pedido #ORD...</p>
-                      <p className="text-[10px] text-zinc-500 font-medium">27/08/2026 12:59</p>
-                    </div>
-                    <p className="flex-shrink-0 text-sm font-bold text-red-400">−¥18,000.00</p>
+                {clientData.recent_wallet?.length > 0 ? (
+                  <div className="divide-y divide-zinc-800">
+                    {clientData.recent_wallet.map((item: any) => {
+                      const isPositive = Number(item.amount) > 0;
+                      return (
+                        <div key={item.id} className="flex items-center gap-3 px-5 py-3.5">
+                          <span className={`flex-shrink-0 p-1.5 rounded-lg ${isPositive ? 'bg-emerald-500/10' : 'bg-red-500/10'}`}>
+                            {isPositive ? <ArrowUpRight className={`w-4 h-4 text-emerald-400`} /> : <ArrowDownRight className={`w-4 h-4 text-red-400`} />}
+                          </span>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-sm font-bold text-white truncate">{item.description || item.type}</p>
+                            <p className="text-[10px] text-zinc-500 font-medium">{new Date(item.created_at).toLocaleString('pt-BR')}</p>
+                          </div>
+                          <p className={`flex-shrink-0 text-sm font-bold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+                            {isPositive ? '+' : '-'}¥{Math.abs(Number(item.amount)).toFixed(2)}
+                          </p>
+                        </div>
+                      );
+                    })}
                   </div>
-                  <div className="flex items-center gap-3 px-5 py-3.5">
-                    <span className="flex-shrink-0 p-1.5 rounded-lg bg-emerald-500/10">
-                      <ArrowUpRight className="w-4 h-4 text-emerald-400" />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-white truncate">Bonus de boas vindas</p>
-                      <p className="text-[10px] text-zinc-500 font-medium">27/08/2026 12:58</p>
-                    </div>
-                    <p className="flex-shrink-0 text-sm font-bold text-emerald-400">+¥20,000.00</p>
-                  </div>
-                </div>
+                ) : (
+                  <div className="px-5 py-5 text-sm text-zinc-500 italic">Nenhuma transação recente.</div>
+                )}
               </div>
             </div>
           </div>

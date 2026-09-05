@@ -12,7 +12,7 @@ export default async function ClientOrdersPage(props: {
     id: id,
     name: "Bruno de Souza",
     email: "rodbrun_dragon@hotmail.com",
-    suite: "Suíte 1001",
+    suite: "Dock 1001",
     initials: "B",
     status: "active",
     requiresPicking: false

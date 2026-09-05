@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Package, X, ChevronRight, Inbox, Search } from "lucide-react";
 
-export default function SuitePage() {
+export default function DockPage() {
   // Estados para simular a interatividade
   const [selectedCount, setSelectedCount] = useState(0);
   const [totalItems, setTotalItems] = useState(0);

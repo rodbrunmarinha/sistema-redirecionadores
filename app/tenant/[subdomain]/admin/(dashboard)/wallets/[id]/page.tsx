@@ -11,7 +11,7 @@ export default async function WalletDetailPage(props: {
   const dummyWallet = {
     id: id,
     customerName: "Bruno de Souza",
-    suite: "Suite #1001",
+    suite: "Dock #1001",
     email: "rodbrun_dragon@hotmail.com",
     initials: "BR",
     availableBalance: 2000.0,

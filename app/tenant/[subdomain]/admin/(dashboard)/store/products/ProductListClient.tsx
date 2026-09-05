@@ -159,7 +159,7 @@ export default function ProductListClient({
               <div className="relative aspect-square bg-zinc-800/50 flex items-center justify-center">
                 {product.main_image ? (
                   <button type="button" className="group/img w-full h-full block cursor-zoom-in" onClick={() => setLightbox({url: product.main_image, alt: product.name})}>
-                    <img src={product.main_image} alt={product.name} className="w-full h-full object-cover" />
+                    <img src={product.main_image} alt={product.name} className="w-full h-full object-contain" />
                   </button>
                 ) : (
                   <ImageIcon className="w-12 h-12 text-zinc-600" />
@@ -219,7 +219,7 @@ export default function ProductListClient({
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 bg-zinc-800 rounded-lg overflow-hidden flex-shrink-0 flex items-center justify-center">
                           {product.main_image ? (
-                            <img src={product.main_image} alt={product.name} className="w-full h-full object-cover cursor-zoom-in" onClick={() => setLightbox({url: product.main_image, alt: product.name})} />
+                            <img src={product.main_image} alt={product.name} className="w-full h-full object-contain cursor-zoom-in" onClick={() => setLightbox({url: product.main_image, alt: product.name})} />
                           ) : (
                             <ImageIcon className="w-5 h-5 text-zinc-600" />
                           )}
