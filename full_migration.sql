@@ -1,4 +1,4 @@
--- Enable UUID extension if not already enabled
+﻿-- Enable UUID extension if not already enabled
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- 1. Tenants Table (Lojistas/Redirecionadores)
@@ -50,7 +50,7 @@ ON public.profiles FOR SELECT USING (
 );
 
 
--- 3. Boxes Table (Caixas recebidas no armazÃ©m)
+-- 3. Boxes Table (Caixas recebidas no armazÃƒÂ©m)
 CREATE TABLE public.boxes (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     tenant_id UUID REFERENCES public.tenants(id) ON DELETE RESTRICT NOT NULL,
@@ -1162,8 +1162,8 @@ CREATE TABLE IF NOT EXISTS public.vip_programs (
 -- Habilitar RLS
 ALTER TABLE public.vip_programs ENABLE ROW LEVEL SECURITY;
 
--- Políticas de acesso
-CREATE POLICY "Tenants podem gerenciar seus próprios programas VIP" ON public.vip_programs
+-- PolÃ­ticas de acesso
+CREATE POLICY "Tenants podem gerenciar seus prÃ³prios programas VIP" ON public.vip_programs
     FOR ALL
     USING (tenant_id = (SELECT tenant_id FROM auth.users WHERE id = auth.uid() LIMIT 1))
     WITH CHECK (tenant_id = (SELECT tenant_id FROM auth.users WHERE id = auth.uid() LIMIT 1));
@@ -1191,7 +1191,7 @@ CREATE TRIGGER update_vip_programs_updated_at
 GRANT SELECT, INSERT, UPDATE, DELETE ON public.vip_programs TO anon, authenticated, service_role;
 
 
--- Tabela de Benefícios dos Programas VIP
+-- Tabela de BenefÃ­cios dos Programas VIP
 CREATE TABLE IF NOT EXISTS public.vip_program_benefits (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
@@ -1210,13 +1210,13 @@ CREATE TABLE IF NOT EXISTS public.vip_program_benefits (
 -- Habilitar RLS
 ALTER TABLE public.vip_program_benefits ENABLE ROW LEVEL SECURITY;
 
--- Políticas de acesso
-CREATE POLICY "Tenants podem gerenciar os benefícios de seus programas" ON public.vip_program_benefits
+-- PolÃ­ticas de acesso
+CREATE POLICY "Tenants podem gerenciar os benefÃ­cios de seus programas" ON public.vip_program_benefits
     FOR ALL
     USING (tenant_id = (SELECT tenant_id FROM public.profiles WHERE id = auth.uid() LIMIT 1))
     WITH CHECK (tenant_id = (SELECT tenant_id FROM public.profiles WHERE id = auth.uid() LIMIT 1));
 
-CREATE POLICY "Clientes podem ler benefícios dos programas ativos" ON public.vip_program_benefits
+CREATE POLICY "Clientes podem ler benefÃ­cios dos programas ativos" ON public.vip_program_benefits
     FOR SELECT
     USING (
         tenant_id = (SELECT tenant_id FROM public.profiles WHERE id = auth.uid() LIMIT 1)
@@ -1238,7 +1238,7 @@ CREATE TRIGGER update_vip_program_benefits_updated_at
     EXECUTE FUNCTION update_vip_program_benefits_updated_at();
 
 
--- Tabela de Assinaturas VIP (Usuários vinculados aos programas)
+-- Tabela de Assinaturas VIP (UsuÃ¡rios vinculados aos programas)
 CREATE TABLE IF NOT EXISTS public.vip_subscriptions (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     tenant_id UUID NOT NULL REFERENCES public.tenants(id) ON DELETE CASCADE,
@@ -1256,13 +1256,13 @@ CREATE TABLE IF NOT EXISTS public.vip_subscriptions (
 -- Habilitar RLS
 ALTER TABLE public.vip_subscriptions ENABLE ROW LEVEL SECURITY;
 
--- Políticas de acesso
+-- PolÃ­ticas de acesso
 CREATE POLICY "Tenants podem gerenciar as assinaturas VIP" ON public.vip_subscriptions
     FOR ALL
     USING (tenant_id = (SELECT tenant_id FROM public.profiles WHERE id = auth.uid() LIMIT 1))
     WITH CHECK (tenant_id = (SELECT tenant_id FROM public.profiles WHERE id = auth.uid() LIMIT 1));
 
-CREATE POLICY "Clientes podem ler sua própria assinatura VIP" ON public.vip_subscriptions
+CREATE POLICY "Clientes podem ler sua prÃ³pria assinatura VIP" ON public.vip_subscriptions
     FOR SELECT
     USING (
         tenant_id = (SELECT tenant_id FROM public.profiles WHERE id = auth.uid() LIMIT 1)
@@ -1898,3 +1898,49 @@ CREATE POLICY "Admin/Manager can manage assisted purchases" ON public.assisted_p
     FOR ALL USING (
         tenant_id IN (SELECT tenant_id FROM profiles WHERE id = auth.uid() AND role IN ('ADMIN', 'MANAGER'))
     );
+
+-- ==========================================
+-- TAXAS DE SERVIÇO (SERVICE FEES)
+-- ==========================================
+
+-- Alterar tenant_settings para suportar a estratégia e as regras
+ALTER TABLE public.tenant_settings ADD COLUMN IF NOT EXISTS service_fee_strategy TEXT DEFAULT 'NONE' CHECK (service_fee_strategy IN ('PER_BOX', 'MONTHLY_INVOICE', 'NONE'));
+ALTER TABLE public.tenant_settings ADD COLUMN IF NOT EXISTS service_fee_tiers JSONB DEFAULT '[]'::jsonb;
+ALTER TABLE public.tenant_settings ADD COLUMN IF NOT EXISTS service_fee_charge_store_percentage BOOLEAN DEFAULT false;
+
+-- Tabela de faturas mensais pendentes/pagas
+CREATE TABLE IF NOT EXISTS public.service_invoices (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID REFERENCES public.tenants(id) ON DELETE CASCADE NOT NULL,
+    customer_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
+    reference_month TEXT NOT NULL, 
+    total_spent NUMERIC NOT NULL DEFAULT 0,
+    fee_amount NUMERIC NOT NULL DEFAULT 0,
+    status TEXT NOT NULL DEFAULT 'PENDING' CHECK (status IN ('PENDING', 'PAID', 'CANCELLED')),
+    paid_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    UNIQUE(tenant_id, customer_id, reference_month)
+);
+
+ALTER TABLE public.service_invoices ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Admins can view and manage all invoices in their tenant" 
+ON public.service_invoices FOR ALL USING (
+    (SELECT role FROM public.profiles WHERE id = auth.uid()) IN ('SUPER_ADMIN', 'ADMIN') 
+    AND tenant_id = (SELECT tenant_id FROM public.profiles WHERE id = auth.uid())
+);
+
+CREATE POLICY "Customers can view their own invoices" 
+ON public.service_invoices FOR SELECT USING (
+    auth.uid() = customer_id
+);
+
+GRANT ALL ON TABLE public.service_invoices TO authenticated;
+GRANT ALL ON TABLE public.service_invoices TO service_role;
+
+/* ==========================================
+   FIX RLS FOR PRODUCTS (CUSTOMER ACCESS)
+   ========================================== */
+CREATE POLICY "Customer can view own products" ON public.products FOR SELECT USING (
+    customer_id = auth.uid()
+);

@@ -35,6 +35,14 @@ export default async function WalletPage(props: { params: Promise<{ subdomain: s
     .eq('customer_id', user.id)
     .maybeSingle();
 
+  
+  const { data: invoices } = await supabase
+    .from('service_invoices')
+    .select('*')
+    .eq('tenant_id', tenant.id)
+    .eq('customer_id', user.id)
+    .eq('status', 'PENDING');
+
   const balance = wallet ? wallet.balance : 0;
   const walletId = wallet ? wallet.id : null;
 
@@ -58,6 +66,7 @@ export default async function WalletPage(props: { params: Promise<{ subdomain: s
       currency={currency}
       initialBalance={balance}
       transactions={transactions}
+      pendingInvoices={invoices || []}
       userId={user.id}
     />
   );

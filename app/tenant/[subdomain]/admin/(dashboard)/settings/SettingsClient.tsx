@@ -10,12 +10,14 @@ import {
   Link as LinkIcon, 
   Bell,
   ChevronRight,
-  Loader2
+  Loader2,
+  Calculator
 } from "lucide-react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { BrandingTab } from "./_components/BrandingTab";
 import { OperationsTab } from "./_components/OperationsTab";
+import { ServiceFeesTab } from "./_components/ServiceFeesTab";
 import { AddressTab } from "./_components/AddressTab";
 import { ConversionTab } from "./_components/ConversionTab";
 import { MenuTab } from "./_components/MenuTab";
@@ -23,7 +25,7 @@ import { QuickLinksTab } from "./_components/QuickLinksTab";
 import { NotificationsTab } from "./_components/NotificationsTab";
 import { updateTenantSettings } from "./_actions/settings";
 
-type TabKey = 'branding' | 'operations' | 'address' | 'conversion' | 'menu' | 'quick_links' | 'notifications';
+type TabKey = 'branding' | 'operations' | 'service_fees' | 'address' | 'conversion' | 'menu' | 'quick_links' | 'notifications';
 
 export function SettingsClient({ tenantId, subdomain, initialSettings }: { tenantId?: string, subdomain?: string, initialSettings?: any }) {
   const [activeTab, setActiveTab] = useState<TabKey>('branding');
@@ -38,11 +40,15 @@ export function SettingsClient({ tenantId, subdomain, initialSettings }: { tenan
     menu: initialSettings?.menu || {},
     quick_links: initialSettings?.quick_links || {},
     notifications: initialSettings?.notifications || {},
+    service_fee_strategy: initialSettings?.service_fee_strategy || 'NONE',
+    service_fee_tiers: initialSettings?.service_fee_tiers || [],
+    service_fee_charge_store_percentage: initialSettings?.service_fee_charge_store_percentage || false,
   });
 
   const handleUpdate = (tabKey: TabKey, newValues: any) => {
     setSettings(prev => ({
       ...prev,
+      // @ts-ignore
       [tabKey]: { ...prev[tabKey], ...newValues }
     }));
   };
@@ -70,6 +76,7 @@ export function SettingsClient({ tenantId, subdomain, initialSettings }: { tenan
   const tabs = [
     { key: 'branding', label: 'Aparência', icon: Palette, description: 'Logos, cores e tema' },
     { key: 'operations', label: 'Operacional', icon: Settings, description: 'Moedas, taxas e regras' },
+    { key: 'service_fees', label: 'Taxas de Serviço', icon: Calculator, description: 'Regras de cobrança' },
     { key: 'address', label: 'Endereço', icon: MapPin, description: 'Endereço do dock' },
     { key: 'conversion', label: 'Conversão', icon: TrendingUp, description: 'Checkout e tracking' },
     { key: 'menu', label: 'Menu', icon: MenuSquare, description: 'Navegação do cliente' },
@@ -159,6 +166,7 @@ export function SettingsClient({ tenantId, subdomain, initialSettings }: { tenan
               />
             )}
             {activeTab === 'operations' && <OperationsTab data={settings.operations} onChange={(data: any) => handleUpdate('operations', data)} />}
+            {activeTab === 'service_fees' && <ServiceFeesTab settings={settings} onChange={(updates: any) => setSettings(prev => ({ ...prev, ...updates }))} />}
             {activeTab === 'address' && <AddressTab data={settings.address} onChange={(data: any) => handleUpdate('address', data)} />}
             {activeTab === 'conversion' && <ConversionTab data={settings.conversion} onChange={(data: any) => handleUpdate('conversion', data)} />}
             {activeTab === 'menu' && <MenuTab data={settings.menu} onChange={(data: any) => handleUpdate('menu', data)} />}

@@ -163,7 +163,7 @@ export default function ClientDetailClient({
 
           <div className="group relative overflow-hidden rounded-2xl bg-zinc-900 border border-zinc-800 p-5 hover:border-violet-500/50 transition-all duration-200">
             <div className="flex items-center justify-between">
-              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Suíte Disponível</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Dock Disponível</p>
               <div className="p-2 rounded-lg bg-violet-500/10 group-hover:bg-violet-500/20 transition">
                 <Box className="w-4 h-4 text-violet-400" />
               </div>
@@ -203,7 +203,7 @@ export default function ClientDetailClient({
                     <p className="mt-0.5 font-semibold text-zinc-300 break-all">{clientData.document}</p>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-wide">Suíte</p>
+                    <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-wide">Dock</p>
                     <p className="mt-0.5 font-semibold text-amber-400 break-all">{clientData.suite}</p>
                   </div>
                   <div>

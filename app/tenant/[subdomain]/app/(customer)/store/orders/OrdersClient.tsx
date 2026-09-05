@@ -152,8 +152,25 @@ export default function OrdersClient({
 
                 {/* Main Item */}
                 <div className="flex items-center gap-4 mb-6 flex-1">
-                  <div className="w-16 h-16 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shrink-0">
-                    <ShoppingBag className="w-8 h-8 text-zinc-400 dark:text-zinc-500" />
+                  <div className="flex -space-x-4 shrink-0">
+                    {order.thumbnails && order.thumbnails.length > 0 ? (
+                      <>
+                        {order.thumbnails.slice(0, 3).map((thumb: string, idx: number) => (
+                          <div key={idx} className="w-16 h-16 rounded-2xl bg-zinc-100 dark:bg-zinc-800 border-2 border-white dark:border-zinc-900 overflow-hidden shadow-sm relative z-10" style={{ zIndex: 10 - idx }}>
+                            <img src={thumb} alt="Product" className="w-full h-full object-cover" />
+                          </div>
+                        ))}
+                        {order.thumbnails.length > 3 && (
+                          <div className="w-16 h-16 rounded-2xl bg-zinc-100 dark:bg-zinc-800 border-2 border-white dark:border-zinc-900 flex items-center justify-center shadow-sm relative z-0">
+                            <span className="text-sm font-bold text-zinc-500">+{order.thumbnails.length - 3}</span>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <div className="w-16 h-16 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center relative z-10">
+                        <ShoppingBag className="w-8 h-8 text-zinc-400 dark:text-zinc-500" />
+                      </div>
+                    )}
                   </div>
                   <div>
                     <h3 className="font-bold text-zinc-900 dark:text-white line-clamp-2 leading-tight group-hover:text-amber-500 transition-colors">

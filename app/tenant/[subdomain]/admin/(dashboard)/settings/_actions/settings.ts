@@ -51,6 +51,9 @@ export async function updateTenantSettings(tenantId: string, payload: any, subdo
       quick_links: payload.quick_links || {},
       notifications: payload.notifications || {},
       email_smtp: payload.email_smtp || {},
+      service_fee_strategy: payload.service_fee_strategy,
+      service_fee_tiers: payload.service_fee_tiers,
+      service_fee_charge_store_percentage: payload.service_fee_charge_store_percentage,
       updated_at: new Date().toISOString()
     }, {
       onConflict: 'tenant_id'

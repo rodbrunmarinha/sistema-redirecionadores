@@ -55,7 +55,7 @@ export default async function AdminClientDetailPage(props: { params: Promise<{ s
     }
   }
 
-  const total_moved = wallet_credits + wallet_debits;
+  
 
   // 4. Fetch Boxes for weight
   const { data: boxes } = await supabase
@@ -90,6 +90,8 @@ export default async function AdminClientDetailPage(props: { params: Promise<{ s
 
   const { data: purchaseGroups } = await supabase.from('purchase_group_orders').select('total_amount').eq('customer_id', id).eq('tenant_id', tenant.id);
   const total_groups = (purchaseGroups || []).reduce((sum, g) => sum + Number(g.total_amount || 0), 0);
+
+  const total_moved = total_store + total_shipments + total_assisted + total_groups;
 
   // 7. Fetch Recent Activities (max 3 each)
   const { data: recent_assisted } = await supabase.from('assisted_purchases')

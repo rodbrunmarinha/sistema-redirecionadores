@@ -39,7 +39,8 @@ export default async function CustomerOrdersPage(props: { params: Promise<{ subd
         id,
         product_name,
         quantity,
-        unit_price
+        unit_price,
+        store_products ( main_image )
       )
     `)
     .eq('tenant_id', tenant.id)
@@ -62,6 +63,11 @@ export default async function CustomerOrdersPage(props: { params: Promise<{ subd
     } else if (itemCount > 1) {
       mainItemName = `${order.store_order_items[0].product_name} e mais ${itemCount - 1} item(ns)`;
     }
+    
+    // Extract images
+    const thumbnails: string[] = order.store_order_items
+      .map((item: any) => item.store_products?.main_image)
+      .filter((url: any) => typeof url === 'string' && url.length > 0);
 
     return {
       id: order.id,
@@ -71,8 +77,7 @@ export default async function CustomerOrdersPage(props: { params: Promise<{ subd
       total: order.total_amount,
       itemCount: itemCount,
       mainItemName: mainItemName,
-      // For now, no images from the DB for the order list, we can pass a generic image or null
-      imageUrl: '' 
+      thumbnails: thumbnails
     };
   });
 

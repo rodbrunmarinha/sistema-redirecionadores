@@ -42,7 +42,8 @@ export default async function CustomerOrderDetailPage(props: { params: Promise<{
         quantity,
         unit_price,
         total_price,
-        product_id
+        product_id,
+        store_products ( main_image )
       )
     `)
     .eq('tenant_id', tenant.id)
@@ -82,7 +83,7 @@ export default async function CustomerOrderDetailPage(props: { params: Promise<{
       quantity: item.quantity,
       price: item.unit_price,
       // We don't have images in order_items yet, so we use a fallback or try to fetch from store_products
-      image_url: '' 
+      image_url: item.store_products?.main_image || '' 
     }))
   };
 

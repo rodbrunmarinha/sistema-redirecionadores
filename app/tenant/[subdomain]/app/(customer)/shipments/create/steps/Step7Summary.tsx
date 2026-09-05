@@ -17,15 +17,32 @@ export default function Step7Summary({ formData, onPrev }: any) {
   const totalRealValue = productIds.reduce((acc, id) => acc + (parseFloat(formData.products[id].price_paid || 0) * (formData.products[id].quantity || 1)), 0);
 
   let serviceFee = 0;
-  const serviceFeeType = settings?.operations?.serviceFeeType || 'none';
-  const serviceFeeAmount = parseFloat(settings?.operations?.serviceFeeAmount || "0");
+  let serviceFeeLabel = "Taxa de Serviço";
+  const strategy = settings?.service_fee_strategy || 'NONE';
+  const tiers = settings?.service_fee_tiers || [];
+  const chargeStore = settings?.service_fee_charge_store_percentage || false;
+  
+  if (strategy === 'PER_BOX') {
+    const totalSpent = totalRealValue; // Using totalRealValue as total spent for the box
+    
+    let applicableTier = null;
+    for (const tier of tiers) {
+      if (totalSpent >= tier.min && totalSpent <= tier.max) {
+        applicableTier = tier;
+        break;
+      }
+    }
 
-  if (serviceFeeType === 'fixed_per_box') {
-    serviceFee = serviceFeeAmount;
-  } else if (serviceFeeType === 'per_weight') {
-    serviceFee = serviceFeeAmount * totalWeight;
-  } else if (serviceFeeType === 'percentage_product') {
-    serviceFee = (totalRealValue * serviceFeeAmount) / 100;
+    if (applicableTier) {
+      serviceFee += Number(applicableTier.fixed_fee || 0);
+      const pct = Number(applicableTier.percentage_fee || 0);
+      if (pct > 0) {
+        // Without a strict 'source' column on warehouse products, we apply pct to all, 
+        // or 0 to store products if we could identify them. For PER_BOX, we apply to totalRealValue.
+        serviceFee += (totalSpent * pct) / 100;
+        serviceFeeLabel = `Taxa de Serviço (${pct}%)`;
+      }
+    }
   }
 
   const handleSubmit = async () => {
@@ -132,8 +149,7 @@ export default function Step7Summary({ formData, onPrev }: any) {
           {serviceFee > 0 && (
             <div className="flex justify-between text-gray-600 dark:text-gray-400">
               <span>
-                Taxa de Serviço do Redirecionador
-                {serviceFeeType === 'percentage_product' ? ` (${serviceFeeAmount}%)` : ''}
+                {serviceFeeLabel}
               </span>
               <span>{currencySymbol} {serviceFee.toFixed(2)}</span>
             </div>

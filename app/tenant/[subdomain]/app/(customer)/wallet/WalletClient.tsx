@@ -8,6 +8,8 @@ import {
 import { toast } from 'react-hot-toast';
 import { processDeposit } from './_actions/deposit';
 import { useRouter } from 'next/navigation';
+import { payInvoice } from './_actions/invoice';
+import { Receipt } from 'lucide-react';
 
 type Transaction = {
   id: string;
@@ -34,6 +36,7 @@ export default function WalletClient({
   initialBalance: number;
   transactions: Transaction[];
   userId: string;
+  pendingInvoices?: any[];
 }) {
   const router = useRouter();
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
@@ -52,6 +55,23 @@ export default function WalletClient({
       day: '2-digit', month: 'short', year: 'numeric',
       hour: '2-digit', minute: '2-digit'
     }).format(new Date(dateString));
+  };
+
+  
+  const handlePayInvoice = (invoiceId: string) => {
+    startTransition(async () => {
+      try {
+        const res = await payInvoice(invoiceId);
+        if (res.success) {
+          toast.success("Fatura paga com sucesso!");
+          router.refresh();
+        } else {
+          toast.error(res.error || "Erro ao pagar fatura");
+        }
+      } catch (err: any) {
+        toast.error(err.message || "Erro ao pagar fatura");
+      }
+    });
   };
 
   const handleDeposit = (e: React.FormEvent) => {

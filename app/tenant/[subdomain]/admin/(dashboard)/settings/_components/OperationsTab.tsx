@@ -410,66 +410,6 @@ export function OperationsTab({ data, onChange }: { data?: any, onChange?: (data
           </div>
         </div>
 
-        {/* Taxa de Serviço */}
-        <div className="bg-zinc-950 rounded-xl border border-zinc-800 p-4 sm:p-6">
-          <div className="flex items-center gap-2 mb-2">
-            <Calculator className="w-5 h-5 text-amber-500" />
-            <h4 className="font-medium text-zinc-100 text-sm">Taxa de Serviço do Redirecionador</h4>
-          </div>
-          <p className="text-xs text-zinc-400 mb-4">Como você deseja cobrar pelo seu serviço (cobrado no momento da montagem do envio).</p>
-          
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-zinc-300 mb-1">Método de Cobrança</label>
-              <select 
-                value={serviceFeeType}
-                onChange={(e) => setServiceFeeType(e.target.value)}
-                className="w-full bg-zinc-900 border border-zinc-700 text-zinc-100 rounded-lg px-3 py-2 text-sm focus:ring-amber-500 focus:border-amber-500"
-              >
-                <option value="none">Nenhuma taxa de serviço</option>
-                <option value="fixed_per_box">Taxa Fixa (por caixa enviada)</option>
-                <option value="per_weight">Taxa por Peso (multiplicado pelo peso da caixa)</option>
-                <option value="percentage_product">Porcentagem (%) sobre o valor real pago pelo produto</option>
-              </select>
-            </div>
-
-            {serviceFeeType !== 'none' && (
-              <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-1">
-                  {serviceFeeType === 'percentage_product' ? 'Porcentagem (%)' : `Valor`}
-                </label>
-                <div className="flex items-center max-w-xs">
-                  {serviceFeeType !== 'percentage_product' && (
-                    <span className="bg-zinc-800 border border-r-0 border-zinc-700 text-zinc-400 px-3 py-2 rounded-l-lg text-sm">
-                      {currency}
-                    </span>
-                  )}
-                  <input 
-                    type="text" 
-                    value={serviceFeeAmount}
-                    onChange={(e) => {
-                      const digits = e.target.value.replace(/\D/g, '');
-                      if (!digits) {
-                        setServiceFeeAmount("0.00");
-                      } else {
-                        setServiceFeeAmount((parseInt(digits, 10) / 100).toFixed(2));
-                      }
-                    }}
-                    className={`w-full bg-zinc-900 border border-zinc-700 text-zinc-100 px-3 py-2 text-sm focus:ring-amber-500 focus:border-amber-500 ${
-                      serviceFeeType === 'percentage_product' ? 'rounded-l-lg' : 'rounded-r-lg'
-                    }`}
-                  />
-                  {serviceFeeType === 'percentage_product' && (
-                    <span className="bg-zinc-800 border border-l-0 border-zinc-700 text-zinc-400 px-3 py-2 rounded-r-lg text-sm">
-                      %
-                    </span>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
         {/* Mensagens Padrão */}
         <div className="bg-zinc-950 rounded-xl border border-zinc-800 p-4 sm:p-6 space-y-6">
           <div className="flex items-center gap-2 mb-2">

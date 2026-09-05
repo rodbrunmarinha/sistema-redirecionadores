@@ -24,6 +24,7 @@ export default async function BoxesPage(props: { params: Promise<{ subdomain: st
       products (*)
     `)
     .eq('customer_id', user.id)
+    .is('deleted_at', null)
     .order('received_at', { ascending: false });
 
   const settings = await getTenantSettings(subdomain);

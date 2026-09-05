@@ -54,7 +54,7 @@ export async function checkoutStoreCart(
     const productIds = items.map((i) => i.product_id);
     const { data: products, error: productsError } = await supabaseAdmin
       .from('store_products')
-      .select('id, name, price, stock_quantity')
+      .select('id, name, price, stock_quantity, main_image, sku, weight_kg')
       .eq('tenant_id', tenant.id)
       .in('id', productIds);
 
@@ -161,27 +161,41 @@ export async function checkoutStoreCart(
         status: 'RECEIVED',
         store_name: 'Loja Virtual',
         service_fee_exempt: true,
-        notes: notes || 'Produtos adquiridos via Loja Virtual do sistema'
+        notes: notes || 'Produtos adquiridos via Loja Virtual do sistema',
+        received_at: new Date().toISOString()
       })
       .select('id')
       .single();
+
+    if (boxError) {
+      console.error("Box creation error:", boxError);
+    }
 
     if (newBox) {
       // 9. Move products to the Box (Dock)
       const productsToInsert = items.map(item => {
         const product = products.find((p) => p.id === item.product_id);
+        const weight = product?.weight_kg || 0;
         return {
           tenant_id: tenant.id,
           customer_id: user.id,
           box_id: newBox.id,
           name: product?.name || 'Produto da Loja',
+          code: product?.sku || null,
           quantity: item.quantity,
+          unit_weight: weight,
+          total_weight: weight * item.quantity,
+          photos: product?.main_image ? [product.main_image] : [],
           price_paid: product?.price || 0,
           notes: 'Adquirido na Loja Virtual',
+          is_perishable: false
         };
       });
 
-      await supabaseAdmin.from('products').insert(productsToInsert);
+      const { error: boxProductsError } = await supabaseAdmin.from('products').insert(productsToInsert);
+      if (boxProductsError) {
+         console.error("Box products insert error:", boxProductsError);
+      }
     }
 
     // 10. Decrement stock for store products
